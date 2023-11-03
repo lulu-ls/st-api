@@ -13,13 +13,14 @@ import (
 )
 
 type Option struct {
-	ServiceName string                  // 服务名称
-	ServiceKey  string                  // 服务密钥
-	NoAuth      bool                    // 不需要鉴权
-	NoRecovery  bool                    // 不需要恢复
-	Middleware  []middleware.Middleware // 中间件
-	Discover    registry.Discovery      // 服务发现
-	TimeOut     time.Duration           // rpc 超时时间
+	ServiceName  string                  // 服务名称
+	ServiceKey   string                  // 服务密钥
+	NoAuth       bool                    // 不需要鉴权
+	NoRecovery   bool                    // 不需要恢复
+	Middleware   []middleware.Middleware // 中间件
+	ClientOption []grpc.ClientOption     // grp 中间件
+	Discover     registry.Discovery      // 服务发现
+	TimeOut      time.Duration           // rpc 超时时间
 }
 
 // NewClient [T any] ， 创建 rpc client 连接
@@ -37,9 +38,9 @@ func NewClient[T any](opt *Option, NewClientFun func(googleRpc.ClientConnInterfa
 		panic("service name is required")
 	}
 
-	if opt.Discover == nil {
-		panic("registry discovery is required")
-	}
+	//if opt.Discover == nil {
+	//	panic("registry discovery is required")
+	//}
 
 	if !opt.NoRecovery {
 		opt.Middleware = append(opt.Middleware, recovery.Recovery())
