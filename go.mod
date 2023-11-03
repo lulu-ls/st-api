@@ -1,4 +1,4 @@
-module st-games-api
+module github.com/lulu-ls/st-games-api
 
 go 1.21.3
 
