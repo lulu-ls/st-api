@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package api.mq.v1;
+
+option go_package = "st-games/api/mq/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.mq.v1";
+
+enum MqTopic {
+	GameData = 0; // 游戏对局数据通知 飞机 炸弹 联队
+	GameComplete = 1; // 完成对局
+	OrderPayed = 2; // 支付通知
+	GetItem = 3; // 获得道具（钻石、金币、奖券）
+}
+
+enum GameDataType {
+	FeiJi = 0; // 飞机
+	ZhaDan = 1; // 炸弹
+	LianDui = 2; // 连对
+	HuoJian= 3; // 火箭
+}
+
+//enum GameCompleteIdentity {
+//	NongMin = 0; // 农民
+//	WaZhu = 1; // 挖主
+//}
+
+enum GetItemType {
+	_ = 0;
+	Gold = 1; // 金币
+	Diamond = 2; // 钻石
+	Ticket = 3; // 奖券
+}
+
+message GameDataRequest {
+	GameDataType type = 1; // 数据类型
+	int64 user_id = 2; // 用户 id
+	int32 channel_id = 3; // 渠道 id
+	int32 app_id = 4; // app id
+	int32 quantity = 5; // 数量
+}
+
+message GameCompleteRequest {
+	int64 user_id = 2; // 用户 id
+	int32 channel_id = 3; // 渠道 id
+	int32 app_id = 4; // app id
+	bool is_wz = 5; // 是否是挖主
+}
+
+message OrderPayedRequest {
+	int64 user_id = 2; // 用户 id
+	int32 channel_id = 3; // 渠道 id
+	int32 app_id = 4; // app id
+	int64 order_id = 5; // 订单号
+	double price = 6; // 支付金额
+}
+
+message GetItemRequest {
+	int64 user_id = 2; // 用户 id
+	int32 channel_id = 3; // 渠道 id
+	int32 app_id = 4; // app id
+	int32 item_id= 5; // 道具类型
+	int32 quantity = 6; // 获得道具数量
+}

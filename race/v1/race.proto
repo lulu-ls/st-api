@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+package api.race.v1;
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "st-games/api/race/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.race.v1";
+
+service Race {
+  rpc RaceType (RaceTypeRequest) returns (RaceTypeReply) {
+    option (google.api.http) = {
+      post: "/st-games/v1/race/sub_type",
+      body: "*",
+    };
+  };
+
+  rpc RaceList (RaceListRequest) returns (RaceListReply) {
+    option (google.api.http) = {
+      post: "/st-games/v1/race/list",
+      body: "*",
+    };
+  };
+
+  rpc RaceDetail (RaceDetailRequest) returns (ListRaceItem) {
+    option (google.api.http) = {
+      post: "/st-games/v1/race/detail",
+      body: "*",
+    };
+  };
+
+  rpc RaceReward (RaceRewardRequest) returns (RaceRewardReply) {
+    option (google.api.http) = {
+      post: "/st-games/v1/race/reward",
+      body: "*",
+    };
+  };
+
+  rpc RaceRule (RaceRuleRequest) returns (RaceRuleReply) {
+    option (google.api.http) = {
+      post: "/st-games/v1/race/rule",
+      body: "*",
+    };
+  };
+
+  rpc RaceSignup(RaceSignupRequest) returns (RaceSignupReply) {
+    option (google.api.http) = {
+      post: "/st-games/v1/race/signup",
+      body: "*",
+    };
+  }
+
+  rpc RaceSignupCancel(RaceSignupCancelRequest) returns (RaceSignupCancelReply) {
+    option (google.api.http) = {
+      post: "/st-games/v1/race/signup_cancel",
+      body: "*",
+    };
+  }
+
+}
+// 报名状态 0 未报名 1 已报名
+enum SignupStatus {
+  NOT = 0;
+  ALREADY = 1;
+}
+
+message RaceTypeRequest {
+  int32 app_id = 2;
+}
+message RaceTypeReply {
+  repeated RaceTypeItem list = 1;
+  int32 total = 2;
+}
+message RaceTypeItem {
+  int32 game_series_id = 1;
+  string name = 2;
+}
+
+message RaceListRequest {
+  int32 game_series_id = 1 [(validate.rules).int32 = {gt: 0}];
+  int32 app_id = 2;
+  int64 user_id = 3; // 用户 id
+}
+message RaceListReply {
+    repeated ListRaceItem list = 1;
+    int32 total = 2;
+}
+message ListRaceItem {
+  int32 type = 1; // 1人满赛 2定时赛
+  string type_name = 2;
+  int32 game_type_id = 3; // 1挖坑 2斗地主
+  string game_type_name = 4;
+  string name = 5; // sub title
+  int32 max_people = 6; // 最大人数
+  int32 people_no = 7; // 当前人数
+//  string desc = 8; // 赛事简介
+  string image = 9; // 图片
+  int32 free = 10; // 是否免费 1免费
+  int32 max_free_no = 11; // 最大免费次数
+  int32 free_no = 12; // 可用剩余次数
+  int32 is_set_signup_end_time = 13; // 是否设置报名截至时间 1设置
+  int64 signup_end_time = 14; // 报名截至时间
+  repeated SignupItem signup_item = 15; // 报名费
+  int64 earliest_time = 16; // 最近开赛时间
+  int32 game_config_id = 17; // 比赛 id
+  int32 signup_status = 18; // 报名状态 0 未报名 1 已报名
+}
+message SignupItem{
+  int32 item_id= 1; // 道具 id
+  string item_name = 2; // 道具名称
+  int32 quantity = 3; // 数量
+}
+
+message RaceDetailRequest{
+  int32 game_config_id = 1 [(validate.rules).int32 = {gt: 0}]; // 比赛 id
+  int64 user_id = 2; // 用户 id
+}
+
+message RaceRewardRequest {
+  int32 game_config_id = 1 [(validate.rules).int32 = {gt: 0}]; // 比赛 id
+}
+message RaceRewardReply {
+  repeated RaceRewardRuleItem list = 1; // 奖励配置列表
+  int32 total = 2; // 数量
+  repeated RaceRostrumItem rostrum_item = 3; // 领奖台配置
+}
+message RaceRewardRuleItem {
+  int32 game_rule_config_id = 1; // 赛事 id
+  int32 max_people = 2; // 最大参与人数
+  repeated RaceRewardItem item = 3; // 奖励配置详情
+}
+message RaceRewardItem {
+  int32 id = 1; // 奖励配置 id
+  int32 start_rank = 2; // 开始排名
+  int32 end_rank = 3; // 结束排名
+  string rank_name = 4; // 排名名称
+  repeated RaceRewardRuleDetail detail = 5;
+}
+message RaceRewardRuleDetail {
+  int32 item_id = 1; // 道具 id
+  string item_name = 2; // 道具名称
+  int32 quantity = 3; // 道具数量
+  int32 send_type = 4; // 1.发到背包 2.邮件领取
+}
+message RaceRostrumItem {
+  int32 game_rostrum_config_id = 1; // 配置 id
+  int32 ranking = 2; // 名次
+  int32 quantity = 3; // 数量
+  string image = 4; // 图片
+  string title = 5; // 标题
+}
+
+message RaceRuleRequest {
+  int32 game_config_id = 1 [(validate.rules).int32 = {gt: 0}]; // 比赛 id
+}
+message RaceRuleReply {
+  string rule = 1; // 赛制
+}
+
+message RaceSignupRequest {
+  int64 user_id = 1; // 用户 id
+  int32 game_config_id = 2; // 赛事配置 id
+}
+message RaceSignupReply {
+
+}
+
+message RaceSignupCancelRequest {
+  int64 user_id = 1; // 用户 id
+  int32 game_config_id = 2; // 赛事配置 id
+}
+message RaceSignupCancelReply {
+
+}

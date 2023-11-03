@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package api.mall.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "st-games/api/mall/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.mall.v1";
+
+service Mall {
+	// 获取余额
+	rpc GetBalance (GetBalanceRequest) returns (GetBalanceReply);
+
+	// 通用充值 话费/会员卡
+	rpc RechargeGeneral (RechargeGeneralRequest) returns (RechargeGeneralReply);
+
+	// 订单查询
+	rpc GetRecharge (GetRechargeRequest) returns (GetRechargeReply);
+
+	// 订单通知
+	rpc RechargeNotify (RechargeNotifyRequest) returns (RechargeNotifyReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/mall/notify",
+			body: "*",
+		};
+	};
+}
+
+message GetBalanceRequest {
+
+}
+message GetBalanceReply {
+	double balance = 1; // 6788.654	帐号余额，单位：元
+	double credit = 2; // 100000	授信额度，单位：元
+}
+
+message RechargeGeneralRequest {
+	string uuid = 1; // 需要充值的账号 充值号码/帐号/卡号
+	int32 exchange_id = 2; // 记录 id 接入方订单ID，请保证唯一性，长度<=50
+	string item_id = 3; // 商品ID 第三方平台，和本平台区分
+  double item_face = 4; // 商品面值（单位：元）用于校验避免配置失误造成损失，为空则不检验
+	double item_price = 5; // 结算单价（单位：元，精确到小数点后3位，不需要末尾补0）用于校验避免配置失误造成损失，为空则不检验
+}
+message RechargeGeneralReply {
+	string out_order_id = 1; // 第三方平台 订单号（订单查询）
+}
+
+message GetRechargeRequest {
+	string out_order_id = 1; // 第三方平台 订单号（订单查询） exchange_id与outOrderId至少填写1项，如都填写以orderId进行查询
+	int32 exchange_id = 2; // 记录 id 接入方订单ID，请保证唯一性，长度<=50
+}
+message GetRechargeReply {
+	int32 exchange_id = 1; // 本平台兑换记录 id
+	string out_order_id = 2; // 第三方平台订单 id
+	int32 status = 3; // 订单状态，2-充值成功，3-充值失败，1-处理中，4-未查询到订单
+	string desc = 4; // 结果描述，充值成功/失败原因
+	string complete_time = 5; // 20160311154601 订单完成时间，格式：yyyyMMddHHmmss
+	double cost = 6; // 订单花费 10.355	订单总消费，单位(元)
+}
+
+message RechargeNotifyRequest {
+	string appId = 1;
+	string orderId = 2;
+	string outOrderId = 3;
+	string orderStatus = 4;
+	string orderDesc = 5;
+	string completeTime = 6;
+	string sign = 7;
+	string ext1 = 8;
+	string ext2 = 9;
+	string ext3 = 10;
+}
+message RechargeNotifyReply {
+
+}

@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package api.wx.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "st-games/api/wx/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.wx.v1";
+
+service Message {
+	rpc PayNotify(PayNotifyRequest) returns (PayNotifyReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/wx/notify/pay",
+			body: "*",
+		};
+	}; // 微信支付回调信息
+	rpc WxService (WxServiceRequest) returns (WxServiceReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/wx/service",
+			body: "*",
+		};
+	}; // 微信客服消息
+
+	rpc WxJSPayHtml (WxJSPayHtmlRequest) returns (WxJSPayHtmlReply) {
+		option (google.api.http) = {
+			get: "/st-games/v1/wx/html",
+		};
+	}
+}
+
+message PayNotifyRequest {
+	string id = 1; // 通知的唯一ID
+	string create_time = 2; // 通知创建的时间 2015-05-20T13:29:35+08:00
+	string event_type = 3; // 通知的类型，支付成功通知的类型为TRANSACTION.SUCCESS
+	string resource_type = 4; // 通知的资源数据类型，支付成功通知为encrypt-resource
+	string summary = 5; // 回调摘要
+	string resource = 6; // 通知资源数据
+}
+message PayNotifyReply {
+	string code = 1;
+	string message = 2;
+}
+message PayResultResource {
+
+}
+
+message WxServiceRequest {
+	string FromUserName = 1;
+	string ToUserName = 2;
+	string Content = 3;
+	int64 CreateTime = 4;
+	string MsgId = 5;
+	string MsgType = 6;
+	string PagePath = 7;
+	string Title = 8;
+	string AppId = 9;
+	string ThumbUrl = 10;
+	string ThumbMediaId = 11;
+}
+message WxServiceReply {
+
+}
+
+message WxJSPayHtmlRequest {
+	int64 order_id = 1;
+}
+//{"app_id":"wx6b2e1f50bfeb9879"
+// ,"nonce_str":"Gj8SCUslaFRcoMd5ZdhUHx2Fu8PcAvRd",
+// "package":"prepay_id=wx26150155800783034184e2c698a3720000",
+// "sign_type":"RSA",
+// "time_stamp":"1698303716",
+// "pay_sign":"DWbJaV6T3cOUVT7H3FlaFwETcMuMxogClJFeD/Ln3CzHj7HWlbbdI8pORPVKVNcQr7B0jurczFVTmLNhmJwFZtN11/dVpRA5NY/VTemQNtuCLMiC7wnvc0m6KUJ1Mt6Nd9v4pe3c3EiI1XpeOkU6OXJo+P4XKL14tOFZGC0gqbSIci9uXLTlg0jxJgrA1oPaZK2MaICzRwvVZDOl04z/sH77LDRX95bpPFF1WiQU+YzSblEZHWJiXlWBMf/t5iCqocD3aELnXDAjfxMmtQjivoGmsijOQUDwI2kxL5JC4gfDtlRUBwu9jLx6zQqq5X9e3JKCPSyOzyT8krJT2KzmMA=="}
+message WxJSPayHtmlReply {
+	string app_id = 1;
+	string nonce_str = 2;
+	string package = 3;
+	string sign_type = 4;
+	string time_stamp = 5;
+	string pay_sign = 6;
+	string message = 7;
+}

@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package api.item.v1;
+
+import "google/api/annotations.proto";
+import "common/v1/common.proto";
+
+option go_package = "st-games/api/item/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.item.v1";
+
+service Item {
+	rpc ListItem (ListItemRequest) returns (ListItemReply) { // 获取道具列表
+		option (google.api.http) = {
+			post: "/st-games/v1/item/list",
+			body: "*",
+		};
+	};
+}
+
+message ListItemRequest {
+	common.v1.Paginate page = 1;
+	int32 app_id = 2; //  [(validate.rules).int32 = {gt: 0}]
+}
+message ListItemReply {
+	repeated ListItem list = 1;
+	int32 total = 2;
+}
+message ListItem {
+	int32 item_id = 1;
+	int32 item_category_id = 2;
+	int32 item_func_id = 3;
+	string name = 4;
+	string title = 5;
+	string image = 6;
+	int32 max_stack = 7;
+//	int32 loot_pool_id = 8;
+}
+
+

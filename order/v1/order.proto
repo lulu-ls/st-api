@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package api.order.v1;
+
+import "validate/validate.proto";
+
+option go_package = "st-games/api/order/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.order.v1";
+
+service Order {
+	rpc CreateOrder (CreateOrderRequest) returns (CreateOrderReply); // 创建订单
+	rpc RetryPay (RetryPayRequest) returns (CreateOrderReply); //
+	rpc PayResult (PayResultRequest) returns (PayResultReply); // 返回订单状态
+	rpc GetOrder (GetOrderRequest) returns (GetOrderReply); // 获取订单信息
+	rpc ListOrder (ListOrderRequest) returns (ListOrderReply); // 获取订单列表
+	rpc Refund(RefundRequest) returns (RefundReply); // 退款
+}
+
+enum OrderStatus {
+	wait_pay = 0; // 0:待付款 1:已付款
+	succeed = 1;
+}
+
+enum OrderRefundStatus {
+	not = 0;// 退款状态 0 未退款 1已退款
+	refund = 1;
+}
+
+enum OrderType {
+	_ = 0;
+	WxMiniPay = 1; // 微信小程序支付
+	WxJSPay = 2; // 微信 h5 支付
+	WxVirtualPay = 3; // 微信虚拟支付
+}
+
+message CreateOrderRequest {
+	int32 app_id = 1 [(validate.rules).int32 = {gt: 0}]; // app id
+	int32 channel_id = 2 [(validate.rules).int32 = {gt: 0}]; // channel id
+//	int32 access_channel_id = 3 [(validate.rules).int32 = {gt: 0}]; // access channel id
+	int64 user_id = 4 [(validate.rules).int64 = {gt: 0}]; // 用户 id
+	double order_amount = 5 [(validate.rules).double = {gt: 0}]; // 支付金额
+	string ip = 6; // 用户 ip
+	string description = 7; // 描述
+//	repeated CreateOrderWareItem order_ware_item = 8;
+	OrderType order_type = 9;
+}
+message CreateOrderReply {
+//	int64 order_id = 1; // 订单 id
+	string res_info = 2; // 返回信息 json 字符串，根据业务自己解析
+//	OrderStatus order_status = 3; // 处理状态
+	PayResultRequest pay_info = 4; // 支付状态
+}
+message CreateOrderWareItem {
+	 int32 ware_id = 1; // 商品 id
+	 int32 ware_quantity = 2; // 商品数量
+}
+
+message GetOrderRequest {
+	int64 order_id = 1; // 订单 id
+}
+message GetOrderReply {
+	int64 order_id = 1; // 订单号
+	int32 app_id = 2; // app id
+	int32 access_channel_id = 3; // 渠道 id
+	int32 order_type = 4; // 订单类型 1：微信小程序 2：微信js 3：微信虚拟支付
+	string out_order_id = 5; // 渠道订单号
+	string phone = 6; // 手机号
+	double order_amount = 7; // 订单金额
+	string order_time = 12; // 订单时间
+	double payment_amount = 13; // 实付金额
+	double payment_discount = 14; // 用户优惠金额
+	string payment_time = 15; // 支付时间
+	string payment_info = 16; // 支付方式说明
+	int32 status = 17; // 订单状态: -1: 已取消 0:待付款 1:已付款 2: 已退款
+	int32 payment_status = 18; // 0:未支付 1:已支付 2:部分已付
+	string expire_time = 19; // 订单过期时间
+	int64 user_id = 20; // 用户 id
+	string description = 21; // 描述
+}
+
+message ListOrderRequest {}
+message ListOrderReply {}
+
+message PayResultRequest {
+	OrderStatus order_status = 1; // 处理状态
+//	TransactionType type = 2; // 交易类型
+	int64 order_id = 3; // 订单号
+  string channel_transaction_id = 4; // 第三方渠道编号
+	string channel_txn_info = 5; // 交易信息
+	string channel_txn_time = 6; // 渠道交易完成时间
+	double channel_txn_amount = 7; // 渠道交易金额
+	double channel_discount = 8; // 渠道交易金额
+	string channel_settle_date = 9; // 渠道结算日期
+	double channel_settle_amount = 10; // 渠道结算金额
+	OrderRefundStatus order_refund_status = 11; // 退款状态
+}
+message PayResultReply {}
+
+message RefundRequest {
+	int64 order_id = 1; // 订单号
+}
+message RefundReply {
+
+}
+
+message RetryPayRequest {
+	int64 order_id = 1; // 订单号
+}
+message RetryPayReply {
+
+}
