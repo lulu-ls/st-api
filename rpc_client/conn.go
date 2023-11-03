@@ -59,7 +59,7 @@ func NewClient[T any](opt *Option, NewClientFun func(googleRpc.ClientConnInterfa
 		opt.TimeOut = time.Second * 10
 	}
 
-	//if opt.ServiceName {
+	//if opt.ServiceName == "" {
 	//	fmt.Sprintf("discovery:///%s", opt.ServiceName)
 	//}
 
