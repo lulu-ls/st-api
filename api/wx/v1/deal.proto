@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package api.wx.v1;
+
+import "order/v1/order.proto";
+
+option go_package = "github.com/lulu-ls/st-api/api/wx/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.wx.v1";
+
+service Deal {
+	rpc MiniPay (MiniPayRequest) returns (order.v1.CreateOrderReply); // 小程序创建订单接口
+	rpc JSPay (JSPayRequest) returns (order.v1.CreateOrderReply); // web创建订单接口
+	rpc VirtualPay (VirtualPayRequest) returns (order.v1.CreateOrderReply); // 虚拟支付
+
+}
+
+enum VirtualPayStatus {
+	not = 0;
+	payed = 1;
+}
+
+message MiniPayRequest {
+	int64 order_id = 1; // 商户系统内部的订单号，32个字符内、可包含字母，其他说明见商户订单号
+	string ip = 2; // 用户 设备 ip
+}
+message MiniPayReply {
+	string app_id = 1; // app id
+	string nonce_str = 2; // 随机串
+	string package = 3; // 包
+	string sign_type = 4; // 签名方式
+	string time_stamp = 6; // 时间戳
+	string pay_sign = 7; // 支付签名
+}
+
+message JSPayRequest {
+	int64 order_id = 2; // 商户系统内部的订单号，32个字符内、可包含字母，其他说明见商户订单号
+}
+message JSPayReply {
+	string app_id = 1; // app id
+	string nonce_str = 2; // 随机串
+	string package = 3; // 包
+	string sign_type = 4; // 签名方式
+	string time_stamp = 6; // 时间戳
+	string pay_sign = 7; // 支付签名
+}
+
+message VirtualPayRequest {
+	int64 order_id = 2; // 商户系统内部的订单号，32个字符内、可包含字母，其他说明见商户订单号
+}
+message VirtualPayReply {
+	VirtualPayStatus is_payed = 1; // 是否支付成功, 0 否 1是
+	int32 env = 2; // 环境配置0：现网环境（也叫正式环境）1：沙箱环境
+	string offer_id = 3;  // 支付应用ID（OfferId）
+	string currency_type = 4; // 当前币种 默认 "CNY"
+	string platform = 5; // 平台
+//	int32 quantity = 6; // 购买数量
+	int64 out_trad_no = 7; // 订单号 order id
+	double orderAmount = 8; // 订单数量
+	int32 quantity = 9; // 购买数量
+	string mode = 10; // game 购买游戏币
+	int64 order_id = 11; // 订单号
+}
+

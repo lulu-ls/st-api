@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package api.item.v1;
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+import "wx/v1/deal.proto";
+//import "order/v1/order.proto";
+
+option go_package = "github.com/lulu-ls/st-api/api/item/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.item.v1";
+
+service Purchase {
+	rpc VirtualBuy (VirtualBuyRequest) returns (VirtualBuyReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/item/purchase/buy/virtual", // 虚拟支付
+			body: "*",
+		};
+	};
+	rpc JSBuy (JSBuyRequest) returns (JSBuyReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/item/purchase/buy/js", // 虚拟支付
+			body: "*",
+		};
+	};
+	rpc PurchaseList (PurchaseListRequest) returns (PurchaseListReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/item/purchase/list",
+			body: "*",
+		};
+	};
+	rpc GetPurchase (GetPurchaseRequest) returns (GetPurchaseReply);
+	rpc GetPurchaseRecord (GetPurchaseRecordRequest) returns (GetPurchaseRecordReply);
+}
+
+message PurchaseListRequest {
+	int32 item_id = 1 [(validate.rules).int32 = {in: [1,2]}]; // 商品类型，1-金币，2-钻石
+}
+message PurchaseListReply {
+	repeated PurchaseListItem list = 1;
+	int32 total = 2;
+}
+message PurchaseListItem {
+	int32 purchase_id = 1; // 商品 id
+	int32 quantity = 2; // 数量
+	double price = 3; // 价格
+	int32 exchange_item_id = 4; // 支付道具id
+	int32 exchange_item_quantity = 5; // 支付道具数量
+	string exchange_item_image = 6; // 支付道具图片
+	string exchange_item_name = 7; // 支付道具名称
+	string subtitle = 8; // 副标题
+	string tag = 9; // 标签
+	string image = 10; // 图片
+	int32 item_id = 11; // 道具 id
+	string title = 12; // 标题
+}
+
+message VirtualBuyRequest {
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	int32 purchase_id = 3; // 道具配置 id
+	int64 user_id = 5; // 用户 id
+	int64 order_id = 6; // order id
+//	order.v1.OrderType order_type = 7; // 订单类型
+}
+message VirtualBuyReply {
+	wx.v1.VirtualPayStatus is_payed = 1; // 是否支付成功, 0 否 1是
+	int32 env = 2; // 环境配置0：现网环境（也叫正式环境）1：沙箱环境
+	string offer_id = 3;  // 支付应用ID（OfferId）
+	string currency_type = 4; // 当前币种 默认 "CNY"
+	string platform = 5; // 平台
+	//	int32 quantity = 6; // 购买数量
+	int64 out_trad_no = 7; // 订单号 order id
+	double orderAmount = 8; // 订单数量
+	int32 quantity = 9; // 购买数量
+	string mode = 10; // game 购买游戏币
+	int64 order_id = 11; // 订单号
+}
+
+message JSBuyRequest {
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	int32 purchase_id = 3; // 道具配置 id
+	int64 user_id = 5; // 用户 id
+	int64 order_id = 6; // order id
+	//	order.v1.OrderType order_type = 7; // 订单类型
+}
+message JSBuyReply {
+	int64 order_id = 2; // 订单号
+}
+
+message GetPurchaseRequest {
+	int32 purchase_id = 1;
+}
+message GetPurchaseReply {
+	int32 purchase_id = 1; // 配置 id
+	int32 quantity = 2; // 数量
+	double price = 3; // 支付价格（传 0 则）
+	int32 exchange_item_id = 4; // 支付道具 id
+	int32 exchange_item_quantity = 5; // 支付道具数量
+	string exchange_item_image = 6; // 支付道具图片
+	string exchange_item_name = 7; // 支付道具名称
+	string image = 8; // 图片
+	int32 item_id = 9; // 道具 id
+	string subtitle = 10; // 子标题
+	string title = 11; // 标题
+	string tag = 12; // 标签
+
+}
+
+message GetPurchaseRecordRequest {
+	int64 order_id = 1; // 订单号
+}
+message GetPurchaseRecordReply {
+	int64 item_purchase_recode_id = 1; // 获兑换记录 id
+	int64 order_id = 2; // 订单号
+	int64 user_id = 3; // 用户 id
+	int32 purchase_id = 4; // 配置 id
+	int32 app_id = 5; // app id
+	int32 access_channel_id = 6; // 渠道 id
+	string name = 7; // 名称
+	string image = 8; // 图片
+	double price = 10; // 价格
+	int32 quantity = 11; // 数量
+	string extra = 12; // 额外信息
+}

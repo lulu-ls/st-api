@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package api.item.v1;
+
+option go_package = "github.com/lulu-ls/st-api/api/item/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.item.v1";
+
+service Asset {
+	// 道具处理相关接口
+	rpc AssetEdit(AssetEditRequest) returns (AssetEditReply); // 直接处理道具
+	rpc AssetEditRevert(AssetEditRevertRequest)returns(AssetEditRevertReply); // 撤销处理道具
+	rpc AssetCreate(AssetCreateRequest)returns(AssetCreateReply); // 创建申请
+	rpc AssetCancel(AssetCancelRequest)returns(AssetCancelReply); // 取消申请
+	rpc AssetConfirm(AssetConfirmRequest)returns(AssetConfirmReply); // 申请确认
+	rpc AssetRevert(AssetRevertRequest)returns(AssetRevertReply); // 撤回申请
+}
+
+enum AssetType {
+	_ = 0; // - 占位符
+	Increase = 1; // 加
+	Reduce = 2; // 减少
+	Set = 3; // set
+}
+
+message AssetEditRequest {
+	int64 user_id = 1; // 用户 id
+	repeated AssetItem item = 2; // 道具变化列表
+}
+message AssetEditReply {
+	int64 id = 1;
+}
+
+message AssetEditRevertRequest {
+	int64 id = 1;
+	int64 user_id = 2; // 用户 id
+}
+message AssetEditRevertReply {
+
+}
+
+message AssetCreateRequest {
+	int64 user_id = 1; // 用户 id
+	repeated AssetItem item = 2;
+}
+message AssetCreateReply {
+	int64 id = 1;
+}
+
+message AssetCancelRequest {
+	int64 id = 1;
+	int64 user_id = 2; // 用户 id
+}
+message AssetCancelReply {
+
+}
+
+message AssetConfirmRequest {
+	int64 id = 1;
+	int64 user_id = 2; // 用户 id
+}
+message AssetConfirmReply {
+
+}
+
+message AssetRevertRequest {
+	int64 id = 1;
+	int64 user_id = 2; // 用户 id
+}
+message AssetRevertReply {
+
+}
+
+message AssetItem {
+	int32 item_id = 1; // 道具 id
+	int32 quantity = 2; // 数量
+	AssetType asset_type = 3; // 类型
+	string remark = 4; // 备注
+}

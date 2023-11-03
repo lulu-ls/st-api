@@ -1,0 +1,229 @@
+syntax = "proto3";
+
+package api.ware.v1;
+
+import "validate/validate.proto";
+import "google/api/annotations.proto";
+import "common/v1/common.proto";
+
+option go_package = "github.com/lulu-ls/st-api/api/ware/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.ware.v1";
+
+service Ware {
+	// 获取商品
+	rpc GetWare (GetWareRequest) returns (ListWareItem) {
+		option (google.api.http) = {
+			post: "/st-games/v1/ware/get",
+			body: "*",
+		};
+	};
+
+	// 商品列表
+	rpc ListWare (ListWareRequest) returns (ListWareReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/ware/list",
+			body: "*",
+		};
+	};
+
+	// 商品分类
+	rpc CategoryWare (CategoryWareRequest) returns (CategoryWareReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/ware/category",
+			body: "*",
+		};
+	};
+
+	// 兑换虚拟商品
+	rpc ExchangeVirtual (ExchangeVirtualRequest) returns (ExchangeVirtualReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/ware/exchange/virtual",
+			body: "*",
+		};
+	};
+
+	// 兑换实物
+	rpc ExchangeMatter (ExchangeMatterRequest) returns (ExchangeMatterReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/ware/exchange/matter",
+			body: "*",
+		};
+	};
+
+	// 获取兑换信息
+	rpc ExchangeInfo (ExchangeInfoRequest) returns (ExchangeInfoReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/ware/exchange/info",
+			body: "*",
+		};
+	};
+
+	// 充值结果通知
+	rpc ExchangeResult (ExchangeResultRequest) returns (ExchangeResultReply);
+
+	// 兑换记录
+	rpc ExchangeList (ExchangeListRequest) returns (ExchangeListReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/ware/exchange/list",
+			body: "*",
+		};
+	};
+}
+
+enum ExchangeStatus {
+	_ = 0; // 1=待发货，2=已发货，3=已完成，4=发货失败，5=已取消
+	WAIT = 1;
+	SEND = 2;
+	SUCCESS = 3;
+	SEND_FAIL = 4;
+	CANCEL = 6;
+}
+
+enum PhoneType {
+	_1 = 0;
+	YiDong = 1;
+	LianTong = 2;
+	DianXin = 3;
+}
+
+message GetWareRequest {
+	int32 ware_id = 1 [(validate.rules).int32 = {gt: 0}];
+}
+message GetWareReply {
+	int32 ware_id = 1; // 商品 id
+	string name = 2; // 商品名称
+	string image = 3; // 商品图片
+	string external_url = 4; // 封面图
+	string information = 5; // 介绍
+	double price = 6; // 价格
+	int32 point = 7; // 积分
+	double settle_price = 9; // 结算价
+
+	int32 exchange_item_id = 10; // 兑换的商品 id
+	string exchange_item_name = 11; // 兑换的商品名称
+	string exchange_item_quantity = 12; // 兑换物品需要的数量
+	string exchange_item_image = 13; // 兑换物品图片
+}
+
+message ListWareRequest {
+	common.v1.Paginate page = 1; // 分页
+	int32 app_id = 2; // app id
+	repeated int32 ware_id = 3; // 商品 id
+	repeated int32 ware_type = 4; // 商品类型 1:实物商品 2:电子卡券 3:外部商品
+	string name = 5; // 名称 模糊匹配
+	int32 ware_category_id = 6; // 商品类别 id
+	repeated int32 item_ids = 7; // 可兑换道具配置 id
+}
+message ListWareReply {
+	repeated ListWareItem list = 1; // 商品列表
+	int32 total = 2; // 合计
+}
+message ListWareItem {
+	int32 ware_id = 1; // 商品 id
+	int32 ware_type = 2; // 商品类型 1:实物商品 2:电子卡券 3:外部商品
+	string ware_type_name = 3; // 商品类型名称
+	int32 ware_category_id = 4; // 商品类型 id
+	string ware_category_name = 5; // 商品类型 名称
+	string name = 6; // 商品名称
+	string image = 7; // 商品图片
+	string external_url = 8; // 封面图
+	string information = 9; // 介绍
+	double price = 10; // 价格
+	int32 point = 11; // 积分
+	double settle_price = 12; // 结算价
+	repeated ExchangeItem exchange_item = 13; // 兑换配置
+}
+message ExchangeItem {
+	int32 ware_id = 1; // 兑换的商品 id
+	int32 item_id = 2; // 兑换的道具 id
+	string item_name = 3; // 兑换的道具名称
+	string item_image = 4; // 兑换的道具图片
+	int32 item_quantity = 5; // 兑换物品需要的数量
+	int32 item_exchange_ware_id = 6; // 兑换的配置 id
+}
+
+message ExchangeVirtualRequest {
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	int64 user_id = 3; // 用户 id
+	int32 item_exchange_ware_id = 4 [(validate.rules).int32 = {gt: 0}]; // 商品 id
+	PhoneType phone_type = 5; // 手机号类型 1：电信 2：联通 3：移动  [(validate.rules).int32 = {in: [1,2,3]}]
+	string phone = 6 [(validate.rules).string.len = 11]; // 手机号
+}
+message ExchangeVirtualReply {
+
+}
+
+message ExchangeMatterRequest {
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	int64 user_id = 3; // 用户 id
+	int32 item_exchange_ware_id = 4 [(validate.rules).int32 = {gt: 0}]; // 商品 id
+	string phone = 6 [(validate.rules).string.len = 11]; // 手机号
+	string name = 7 [(validate.rules).string = {min_len: 2}]; // 姓名
+	string address = 8 [(validate.rules).string = {min_len: 2}]; // 地址
+}
+message ExchangeMatterReply {
+
+}
+
+message CategoryWareRequest {
+	int32 app_id = 1; // app id
+}
+message CategoryWareReply {
+	repeated CategoryWareItem list = 1;
+}
+message CategoryWareItem {
+	int32 ware_category_id = 1; // 分类 id
+	string name = 2; // 分类名称
+	repeated CategoryWareItem children = 3; // 子集
+}
+
+message ExchangeResultRequest {
+	int32 exchange_id = 1; // 兑换记录 id
+	ExchangeStatus status = 2; // 1=待发货，2=已发货，3=已完成，4=发货失败，5=已取消
+	string remark = 3; // 备注
+	int64 express_time = 4; // 时间戳 发货时间 time.RFC3339
+}
+message ExchangeResultReply {
+
+}
+
+message ExchangeInfoRequest {
+	int64 user_id = 1; // 用户 id
+	int32 channel_id = 2; // 渠道 id
+	int32 ware_type = 3; // 商品类型 1:实物商品 2:电子卡券 3:外部商品
+}
+message ExchangeInfoReply {
+	string name = 1; // 姓名
+	string phone = 2; // 手机号
+	string address = 3; // 地址
+}
+
+message ExchangeListRequest {
+	int32 channel_id = 1; // 渠道 id
+	int64 user_id = 2; // 用户 id
+}
+message ExchangeListReply {
+	repeated ExchangeListItem list = 1;
+	int32 total = 2;
+}
+message ExchangeListItem {
+	int32 id = 3; // 订单号
+	int32 ware_id = 4; // 商品 id
+	int32 ware_type = 5; // 商品类型 1:实物商品 2:电子卡券
+	string ware_name = 6; // 商品名称
+	string ware_image = 7; // 商品图片
+	int32 item_id = 8; // 道具 id
+	string item_image = 9; // 道具图片
+	int32 item_quantity = 10; // 道具数量
+	int64 created_time = 11; // 兑换时间
+	int64 express_time = 12; // 发货时间
+	string name = 13; // 兑换姓名
+	string phone = 14; // 兑换手机号
+	string address = 15; // 兑换地址
+	int32 quantity = 16; // 兑换件数
+	int32 status = 17; // 订单状态 1=待发货，2=已发货，3=已完成，4=发货失败，5=已取消
+	string status_name = 18; // 订单状态
+}

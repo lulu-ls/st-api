@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package api.race.v1;
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/lulu-ls/st-api/api/race/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.race.v1";
+
+service Free {
+
+	rpc FreeType (FreeTypeRequest) returns (FreeTypeReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/free/sub_type",
+			body: "*",
+		};
+	};
+
+	rpc FreeList (FreeListRequest) returns (FreeListReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/free/list",
+			body: "*",
+		};
+	};
+
+	rpc FreeSignup (FreeSignupRequest) returns (FreeSignupReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/free/signup",
+			body: "*",
+		};
+	}
+}
+
+message FreeTypeRequest {
+	int32 app_id = 2;
+}
+message FreeTypeReply {
+	repeated FreeTypeItem list = 1;
+	int32 total = 2;
+}
+message FreeTypeItem {
+	int32 game_series_id = 1;
+	string name = 2;
+}
+
+message FreeListRequest {
+	int32 app_id = 1; // app id  [(validate.rules).int32 = {gt: 0}]
+	int32 game_series_id = 2 [(validate.rules).int32 = {gt: 0}]; // 侧边栏 id
+}
+message FreeListReply {
+	repeated FreeListItem list = 1;
+	int32 total = 2; // 条数
+}
+message FreeListItem {
+	int32 game_free_config_id = 1; // 自由场配置 id
+	int32 game_type_id = 2; // 赛事配置 id
+	string game_type_name = 3; // 赛事类型名称
+//	int32 game_category_id = 4; // 赛事类型 id
+//	string game_category_name = 5; // 赛事分类名称
+	string name = 6; // 配置名称
+	string title = 7; // 配置标题
+	string image = 8; // 图片
+	string desc = 9; // 描述
+	int32 item_id = 10; // 道具 id
+	string item_name = 11; // 道具名称
+	string item_image = 12; // 道具名称
+	int32 quantity = 13; // 报名道具数量
+	int32 min_quantity = 15; // 本人拥有最小道具数量
+	int32 max_quantity = 16; // 本人拥有最大道具数量
+	int32 max_multiple = 17; // 封顶倍数
+	int32 robot = 18; // 是否是机器人
+	int32 base_score = 19; // 底分
+	int32 people_no = 20; // 当前人数
+}
+
+message FreeSignupRequest {
+	int64 user_id = 1; // 用户 id
+	int32 game_free_config_id = 2 [(validate.rules).int32 = {gt: 0}]; // 自由场 id
+}
+message FreeSignupReply {
+
+}

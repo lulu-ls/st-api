@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package api.order.v1;
+
+import "errors/errors.proto";
+
+option go_package = "github.com/lulu-ls/st-api/api/order/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.order.v1";
+
+
+enum ErrorReason {
+  // 设置缺省错误码
+  option (errors.default_code) = 500;
+
+  // 为某个枚举单独设置错误码
+  USER_NOT_FOUND = 0 [(errors.code) = 404];
+  CONTENT_MISSING = 1 [(errors.code) = 400];
+  TOKEN_VERIFY = 2 [(errors.code) = 401];
+
+
+  AUTH_CHANNEL_APPID_IS_REQUIRED = 10 [(errors.code) = 400];
+
+  ORDER_FAILED = 11 [(errors.code) = 410];
+  Order_NOT_FOUND = 12 [(errors.code) = 411]; // 订单未找到
+
+  ORDER_REPAY_FAIL = 13 [(errors.code) = 412]; // 订单重新支付，失败
+}
