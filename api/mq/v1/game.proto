@@ -11,6 +11,13 @@ enum MqTopic {
 	GameComplete = 1; // 完成对局
 	OrderPayed = 2; // 支付通知
 	GetItem = 3; // 获得道具（钻石、金币、奖券）
+	RaceSignup = 4; // 赛事报名
+	FreeSignup = 5; // 自由场报名
+}
+
+enum SignupType {
+	CancelSignup = 0; // 取消报名
+	Signup = 1; // 报名
 }
 
 enum GameDataType {
@@ -61,4 +68,16 @@ message GetItemRequest {
 	int32 app_id = 4; // app id
 	int32 item_id= 5; // 道具类型
 	int32 quantity = 6; // 获得道具数量
+}
+
+message RaceSignUpRequest {
+	int64 user_id = 1; // 用户 id
+	int32 game_config_id = 2; // 赛事配置 id
+	SignupType type = 3; // 报名类型 0 取消 1 报名
+}
+
+message FreeSignUpRequest {
+	int64 user_id = 1; // 用户 id
+	int32 game_free_config_id = 2; // 自由场 id
+	SignupType type = 3; // 报名类型 0 取消 1 报名
 }
