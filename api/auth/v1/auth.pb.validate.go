@@ -68,6 +68,10 @@ func (m *LoginRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
+
 	if len(errors) > 0 {
 		return LoginRequestMultiError(errors)
 	}
@@ -302,6 +306,10 @@ func (m *LoginTestRequest) validate(all bool) error {
 	// no validation rules for UserName
 
 	// no validation rules for Password
+
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
 
 	if len(errors) > 0 {
 		return LoginTestRequestMultiError(errors)
@@ -553,6 +561,12 @@ func (m *DecryptRequest) validate(all bool) error {
 			}
 		}
 	}
+
+	// no validation rules for UserId
+
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
 
 	if len(errors) > 0 {
 		return DecryptRequestMultiError(errors)
@@ -1115,6 +1129,12 @@ func (m *GetInfoRequest) validate(all bool) error {
 	}
 
 	var errors []error
+
+	// no validation rules for UserId
+
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
 
 	if len(errors) > 0 {
 		return GetInfoRequestMultiError(errors)
