@@ -33,6 +33,14 @@ service Game {
 			body: "*",
 		};
 	};
+
+	// 获取房间信息
+	rpc GameInfo (GameInfoRequest) returns (GameInfoReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/game/info",
+			body: "*",
+		};
+	};
 }
 
 // 任务进度状态
@@ -48,6 +56,22 @@ enum RefreshCycle {
 	day = 1;
 	week = 2;
 	month = 3;
+}
+
+//游戏类型
+enum GameType {
+	GameTypeUnspecified = 0;
+	GameTypeDigHole = 1; //挖坑
+	GameTypeLandlord = 2; //斗地主
+	GameTypeMahjong = 3; //麻将
+}
+
+//游戏类别
+enum GameCategory {
+	GameCategoryUnspecified = 0;
+	GameCategoryGold = 1; //金币场（自由场）
+	GameCategoryCompetition = 2; //竞技场
+	GameCategoryPrivate = 3; //好友房
 }
 
 message AnnouncementListRequest {
@@ -99,3 +123,17 @@ message TaskRewardRequest {
 message TaskRewardReply {
 
 }
+
+message GameInfoRequest{
+	int32 app_id = 2; // app id
+	int32 channel_id = 3; // channel id
+	int64 user_id = 4; // 用户 id
+}
+message GameInfoReply{
+	bool in_game = 1; // 是否在游戏中
+	string game_id = 2; // 游戏 id
+	GameType game_type = 3; //游戏类型
+	GameCategory game_category = 4; //游戏类别
+	string table_id = 5; // 桌号
+}
+

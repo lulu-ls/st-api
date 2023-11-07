@@ -3,19 +3,20 @@
 
 openapi: 3.0.3
 info:
-    title: Auth API
+    title: Game API
     version: 0.0.1
 paths:
-    /st-games/v1/auth/decrypt:
+    /st-games/v1/game/announcement/list:
         post:
             tags:
-                - Auth
-            operationId: Auth_Decrypt
+                - Game
+            description: 公告列表
+            operationId: Game_AnnouncementList
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/DecryptRequest'
+                            $ref: '#/components/schemas/AnnouncementListRequest'
                 required: true
             responses:
                 "200":
@@ -23,23 +24,24 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DecryptReply'
+                                $ref: '#/components/schemas/AnnouncementListReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /st-games/v1/auth/get_info:
+    /st-games/v1/game/info:
         post:
             tags:
-                - Auth
-            operationId: Auth_GetInfo
+                - Game
+            description: 获取房间信息
+            operationId: Game_GameInfo
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/GetInfoRequest'
+                            $ref: '#/components/schemas/GameInfoRequest'
                 required: true
             responses:
                 "200":
@@ -47,23 +49,24 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/LoginReply'
+                                $ref: '#/components/schemas/GameInfoReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /st-games/v1/auth/login:
+    /st-games/v1/game/task/list:
         post:
             tags:
-                - Auth
-            operationId: Auth_Login
+                - Game
+            description: 任务列表
+            operationId: Game_TaskList
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/LoginRequest'
+                            $ref: '#/components/schemas/TaskListRequest'
                 required: true
             responses:
                 "200":
@@ -71,23 +74,24 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/LoginReply'
+                                $ref: '#/components/schemas/TaskListReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /st-games/v1/auth/login_test:
+    /st-games/v1/game/task/reward:
         post:
             tags:
-                - Auth
-            operationId: Auth_LoginTest
+                - Game
+            description: 兑换任务奖励
+            operationId: Game_TaskReward
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/LoginTestRequest'
+                            $ref: '#/components/schemas/TaskRewardRequest'
                 required: true
             responses:
                 "200":
@@ -95,7 +99,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/LoginReply'
+                                $ref: '#/components/schemas/TaskRewardReply'
                 default:
                     description: Default error response
                     content:
@@ -104,82 +108,65 @@ paths:
                                 $ref: '#/components/schemas/Status'
 components:
     schemas:
-        DecryptReply:
+        AnnouncementListItem:
             type: object
             properties:
-                language:
-                    type: string
-                city:
-                    type: string
-                province:
-                    type: string
-                avatar:
-                    type: string
-                nickName:
-                    type: string
-                gender:
+                id:
                     type: integer
                     format: int32
-                country:
+                title:
                     type: string
-                unionId:
+                information:
                     type: string
-                userNo:
+                image:
                     type: string
-                userId:
-                    type: string
-                status:
-                    type: integer
-                    format: int32
-        DecryptRequest:
+        AnnouncementListReply:
             type: object
             properties:
-                encryptedData:
-                    type: string
-                    description: string open_id = 1 [(validate.rules).string.min_len =  5];
-                iv:
-                    type: string
-                userInfo:
-                    $ref: '#/components/schemas/DecryptUserInfo'
-                userId:
-                    type: string
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/AnnouncementListItem'
+                total:
+                    type: integer
+                    format: int32
+        AnnouncementListRequest:
+            type: object
+            properties:
+                page:
+                    $ref: '#/components/schemas/Paginate'
                 appId:
                     type: integer
                     format: int32
                 channelId:
                     type: integer
                     format: int32
-        DecryptUserInfo:
+        GameInfoReply:
             type: object
             properties:
-                language:
+                inGame:
+                    type: boolean
+                gameId:
                     type: string
-                city:
-                    type: string
-                province:
-                    type: string
-                avatarUrl:
-                    type: string
-                nickName:
-                    type: string
-                gender:
+                gameType:
                     type: integer
-                    format: int32
-                country:
+                    format: enum
+                gameCategory:
+                    type: integer
+                    format: enum
+                tableId:
                     type: string
-                unionId:
-                    type: string
-        GetInfoRequest:
+        GameInfoRequest:
             type: object
             properties:
-                userId:
-                    type: string
                 appId:
                     type: integer
                     format: int32
                 channelId:
                     type: integer
                     format: int32
+                userId:
+                    type: string
         GoogleProtobufAny:
             type: object
             properties:
@@ -188,71 +175,15 @@ components:
                     description: The type of the serialized message.
             additionalProperties: true
             description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        LoginReply:
+        Paginate:
             type: object
             properties:
-                accessToken:
-                    type: string
-                expireTime:
-                    type: string
-                user:
-                    $ref: '#/components/schemas/LoginUser'
-        LoginRequest:
-            type: object
-            properties:
-                code:
-                    type: string
-                appId:
+                page:
                     type: integer
                     format: int32
-                channelId:
+                size:
                     type: integer
                     format: int32
-        LoginTestRequest:
-            type: object
-            properties:
-                userName:
-                    type: string
-                password:
-                    type: string
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-        LoginUser:
-            type: object
-            properties:
-                userNo:
-                    type: string
-                nickName:
-                    type: string
-                avatar:
-                    type: string
-                phone:
-                    type: string
-                email:
-                    type: string
-                gender:
-                    type: integer
-                    format: int32
-                birthDate:
-                    type: string
-                status:
-                    type: integer
-                    format: int32
-                gold:
-                    type: integer
-                    format: int32
-                diamond:
-                    type: integer
-                    format: int32
-                ticket:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
         Status:
             type: object
             properties:
@@ -269,5 +200,77 @@ components:
                         $ref: '#/components/schemas/GoogleProtobufAny'
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        TaskListItem:
+            type: object
+            properties:
+                taskId:
+                    type: integer
+                    format: int32
+                title:
+                    type: string
+                itemId:
+                    type: integer
+                    format: int32
+                itemName:
+                    type: string
+                itemImage:
+                    type: string
+                itemQuantity:
+                    type: integer
+                    format: int32
+                status:
+                    type: integer
+                    format: enum
+                number:
+                    type: integer
+                    format: int32
+                process:
+                    type: integer
+                    format: int32
+                refreshCycle:
+                    type: integer
+                    format: enum
+                gameType:
+                    type: integer
+                    format: int32
+                action:
+                    type: integer
+                    format: int32
+                url:
+                    type: string
+        TaskListReply:
+            type: object
+            properties:
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/TaskListItem'
+                total:
+                    type: integer
+                    format: int32
+        TaskListRequest:
+            type: object
+            properties:
+                page:
+                    $ref: '#/components/schemas/Paginate'
+                appId:
+                    type: integer
+                    format: int32
+                channelId:
+                    type: integer
+                    format: int32
+                userId:
+                    type: string
+        TaskRewardReply:
+            type: object
+            properties: {}
+        TaskRewardRequest:
+            type: object
+            properties:
+                userId:
+                    type: string
+                taskId:
+                    type: integer
+                    format: int32
 tags:
-    - name: Auth
+    - name: Game
