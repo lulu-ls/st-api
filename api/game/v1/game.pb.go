@@ -850,8 +850,8 @@ type GameInfoReply struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	InGame       bool         `protobuf:"varint,1,opt,name=in_game,json=inGame,proto3" json:"in_game,omitempty"`
-	GameId       string       `protobuf:"bytes,2,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
+	InGame       bool         `protobuf:"varint,1,opt,name=in_game,json=inGame,proto3" json:"in_game,omitempty"`                                                 // 是否在游戏中
+	GameId       string       `protobuf:"bytes,2,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`                                                  // 游戏 id
 	GameType     GameType     `protobuf:"varint,3,opt,name=game_type,json=gameType,proto3,enum=api.game.v1.GameType" json:"game_type,omitempty"`                 //游戏类型
 	GameCategory GameCategory `protobuf:"varint,4,opt,name=game_category,json=gameCategory,proto3,enum=api.game.v1.GameCategory" json:"game_category,omitempty"` //游戏类别
 	TableId      string       `protobuf:"bytes,5,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`                                               // 桌号

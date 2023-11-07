@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package api.mq.v1;
 
+import "item/v1/asset.proto";
+
 option go_package = "github.com/lulu-ls/st-api/api/mq/v1;v1";
 option java_multiple_files = true;
 option java_package = "api.mq.v1";
@@ -13,6 +15,7 @@ enum MqTopic {
 	GetItem = 3; // 获得道具（钻石、金币、奖券）
 	RaceSignup = 4; // 赛事报名
 	FreeSignup = 5; // 自由场报名
+	AssetEdit = 6; // 用户资产变动
 }
 
 enum SignupType {
@@ -80,4 +83,9 @@ message FreeSignUpRequest {
 	int64 user_id = 1; // 用户 id
 	int32 game_free_config_id = 2; // 自由场 id
 	SignupType type = 3; // 报名类型 0 取消 1 报名
+}
+
+message AssetEditRequest {
+	int64 user_id = 1; // 用户 id
+	repeated item.v1.AssetItem item = 2; // 变动详情
 }
