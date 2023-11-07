@@ -16,6 +16,8 @@ service Item {
 			body: "*",
 		};
 	};
+
+	rpc UserListItem (UserListItemRequest) returns (UserListItemReply);
 }
 
 message ListItemRequest {
@@ -37,4 +39,15 @@ message ListItem {
 //	int32 loot_pool_id = 8;
 }
 
-
+message UserListItemRequest {
+	int32 app_id = 2; //  [(validate.rules).int32 = {gt: 0}]
+	int64 user_id = 3; // 用户 id
+	repeated int32 item_id = 4; // 道具 id
+}
+message UserListItemReply {
+	repeated UserListOneItem list = 1; // 列表
+}
+message UserListOneItem {
+	int32 item_id = 1; // 道具 id
+	int32 total = 2; // 道具数量
+}

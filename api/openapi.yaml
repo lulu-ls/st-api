@@ -3,20 +3,19 @@
 
 openapi: 3.0.3
 info:
-    title: Game API
+    title: Item API
     version: 0.0.1
 paths:
-    /st-games/v1/game/announcement/list:
+    /st-games/v1/item/list:
         post:
             tags:
-                - Game
-            description: 公告列表
-            operationId: Game_AnnouncementList
+                - Item
+            operationId: Item_ListItem
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/AnnouncementListRequest'
+                            $ref: '#/components/schemas/ListItemRequest'
                 required: true
             responses:
                 "200":
@@ -24,82 +23,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/AnnouncementListReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /st-games/v1/game/info:
-        post:
-            tags:
-                - Game
-            description: 获取房间信息
-            operationId: Game_GameInfo
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/GameInfoRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/GameInfoReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /st-games/v1/game/task/list:
-        post:
-            tags:
-                - Game
-            description: 任务列表
-            operationId: Game_TaskList
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/TaskListRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/TaskListReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /st-games/v1/game/task/reward:
-        post:
-            tags:
-                - Game
-            description: 兑换任务奖励
-            operationId: Game_TaskReward
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/TaskRewardRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/TaskRewardReply'
+                                $ref: '#/components/schemas/ListItemReply'
                 default:
                     description: Default error response
                     content:
@@ -108,65 +32,6 @@ paths:
                                 $ref: '#/components/schemas/Status'
 components:
     schemas:
-        AnnouncementListItem:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                title:
-                    type: string
-                information:
-                    type: string
-                image:
-                    type: string
-        AnnouncementListReply:
-            type: object
-            properties:
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/AnnouncementListItem'
-                total:
-                    type: integer
-                    format: int32
-        AnnouncementListRequest:
-            type: object
-            properties:
-                page:
-                    $ref: '#/components/schemas/Paginate'
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-        GameInfoReply:
-            type: object
-            properties:
-                inGame:
-                    type: boolean
-                gameId:
-                    type: string
-                gameType:
-                    type: integer
-                    format: enum
-                gameCategory:
-                    type: integer
-                    format: enum
-                tableId:
-                    type: string
-        GameInfoRequest:
-            type: object
-            properties:
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
         GoogleProtobufAny:
             type: object
             properties:
@@ -175,6 +40,45 @@ components:
                     description: The type of the serialized message.
             additionalProperties: true
             description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        ListItem:
+            type: object
+            properties:
+                itemId:
+                    type: integer
+                    format: int32
+                itemCategoryId:
+                    type: integer
+                    format: int32
+                itemFuncId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                title:
+                    type: string
+                image:
+                    type: string
+                maxStack:
+                    type: integer
+                    format: int32
+        ListItemReply:
+            type: object
+            properties:
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ListItem'
+                total:
+                    type: integer
+                    format: int32
+        ListItemRequest:
+            type: object
+            properties:
+                page:
+                    $ref: '#/components/schemas/Paginate'
+                appId:
+                    type: integer
+                    format: int32
         Paginate:
             type: object
             properties:
@@ -200,77 +104,5 @@ components:
                         $ref: '#/components/schemas/GoogleProtobufAny'
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-        TaskListItem:
-            type: object
-            properties:
-                taskId:
-                    type: integer
-                    format: int32
-                title:
-                    type: string
-                itemId:
-                    type: integer
-                    format: int32
-                itemName:
-                    type: string
-                itemImage:
-                    type: string
-                itemQuantity:
-                    type: integer
-                    format: int32
-                status:
-                    type: integer
-                    format: enum
-                number:
-                    type: integer
-                    format: int32
-                process:
-                    type: integer
-                    format: int32
-                refreshCycle:
-                    type: integer
-                    format: enum
-                gameType:
-                    type: integer
-                    format: int32
-                action:
-                    type: integer
-                    format: int32
-                url:
-                    type: string
-        TaskListReply:
-            type: object
-            properties:
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/TaskListItem'
-                total:
-                    type: integer
-                    format: int32
-        TaskListRequest:
-            type: object
-            properties:
-                page:
-                    $ref: '#/components/schemas/Paginate'
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
-        TaskRewardReply:
-            type: object
-            properties: {}
-        TaskRewardRequest:
-            type: object
-            properties:
-                userId:
-                    type: string
-                taskId:
-                    type: integer
-                    format: int32
 tags:
-    - name: Game
+    - name: Item

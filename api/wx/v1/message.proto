@@ -19,8 +19,12 @@ service Message {
 		option (google.api.http) = {
 			post: "/st-games/v1/wx/service",
 			body: "*",
+			additional_bindings {
+				get: "/st-games/v1/wx/service",
+			}
 		};
 	}; // 微信客服消息
+
 
 	rpc WxJSPayHtml (WxJSPayHtmlRequest) returns (WxJSPayHtmlReply) {
 		option (google.api.http) = {
