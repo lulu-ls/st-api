@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-package api.auth.v1;
+package api.ware.v1;
 
 import "errors/errors.proto";
 
-option go_package = "github.com/lulu-ls/st-api/api/auth/v1;v1";
+option go_package = "github.com/lulu-ls/st-api/api/ware/v1;v1";
 option java_multiple_files = true;
-option java_package = "api.auth.v1";
+option java_package = "api.ware.v1";
 
 
 enum ErrorReason {
@@ -17,10 +17,9 @@ enum ErrorReason {
   USER_NOT_FOUND = 0 [(errors.code) = 404];
   CONTENT_MISSING = 1 [(errors.code) = 400];
   TOKEN_VERIFY = 2 [(errors.code) = 401];
-  SESSION_KEY_INVALID = 3 [(errors.code) = 401]; // session key 过期
 
 
   AUTH_CHANNEL_APPID_IS_REQUIRED = 10 [(errors.code) = 400];
 
-  LOGIN_CODE_IS_INVALID = 11 [(errors.code) = 400];
+  EXCHANGE_FAILED = 11 [(errors.code) = 410];
 }

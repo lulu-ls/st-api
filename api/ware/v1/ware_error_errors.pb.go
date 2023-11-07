@@ -49,20 +49,6 @@ func ErrorTokenVerify(format string, args ...interface{}) *errors.Error {
 	return errors.New(401, ErrorReason_TOKEN_VERIFY.String(), fmt.Sprintf(format, args...))
 }
 
-// session key 过期
-func IsSessionKeyInvalid(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == ErrorReason_SESSION_KEY_INVALID.String() && e.Code == 401
-}
-
-// session key 过期
-func ErrorSessionKeyInvalid(format string, args ...interface{}) *errors.Error {
-	return errors.New(401, ErrorReason_SESSION_KEY_INVALID.String(), fmt.Sprintf(format, args...))
-}
-
 func IsAuthChannelAppidIsRequired(err error) bool {
 	if err == nil {
 		return false
@@ -75,14 +61,14 @@ func ErrorAuthChannelAppidIsRequired(format string, args ...interface{}) *errors
 	return errors.New(400, ErrorReason_AUTH_CHANNEL_APPID_IS_REQUIRED.String(), fmt.Sprintf(format, args...))
 }
 
-func IsLoginCodeIsInvalid(err error) bool {
+func IsExchangeFailed(err error) bool {
 	if err == nil {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrorReason_LOGIN_CODE_IS_INVALID.String() && e.Code == 400
+	return e.Reason == ErrorReason_EXCHANGE_FAILED.String() && e.Code == 410
 }
 
-func ErrorLoginCodeIsInvalid(format string, args ...interface{}) *errors.Error {
-	return errors.New(400, ErrorReason_LOGIN_CODE_IS_INVALID.String(), fmt.Sprintf(format, args...))
+func ErrorExchangeFailed(format string, args ...interface{}) *errors.Error {
+	return errors.New(410, ErrorReason_EXCHANGE_FAILED.String(), fmt.Sprintf(format, args...))
 }
