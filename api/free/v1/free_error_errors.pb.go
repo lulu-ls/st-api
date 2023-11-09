@@ -67,12 +67,12 @@ func IsFreeSignupAssetNotEnough(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrorReason_FREE_SIGNUP_ASSET_NOT_ENOUGH.String() && e.Code == 400
+	return e.Reason == ErrorReason_FREE_SIGNUP_ASSET_NOT_ENOUGH.String() && e.Code == 410
 }
 
 // 财产余额不足
 func ErrorFreeSignupAssetNotEnough(format string, args ...interface{}) *errors.Error {
-	return errors.New(400, ErrorReason_FREE_SIGNUP_ASSET_NOT_ENOUGH.String(), fmt.Sprintf(format, args...))
+	return errors.New(410, ErrorReason_FREE_SIGNUP_ASSET_NOT_ENOUGH.String(), fmt.Sprintf(format, args...))
 }
 
 // 未达到最低限制
@@ -81,12 +81,12 @@ func IsFreeSignupAssetMinLimit(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrorReason_FREE_SIGNUP_ASSET_MIN_LIMIT.String() && e.Code == 401
+	return e.Reason == ErrorReason_FREE_SIGNUP_ASSET_MIN_LIMIT.String() && e.Code == 411
 }
 
 // 未达到最低限制
 func ErrorFreeSignupAssetMinLimit(format string, args ...interface{}) *errors.Error {
-	return errors.New(401, ErrorReason_FREE_SIGNUP_ASSET_MIN_LIMIT.String(), fmt.Sprintf(format, args...))
+	return errors.New(411, ErrorReason_FREE_SIGNUP_ASSET_MIN_LIMIT.String(), fmt.Sprintf(format, args...))
 }
 
 // 未达到最低限制
@@ -95,12 +95,12 @@ func IsFreeSignupAssetMaxLimit(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrorReason_FREE_SIGNUP_ASSET_MAX_LIMIT.String() && e.Code == 402
+	return e.Reason == ErrorReason_FREE_SIGNUP_ASSET_MAX_LIMIT.String() && e.Code == 412
 }
 
 // 未达到最低限制
 func ErrorFreeSignupAssetMaxLimit(format string, args ...interface{}) *errors.Error {
-	return errors.New(402, ErrorReason_FREE_SIGNUP_ASSET_MAX_LIMIT.String(), fmt.Sprintf(format, args...))
+	return errors.New(412, ErrorReason_FREE_SIGNUP_ASSET_MAX_LIMIT.String(), fmt.Sprintf(format, args...))
 }
 
 // 获取账户信息失败
@@ -109,10 +109,10 @@ func IsFreeSignupAssetGet(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrorReason_FREE_SIGNUP_ASSET_GET.String() && e.Code == 403
+	return e.Reason == ErrorReason_FREE_SIGNUP_ASSET_GET.String() && e.Code == 413
 }
 
 // 获取账户信息失败
 func ErrorFreeSignupAssetGet(format string, args ...interface{}) *errors.Error {
-	return errors.New(403, ErrorReason_FREE_SIGNUP_ASSET_GET.String(), fmt.Sprintf(format, args...))
+	return errors.New(413, ErrorReason_FREE_SIGNUP_ASSET_GET.String(), fmt.Sprintf(format, args...))
 }

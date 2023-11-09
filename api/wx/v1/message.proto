@@ -15,6 +15,7 @@ service Message {
 			body: "*",
 		};
 	}; // 微信支付回调信息
+
 	rpc WxService (WxServiceRequest) returns (WxServiceReply) {
 		option (google.api.http) = {
 			post: "/st-games/v1/wx/service",
@@ -25,12 +26,11 @@ service Message {
 		};
 	}; // 微信客服消息
 
-
 	rpc WxJSPayHtml (WxJSPayHtmlRequest) returns (WxJSPayHtmlReply) {
 		option (google.api.http) = {
 			get: "/st-games/v1/wx/html",
 		};
-	}
+	} // 微信支付 html
 }
 
 message PayNotifyRequest {
@@ -54,7 +54,7 @@ message WxServiceRequest {
 	string ToUserName = 2;
 	string Content = 3;
 	int64 CreateTime = 4;
-	string MsgId = 5;
+	int64 MsgId = 5;
 	string MsgType = 6;
 	string PagePath = 7;
 	string Title = 8;

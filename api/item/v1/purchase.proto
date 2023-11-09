@@ -87,6 +87,7 @@ message JSBuyRequest {
 	//	order.v1.OrderType order_type = 7; // 订单类型
 }
 message JSBuyReply {
+	wx.v1.VirtualPayStatus is_payed = 1; // 是否支付成功, 0 否 1是
 	int64 order_id = 2; // 订单号
 }
 

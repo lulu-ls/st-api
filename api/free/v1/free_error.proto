@@ -21,8 +21,8 @@ enum ErrorReason {
 
   AUTH_CHANNEL_APPID_IS_REQUIRED = 10 [(errors.code) = 400];
 
-  FREE_SIGNUP_ASSET_NOT_ENOUGH = 11 [(errors.code) = 400]; // 财产余额不足
-  FREE_SIGNUP_ASSET_MIN_LIMIT = 12 [(errors.code) = 401]; // 未达到最低限制
-  FREE_SIGNUP_ASSET_MAX_LIMIT = 13 [(errors.code) = 402]; // 未达到最低限制
-  FREE_SIGNUP_ASSET_GET = 14 [(errors.code) = 403]; // 获取账户信息失败
+  FREE_SIGNUP_ASSET_NOT_ENOUGH = 11 [(errors.code) = 410]; // 财产余额不足
+  FREE_SIGNUP_ASSET_MIN_LIMIT = 12 [(errors.code) = 411]; // 未达到最低限制
+  FREE_SIGNUP_ASSET_MAX_LIMIT = 13 [(errors.code) = 412]; // 未达到最低限制
+  FREE_SIGNUP_ASSET_GET = 14 [(errors.code) = 413]; // 获取账户信息失败
 }

@@ -83,13 +83,13 @@ message DecryptReply {
 	int32 gender = 6;
 	string country = 7;
 	string union_id = 8;
-	int64 user_no = 9;
+	string user_no = 9;
 	int64 user_id = 10;
 	int32 status = 11;
 }
 
 message LoginUser {
-	int64 user_no = 1;
+	string user_no = 1;
 	string nick_name = 2;
 	string avatar = 3;
 	string phone = 5;

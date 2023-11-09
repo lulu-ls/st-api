@@ -148,7 +148,7 @@ message ExchangeVirtualRequest {
 	int32 channel_id = 2; // channel id
 	int64 user_id = 3; // 用户 id
 	int32 item_exchange_ware_id = 4 [(validate.rules).int32 = {gt: 0}]; // 商品 id
-	PhoneType phone_type = 5; // 手机号类型 1：电信 2：联通 3：移动  [(validate.rules).int32 = {in: [1,2,3]}]
+	PhoneType phone_type = 5 [(validate.rules).enum = {in: [1, 2, 3]}]; // 手机号类型 1：电信 2：联通 3：移动  [(validate.rules).int32 = {in: [1,2,3]}]
 	string phone = 6 [(validate.rules).string.len = 11]; // 手机号
 }
 message ExchangeVirtualReply {

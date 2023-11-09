@@ -782,6 +782,8 @@ func (m *JSBuyReply) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for IsPayed
+
 	// no validation rules for OrderId
 
 	if len(errors) > 0 {

@@ -847,7 +847,16 @@ func (m *ExchangeVirtualRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	// no validation rules for PhoneType
+	if _, ok := _ExchangeVirtualRequest_PhoneType_InLookup[m.GetPhoneType()]; !ok {
+		err := ExchangeVirtualRequestValidationError{
+			field:  "PhoneType",
+			reason: "value must be in list [YiDong LianTong DianXin]",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	if utf8.RuneCountInString(m.GetPhone()) != 11 {
 		err := ExchangeVirtualRequestValidationError{
@@ -940,6 +949,12 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ExchangeVirtualRequestValidationError{}
+
+var _ExchangeVirtualRequest_PhoneType_InLookup = map[PhoneType]struct{}{
+	1: {},
+	2: {},
+	3: {},
+}
 
 // Validate checks the field values on ExchangeVirtualReply with the rules
 // defined in the proto definition for this message. If any rules are
