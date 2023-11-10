@@ -21,6 +21,7 @@ const _ = http.SupportPackageIsVersion1
 
 const OperationWareCategoryWare = "/api.ware.v1.Ware/CategoryWare"
 const OperationWareExchangeInfo = "/api.ware.v1.Ware/ExchangeInfo"
+const OperationWareExchangeItem = "/api.ware.v1.Ware/ExchangeItem"
 const OperationWareExchangeList = "/api.ware.v1.Ware/ExchangeList"
 const OperationWareExchangeMatter = "/api.ware.v1.Ware/ExchangeMatter"
 const OperationWareExchangeVirtual = "/api.ware.v1.Ware/ExchangeVirtual"
@@ -32,6 +33,8 @@ type WareHTTPServer interface {
 	CategoryWare(context.Context, *CategoryWareRequest) (*CategoryWareReply, error)
 	// ExchangeInfo 获取兑换信息
 	ExchangeInfo(context.Context, *ExchangeInfoRequest) (*ExchangeInfoReply, error)
+	// ExchangeItem 兑换道具
+	ExchangeItem(context.Context, *ExchangeItemRequest) (*ExchangeItemReply, error)
 	// ExchangeList 兑换记录
 	ExchangeList(context.Context, *ExchangeListRequest) (*ExchangeListReply, error)
 	// ExchangeMatter 兑换实物
@@ -51,6 +54,7 @@ func RegisterWareHTTPServer(s *http.Server, srv WareHTTPServer) {
 	r.POST("/st-games/v1/ware/category", _Ware_CategoryWare0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/ware/exchange/virtual", _Ware_ExchangeVirtual0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/ware/exchange/matter", _Ware_ExchangeMatter0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/ware/exchange/item", _Ware_ExchangeItem0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/ware/exchange/info", _Ware_ExchangeInfo0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/ware/exchange/list", _Ware_ExchangeList0_HTTP_Handler(srv))
 }
@@ -165,6 +169,28 @@ func _Ware_ExchangeMatter0_HTTP_Handler(srv WareHTTPServer) func(ctx http.Contex
 	}
 }
 
+func _Ware_ExchangeItem0_HTTP_Handler(srv WareHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ExchangeItemRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationWareExchangeItem)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ExchangeItem(ctx, req.(*ExchangeItemRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ExchangeItemReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 func _Ware_ExchangeInfo0_HTTP_Handler(srv WareHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in ExchangeInfoRequest
@@ -212,6 +238,7 @@ func _Ware_ExchangeList0_HTTP_Handler(srv WareHTTPServer) func(ctx http.Context)
 type WareHTTPClient interface {
 	CategoryWare(ctx context.Context, req *CategoryWareRequest, opts ...http.CallOption) (rsp *CategoryWareReply, err error)
 	ExchangeInfo(ctx context.Context, req *ExchangeInfoRequest, opts ...http.CallOption) (rsp *ExchangeInfoReply, err error)
+	ExchangeItem(ctx context.Context, req *ExchangeItemRequest, opts ...http.CallOption) (rsp *ExchangeItemReply, err error)
 	ExchangeList(ctx context.Context, req *ExchangeListRequest, opts ...http.CallOption) (rsp *ExchangeListReply, err error)
 	ExchangeMatter(ctx context.Context, req *ExchangeMatterRequest, opts ...http.CallOption) (rsp *ExchangeMatterReply, err error)
 	ExchangeVirtual(ctx context.Context, req *ExchangeVirtualRequest, opts ...http.CallOption) (rsp *ExchangeVirtualReply, err error)
@@ -245,6 +272,19 @@ func (c *WareHTTPClientImpl) ExchangeInfo(ctx context.Context, in *ExchangeInfoR
 	pattern := "/st-games/v1/ware/exchange/info"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationWareExchangeInfo))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *WareHTTPClientImpl) ExchangeItem(ctx context.Context, in *ExchangeItemRequest, opts ...http.CallOption) (*ExchangeItemReply, error) {
+	var out ExchangeItemReply
+	pattern := "/st-games/v1/ware/exchange/item"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationWareExchangeItem))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

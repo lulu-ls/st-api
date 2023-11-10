@@ -858,16 +858,15 @@ func (m *ExchangeVirtualRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if utf8.RuneCountInString(m.GetPhone()) != 11 {
+	if !_ExchangeVirtualRequest_Phone_Pattern.MatchString(m.GetPhone()) {
 		err := ExchangeVirtualRequestValidationError{
 			field:  "Phone",
-			reason: "value length must be 11 runes",
+			reason: "value does not match regex pattern \"^1[3-9]\\\\d{9}$\"",
 		}
 		if !all {
 			return err
 		}
 		errors = append(errors, err)
-
 	}
 
 	if len(errors) > 0 {
@@ -955,6 +954,8 @@ var _ExchangeVirtualRequest_PhoneType_InLookup = map[PhoneType]struct{}{
 	2: {},
 	3: {},
 }
+
+var _ExchangeVirtualRequest_Phone_Pattern = regexp.MustCompile("^1[3-9]\\d{9}$")
 
 // Validate checks the field values on ExchangeVirtualReply with the rules
 // defined in the proto definition for this message. If any rules are
@@ -1097,16 +1098,15 @@ func (m *ExchangeMatterRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if utf8.RuneCountInString(m.GetPhone()) != 11 {
+	if !_ExchangeMatterRequest_Phone_Pattern.MatchString(m.GetPhone()) {
 		err := ExchangeMatterRequestValidationError{
 			field:  "Phone",
-			reason: "value length must be 11 runes",
+			reason: "value does not match regex pattern \"^1[3-9]\\\\d{9}$\"",
 		}
 		if !all {
 			return err
 		}
 		errors = append(errors, err)
-
 	}
 
 	if utf8.RuneCountInString(m.GetName()) < 2 {
@@ -1210,6 +1210,8 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ExchangeMatterRequestValidationError{}
+
+var _ExchangeMatterRequest_Phone_Pattern = regexp.MustCompile("^1[3-9]\\d{9}$")
 
 // Validate checks the field values on ExchangeMatterReply with the rules
 // defined in the proto definition for this message. If any rules are
@@ -2494,3 +2496,224 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ExchangeListItemValidationError{}
+
+// Validate checks the field values on ExchangeItemRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ExchangeItemRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ExchangeItemRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ExchangeItemRequestMultiError, or nil if none found.
+func (m *ExchangeItemRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ExchangeItemRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
+
+	// no validation rules for UserId
+
+	if m.GetWareId() <= 0 {
+		err := ExchangeItemRequestValidationError{
+			field:  "WareId",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return ExchangeItemRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// ExchangeItemRequestMultiError is an error wrapping multiple validation
+// errors returned by ExchangeItemRequest.ValidateAll() if the designated
+// constraints aren't met.
+type ExchangeItemRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ExchangeItemRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ExchangeItemRequestMultiError) AllErrors() []error { return m }
+
+// ExchangeItemRequestValidationError is the validation error returned by
+// ExchangeItemRequest.Validate if the designated constraints aren't met.
+type ExchangeItemRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ExchangeItemRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ExchangeItemRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ExchangeItemRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ExchangeItemRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ExchangeItemRequestValidationError) ErrorName() string {
+	return "ExchangeItemRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ExchangeItemRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sExchangeItemRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ExchangeItemRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ExchangeItemRequestValidationError{}
+
+// Validate checks the field values on ExchangeItemReply with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *ExchangeItemReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ExchangeItemReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ExchangeItemReplyMultiError, or nil if none found.
+func (m *ExchangeItemReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ExchangeItemReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return ExchangeItemReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// ExchangeItemReplyMultiError is an error wrapping multiple validation errors
+// returned by ExchangeItemReply.ValidateAll() if the designated constraints
+// aren't met.
+type ExchangeItemReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ExchangeItemReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ExchangeItemReplyMultiError) AllErrors() []error { return m }
+
+// ExchangeItemReplyValidationError is the validation error returned by
+// ExchangeItemReply.Validate if the designated constraints aren't met.
+type ExchangeItemReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ExchangeItemReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ExchangeItemReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ExchangeItemReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ExchangeItemReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ExchangeItemReplyValidationError) ErrorName() string {
+	return "ExchangeItemReplyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ExchangeItemReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sExchangeItemReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ExchangeItemReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ExchangeItemReplyValidationError{}

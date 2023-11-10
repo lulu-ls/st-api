@@ -24,6 +24,7 @@ const (
 	Ware_CategoryWare_FullMethodName    = "/api.ware.v1.Ware/CategoryWare"
 	Ware_ExchangeVirtual_FullMethodName = "/api.ware.v1.Ware/ExchangeVirtual"
 	Ware_ExchangeMatter_FullMethodName  = "/api.ware.v1.Ware/ExchangeMatter"
+	Ware_ExchangeItem_FullMethodName    = "/api.ware.v1.Ware/ExchangeItem"
 	Ware_ExchangeInfo_FullMethodName    = "/api.ware.v1.Ware/ExchangeInfo"
 	Ware_ExchangeResult_FullMethodName  = "/api.ware.v1.Ware/ExchangeResult"
 	Ware_ExchangeList_FullMethodName    = "/api.ware.v1.Ware/ExchangeList"
@@ -43,6 +44,8 @@ type WareClient interface {
 	ExchangeVirtual(ctx context.Context, in *ExchangeVirtualRequest, opts ...grpc.CallOption) (*ExchangeVirtualReply, error)
 	// 兑换实物
 	ExchangeMatter(ctx context.Context, in *ExchangeMatterRequest, opts ...grpc.CallOption) (*ExchangeMatterReply, error)
+	// 兑换道具
+	ExchangeItem(ctx context.Context, in *ExchangeItemRequest, opts ...grpc.CallOption) (*ExchangeItemReply, error)
 	// 获取兑换信息
 	ExchangeInfo(ctx context.Context, in *ExchangeInfoRequest, opts ...grpc.CallOption) (*ExchangeInfoReply, error)
 	// 充值结果通知
@@ -104,6 +107,15 @@ func (c *wareClient) ExchangeMatter(ctx context.Context, in *ExchangeMatterReque
 	return out, nil
 }
 
+func (c *wareClient) ExchangeItem(ctx context.Context, in *ExchangeItemRequest, opts ...grpc.CallOption) (*ExchangeItemReply, error) {
+	out := new(ExchangeItemReply)
+	err := c.cc.Invoke(ctx, Ware_ExchangeItem_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *wareClient) ExchangeInfo(ctx context.Context, in *ExchangeInfoRequest, opts ...grpc.CallOption) (*ExchangeInfoReply, error) {
 	out := new(ExchangeInfoReply)
 	err := c.cc.Invoke(ctx, Ware_ExchangeInfo_FullMethodName, in, out, opts...)
@@ -145,6 +157,8 @@ type WareServer interface {
 	ExchangeVirtual(context.Context, *ExchangeVirtualRequest) (*ExchangeVirtualReply, error)
 	// 兑换实物
 	ExchangeMatter(context.Context, *ExchangeMatterRequest) (*ExchangeMatterReply, error)
+	// 兑换道具
+	ExchangeItem(context.Context, *ExchangeItemRequest) (*ExchangeItemReply, error)
 	// 获取兑换信息
 	ExchangeInfo(context.Context, *ExchangeInfoRequest) (*ExchangeInfoReply, error)
 	// 充值结果通知
@@ -172,6 +186,9 @@ func (UnimplementedWareServer) ExchangeVirtual(context.Context, *ExchangeVirtual
 }
 func (UnimplementedWareServer) ExchangeMatter(context.Context, *ExchangeMatterRequest) (*ExchangeMatterReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ExchangeMatter not implemented")
+}
+func (UnimplementedWareServer) ExchangeItem(context.Context, *ExchangeItemRequest) (*ExchangeItemReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ExchangeItem not implemented")
 }
 func (UnimplementedWareServer) ExchangeInfo(context.Context, *ExchangeInfoRequest) (*ExchangeInfoReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ExchangeInfo not implemented")
@@ -285,6 +302,24 @@ func _Ware_ExchangeMatter_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Ware_ExchangeItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ExchangeItemRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WareServer).ExchangeItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Ware_ExchangeItem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WareServer).ExchangeItem(ctx, req.(*ExchangeItemRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Ware_ExchangeInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ExchangeInfoRequest)
 	if err := dec(in); err != nil {
@@ -365,6 +400,10 @@ var Ware_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ExchangeMatter",
 			Handler:    _Ware_ExchangeMatter_Handler,
+		},
+		{
+			MethodName: "ExchangeItem",
+			Handler:    _Ware_ExchangeItem_Handler,
 		},
 		{
 			MethodName: "ExchangeInfo",
