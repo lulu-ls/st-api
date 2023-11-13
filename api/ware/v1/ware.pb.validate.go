@@ -847,16 +847,7 @@ func (m *ExchangeVirtualRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if _, ok := _ExchangeVirtualRequest_PhoneType_InLookup[m.GetPhoneType()]; !ok {
-		err := ExchangeVirtualRequestValidationError{
-			field:  "PhoneType",
-			reason: "value must be in list [YiDong LianTong DianXin]",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for PhoneType
 
 	if !_ExchangeVirtualRequest_Phone_Pattern.MatchString(m.GetPhone()) {
 		err := ExchangeVirtualRequestValidationError{
@@ -948,12 +939,6 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ExchangeVirtualRequestValidationError{}
-
-var _ExchangeVirtualRequest_PhoneType_InLookup = map[PhoneType]struct{}{
-	1: {},
-	2: {},
-	3: {},
-}
 
 var _ExchangeVirtualRequest_Phone_Pattern = regexp.MustCompile("^1[3-9]\\d{9}$")
 

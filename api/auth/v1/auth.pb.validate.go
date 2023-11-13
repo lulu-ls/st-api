@@ -806,6 +806,8 @@ func (m *DecryptReply) validate(all bool) error {
 
 	// no validation rules for Status
 
+	// no validation rules for Figure
+
 	if len(errors) > 0 {
 		return DecryptReplyMultiError(errors)
 	}
@@ -928,6 +930,8 @@ func (m *LoginUser) validate(all bool) error {
 	// no validation rules for Ticket
 
 	// no validation rules for UserId
+
+	// no validation rules for Figure
 
 	if len(errors) > 0 {
 		return LoginUserMultiError(errors)

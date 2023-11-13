@@ -10,3 +10,4 @@ message Paginate {
 	int32 page = 1;
 	int32 size = 2;
 }
+

@@ -793,22 +793,22 @@ var _ interface {
 	ErrorName() string
 } = ListEmojiItemValidationError{}
 
-// Validate checks the field values on UseEmojiRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *UseEmojiRequest) Validate() error {
+// Validate checks the field values on UseItemRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *UseItemRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on UseEmojiRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// UseEmojiRequestMultiError, or nil if none found.
-func (m *UseEmojiRequest) ValidateAll() error {
+// ValidateAll checks the field values on UseItemRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in UseItemRequestMultiError,
+// or nil if none found.
+func (m *UseItemRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *UseEmojiRequest) validate(all bool) error {
+func (m *UseItemRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -822,7 +822,7 @@ func (m *UseEmojiRequest) validate(all bool) error {
 	// no validation rules for UserId
 
 	if m.GetItemId() <= 0 {
-		err := UseEmojiRequestValidationError{
+		err := UseItemRequestValidationError{
 			field:  "ItemId",
 			reason: "value must be greater than 0",
 		}
@@ -833,7 +833,7 @@ func (m *UseEmojiRequest) validate(all bool) error {
 	}
 
 	if m.GetQuantity() <= 0 {
-		err := UseEmojiRequestValidationError{
+		err := UseItemRequestValidationError{
 			field:  "Quantity",
 			reason: "value must be greater than 0",
 		}
@@ -844,19 +844,19 @@ func (m *UseEmojiRequest) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return UseEmojiRequestMultiError(errors)
+		return UseItemRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// UseEmojiRequestMultiError is an error wrapping multiple validation errors
-// returned by UseEmojiRequest.ValidateAll() if the designated constraints
+// UseItemRequestMultiError is an error wrapping multiple validation errors
+// returned by UseItemRequest.ValidateAll() if the designated constraints
 // aren't met.
-type UseEmojiRequestMultiError []error
+type UseItemRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m UseEmojiRequestMultiError) Error() string {
+func (m UseItemRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -865,11 +865,11 @@ func (m UseEmojiRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m UseEmojiRequestMultiError) AllErrors() []error { return m }
+func (m UseItemRequestMultiError) AllErrors() []error { return m }
 
-// UseEmojiRequestValidationError is the validation error returned by
-// UseEmojiRequest.Validate if the designated constraints aren't met.
-type UseEmojiRequestValidationError struct {
+// UseItemRequestValidationError is the validation error returned by
+// UseItemRequest.Validate if the designated constraints aren't met.
+type UseItemRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -877,22 +877,22 @@ type UseEmojiRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e UseEmojiRequestValidationError) Field() string { return e.field }
+func (e UseItemRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e UseEmojiRequestValidationError) Reason() string { return e.reason }
+func (e UseItemRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e UseEmojiRequestValidationError) Cause() error { return e.cause }
+func (e UseItemRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e UseEmojiRequestValidationError) Key() bool { return e.key }
+func (e UseItemRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e UseEmojiRequestValidationError) ErrorName() string { return "UseEmojiRequestValidationError" }
+func (e UseItemRequestValidationError) ErrorName() string { return "UseItemRequestValidationError" }
 
 // Error satisfies the builtin error interface
-func (e UseEmojiRequestValidationError) Error() string {
+func (e UseItemRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -904,14 +904,14 @@ func (e UseEmojiRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sUseEmojiRequest.%s: %s%s",
+		"invalid %sUseItemRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = UseEmojiRequestValidationError{}
+var _ error = UseItemRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -919,24 +919,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = UseEmojiRequestValidationError{}
+} = UseItemRequestValidationError{}
 
-// Validate checks the field values on UseEmojiReply with the rules defined in
+// Validate checks the field values on UseItemReply with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *UseEmojiReply) Validate() error {
+func (m *UseItemReply) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on UseEmojiReply with the rules defined
+// ValidateAll checks the field values on UseItemReply with the rules defined
 // in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in UseEmojiReplyMultiError, or
+// result is a list of violation errors wrapped in UseItemReplyMultiError, or
 // nil if none found.
-func (m *UseEmojiReply) ValidateAll() error {
+func (m *UseItemReply) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *UseEmojiReply) validate(all bool) error {
+func (m *UseItemReply) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -944,19 +944,18 @@ func (m *UseEmojiReply) validate(all bool) error {
 	var errors []error
 
 	if len(errors) > 0 {
-		return UseEmojiReplyMultiError(errors)
+		return UseItemReplyMultiError(errors)
 	}
 
 	return nil
 }
 
-// UseEmojiReplyMultiError is an error wrapping multiple validation errors
-// returned by UseEmojiReply.ValidateAll() if the designated constraints
-// aren't met.
-type UseEmojiReplyMultiError []error
+// UseItemReplyMultiError is an error wrapping multiple validation errors
+// returned by UseItemReply.ValidateAll() if the designated constraints aren't met.
+type UseItemReplyMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m UseEmojiReplyMultiError) Error() string {
+func (m UseItemReplyMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -965,11 +964,11 @@ func (m UseEmojiReplyMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m UseEmojiReplyMultiError) AllErrors() []error { return m }
+func (m UseItemReplyMultiError) AllErrors() []error { return m }
 
-// UseEmojiReplyValidationError is the validation error returned by
-// UseEmojiReply.Validate if the designated constraints aren't met.
-type UseEmojiReplyValidationError struct {
+// UseItemReplyValidationError is the validation error returned by
+// UseItemReply.Validate if the designated constraints aren't met.
+type UseItemReplyValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -977,22 +976,22 @@ type UseEmojiReplyValidationError struct {
 }
 
 // Field function returns field value.
-func (e UseEmojiReplyValidationError) Field() string { return e.field }
+func (e UseItemReplyValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e UseEmojiReplyValidationError) Reason() string { return e.reason }
+func (e UseItemReplyValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e UseEmojiReplyValidationError) Cause() error { return e.cause }
+func (e UseItemReplyValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e UseEmojiReplyValidationError) Key() bool { return e.key }
+func (e UseItemReplyValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e UseEmojiReplyValidationError) ErrorName() string { return "UseEmojiReplyValidationError" }
+func (e UseItemReplyValidationError) ErrorName() string { return "UseItemReplyValidationError" }
 
 // Error satisfies the builtin error interface
-func (e UseEmojiReplyValidationError) Error() string {
+func (e UseItemReplyValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1004,14 +1003,14 @@ func (e UseEmojiReplyValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sUseEmojiReply.%s: %s%s",
+		"invalid %sUseItemReply.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = UseEmojiReplyValidationError{}
+var _ error = UseItemReplyValidationError{}
 
 var _ interface {
 	Field() string
@@ -1019,4 +1018,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = UseEmojiReplyValidationError{}
+} = UseItemReplyValidationError{}

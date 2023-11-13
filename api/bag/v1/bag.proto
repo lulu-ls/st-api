@@ -27,10 +27,10 @@ service Bag {
 		};
 	};
 
-	// 使用表情
-	rpc UseEmoji(UseEmojiRequest) returns (UseEmojiReply) {
+	// 使用道具
+	rpc UseItem(UseItemRequest) returns (UseItemReply) {
 		option (google.api.http) = {
-			post: "/st-games/v1/bag/emoji/use",
+			post: "/st-games/v1/bag/item/use",
 			body: "*",
 		};
 	};
@@ -86,13 +86,13 @@ message ListEmojiItem {
 	int32 exchange_item_quantity = 8; // 购买所需道具数量
 }
 
-message UseEmojiRequest {
+message UseItemRequest {
 	int32 app_id = 1; // app id
 	int32 channel_id = 2; // channel id
 	int64 user_id = 3; // 用户 id
 	int32 item_id = 4 [(validate.rules).int32 = {gt: 0}]; // 道具 id
 	int32 quantity = 6 [(validate.rules).int32 = {gt: 0}]; // 使用数量
 }
-message UseEmojiReply {
+message UseItemReply {
 
 }

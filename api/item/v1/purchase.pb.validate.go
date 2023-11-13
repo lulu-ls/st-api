@@ -573,6 +573,8 @@ func (m *VirtualBuyReply) validate(all bool) error {
 
 	// no validation rules for OrderId
 
+	// no validation rules for Title
+
 	if len(errors) > 0 {
 		return VirtualBuyReplyMultiError(errors)
 	}
@@ -785,6 +787,12 @@ func (m *JSBuyReply) validate(all bool) error {
 	// no validation rules for IsPayed
 
 	// no validation rules for OrderId
+
+	// no validation rules for OrderAmount
+
+	// no validation rules for Quantity
+
+	// no validation rules for Title
 
 	if len(errors) > 0 {
 		return JSBuyReplyMultiError(errors)

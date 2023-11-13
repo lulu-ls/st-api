@@ -4,6 +4,7 @@ package api.user.v1;
 
 import "google/api/annotations.proto";
 import "common/v1/common.proto";
+import "validate/validate.proto";
 
 option go_package = "github.com/lulu-ls/st-api/api/user/v1;v1";
 option java_multiple_files = true;
@@ -14,6 +15,13 @@ service User {
 	rpc RaceRecordList (RaceRecordListRequest) returns (RaceRecordListReply) {
 		option (google.api.http) = {
 			post: "/st-games/v1/user/race/record",
+			body: "*",
+		};
+	};
+	// 修改形象
+	rpc FigureEdit (FigureEditRequest) returns (FigureEditReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/user/figure/edit",
 			body: "*",
 		};
 	};
@@ -43,4 +51,14 @@ message RaceRecordListItem {
 	int32 lose = 11; // 失败场次
 	int64 enter_time = 12; // 开始时间
 	int64 leave_time = 13; // 离开时间
+}
+
+message FigureEditRequest {
+	int64 user_id = 1; // 用户 id
+	int32 appId = 2; // 渠道 id
+	int32 channelId = 3; // 渠道 id
+	int32 figure = 4 [(validate.rules).int32 = {gt: 0}]; // 形象
+}
+message FigureEditReply {
+
 }
