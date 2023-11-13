@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package api.mall.v1;
+
+import "errors/errors.proto";
+
+option go_package = "github.com/lulu-ls/st-api/api/mall/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.mall.v1";
+
+
+enum ErrorReason {
+  // 设置缺省错误码
+  option (errors.default_code) = 500;
+
+  // 为某个枚举单独设置错误码
+  USER_NOT_FOUND = 0 [(errors.code) = 404];
+  CONTENT_MISSING = 1 [(errors.code) = 400];
+  TOKEN_VERIFY = 2 [(errors.code) = 401];
+  SESSION_KEY_INVALID = 3 [(errors.code) = 401]; // session key 过期
+
+  RECHARGE_GENERAL_FAILED = 10 [(errors.code) = 430];
+}

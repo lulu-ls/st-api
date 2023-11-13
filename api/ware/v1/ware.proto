@@ -207,6 +207,7 @@ message ExchangeInfoReply {
 	string name = 1; // 姓名
 	string phone = 2; // 手机号
 	string address = 3; // 地址
+	PhoneType phone_type = 4; // 手机号类型
 }
 
 message ExchangeListRequest {

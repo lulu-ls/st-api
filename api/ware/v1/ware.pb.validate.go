@@ -2041,6 +2041,8 @@ func (m *ExchangeInfoReply) validate(all bool) error {
 
 	// no validation rules for Address
 
+	// no validation rules for PhoneType
+
 	if len(errors) > 0 {
 		return ExchangeInfoReplyMultiError(errors)
 	}
@@ -2525,9 +2527,9 @@ func (m *ExchangeItemRequest) validate(all bool) error {
 
 	// no validation rules for UserId
 
-	if m.GetWareId() <= 0 {
+	if m.GetItemExchangeWareId() <= 0 {
 		err := ExchangeItemRequestValidationError{
-			field:  "WareId",
+			field:  "ItemExchangeWareId",
 			reason: "value must be greater than 0",
 		}
 		if !all {
