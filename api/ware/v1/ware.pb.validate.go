@@ -620,6 +620,8 @@ func (m *ListWareItem) validate(all bool) error {
 
 	}
 
+	// no validation rules for IsPhoneBill
+
 	if len(errors) > 0 {
 		return ListWareItemMultiError(errors)
 	}

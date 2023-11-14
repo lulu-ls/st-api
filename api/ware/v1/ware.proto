@@ -129,7 +129,9 @@ message ListWareReply {
 }
 message ListWareItem {
 	int32 ware_id = 1; // 商品 id
-	int32 ware_type = 2; // 商品类型 1:实物商品 2:电子卡券 3:外部商品
+	int32 ware_type = 2; // 商品类型 1:实物商品 2:
+
+	// 电子卡券 3:外部商品
 	string ware_type_name = 3; // 商品类型名称
 	int32 ware_category_id = 4; // 商品类型 id
 	string ware_category_name = 5; // 商品类型 名称
@@ -141,6 +143,7 @@ message ListWareItem {
 	int32 point = 11; // 积分
 	double settle_price = 12; // 结算价
 	repeated ExchangeItem exchange_item = 13; // 兑换配置
+	bool is_phone_bill = 14; // 是否是话费
 }
 message ExchangeItem {
 	int32 ware_id = 1; // 兑换的商品 id

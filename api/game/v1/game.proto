@@ -43,6 +43,13 @@ service Game {
 	};
 }
 
+// 公告类别
+enum AnnouncementType {
+	_1 = 0; // 未知
+	Text = 1; // 文本
+	Image = 2; // 图片
+}
+
 // 任务进度状态
 enum TaskStatus {
 	undone = 0; // 未完成
@@ -88,6 +95,8 @@ message AnnouncementListItem {
 	string title = 2; // 标题
 	string information = 3; // 内容
 	string image = 4; // 图片
+	AnnouncementType type = 5; // 类型
+	string subtitle = 6; // 副标题
 }
 
 message TaskListRequest {
