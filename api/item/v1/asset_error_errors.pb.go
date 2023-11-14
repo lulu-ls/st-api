@@ -84,3 +84,15 @@ func IsAssetNotEnough(err error) bool {
 func ErrorAssetNotEnough(format string, args ...interface{}) *errors.Error {
 	return errors.New(412, ErrorReason_ASSET_NOT_ENOUGH.String(), fmt.Sprintf(format, args...))
 }
+
+func IsAssetQueryFailed(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_ASSET_QUERY_FAILED.String() && e.Code == 420
+}
+
+func ErrorAssetQueryFailed(format string, args ...interface{}) *errors.Error {
+	return errors.New(420, ErrorReason_ASSET_QUERY_FAILED.String(), fmt.Sprintf(format, args...))
+}

@@ -18,10 +18,19 @@ service User {
 			body: "*",
 		};
 	};
+
 	// 修改形象
 	rpc FigureEdit (FigureEditRequest) returns (FigureEditReply) {
 		option (google.api.http) = {
 			post: "/st-games/v1/user/figure/edit",
+			body: "*",
+		};
+	};
+
+	// 获取用户资产
+	rpc AssetGet (AssetGetRequest) returns (AssetGetReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/user/asset/get",
 			body: "*",
 		};
 	};
@@ -61,4 +70,16 @@ message FigureEditRequest {
 }
 message FigureEditReply {
 
+}
+
+message AssetGetRequest {
+	int64 user_id = 1; // 用户 id
+	int32 appId = 2; // 渠道 id
+	int32 channelId = 3; // 渠道 id
+}
+message AssetGetReply {
+	int32 gold = 1; // 金币数量
+	int32 diamond = 2; // 钻石数量
+	int32 ticket = 3; // 唐卡数量
+	int32 card_counter = 4; // 记牌器数量
 }

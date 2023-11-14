@@ -21,4 +21,5 @@ enum ErrorReason {
   ASSET_TYPE_NOT_EXIST = 11 [(errors.code) = 410];
   ASSET_CREATE_CONFIRM = 12 [(errors.code) = 411];
   ASSET_NOT_ENOUGH = 13 [(errors.code) = 412];
+  ASSET_QUERY_FAILED =  14 [(errors.code) = 420];
 }

@@ -654,3 +654,217 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = FigureEditReplyValidationError{}
+
+// Validate checks the field values on AssetGetRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *AssetGetRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AssetGetRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// AssetGetRequestMultiError, or nil if none found.
+func (m *AssetGetRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AssetGetRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for UserId
+
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
+
+	if len(errors) > 0 {
+		return AssetGetRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// AssetGetRequestMultiError is an error wrapping multiple validation errors
+// returned by AssetGetRequest.ValidateAll() if the designated constraints
+// aren't met.
+type AssetGetRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AssetGetRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AssetGetRequestMultiError) AllErrors() []error { return m }
+
+// AssetGetRequestValidationError is the validation error returned by
+// AssetGetRequest.Validate if the designated constraints aren't met.
+type AssetGetRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AssetGetRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AssetGetRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AssetGetRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AssetGetRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AssetGetRequestValidationError) ErrorName() string { return "AssetGetRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AssetGetRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAssetGetRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AssetGetRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AssetGetRequestValidationError{}
+
+// Validate checks the field values on AssetGetReply with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *AssetGetReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AssetGetReply with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AssetGetReplyMultiError, or
+// nil if none found.
+func (m *AssetGetReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AssetGetReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Gold
+
+	// no validation rules for Diamond
+
+	// no validation rules for Ticket
+
+	// no validation rules for CardCounter
+
+	if len(errors) > 0 {
+		return AssetGetReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// AssetGetReplyMultiError is an error wrapping multiple validation errors
+// returned by AssetGetReply.ValidateAll() if the designated constraints
+// aren't met.
+type AssetGetReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AssetGetReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AssetGetReplyMultiError) AllErrors() []error { return m }
+
+// AssetGetReplyValidationError is the validation error returned by
+// AssetGetReply.Validate if the designated constraints aren't met.
+type AssetGetReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AssetGetReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AssetGetReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AssetGetReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AssetGetReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AssetGetReplyValidationError) ErrorName() string { return "AssetGetReplyValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AssetGetReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAssetGetReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AssetGetReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AssetGetReplyValidationError{}

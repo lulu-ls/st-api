@@ -14,6 +14,9 @@ service Asset {
 	rpc AssetCancel(AssetCancelRequest)returns(AssetCancelReply); // 取消申请
 	rpc AssetConfirm(AssetConfirmRequest)returns(AssetConfirmReply); // 申请确认
 	rpc AssetRevert(AssetRevertRequest)returns(AssetRevertReply); // 撤回申请
+
+	rpc AssetGet(AssetGetRequest)returns(AssetGetReply); // 获取资产数量
+	rpc AssetList(AssetListRequest)returns(AssetListReply); // 获取资产数量
 }
 
 enum AssetType {
@@ -76,4 +79,24 @@ message AssetItem {
 	int32 quantity = 2; // 数量
 	AssetType asset_type = 3; // 类型
 	string remark = 4; // 备注
+}
+
+message AssetGetRequest {
+	int64 user_id = 1; // 用户 id
+	int32 item_id = 2; // 道具 id
+}
+message AssetGetReply {
+	AssetGetItem info = 1; // 道具数量
+}
+message AssetGetItem {
+	int32 item_id = 1; // 道具 id
+	int32 total = 2; // 道具数量
+}
+
+message AssetListRequest {
+	int64 user_id = 1; // 用户 id
+	repeated int32 item_id = 2; // 道具 id
+}
+message AssetListReply {
+	repeated AssetGetItem list = 1; // 道具数量
 }

@@ -19,10 +19,13 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationUserAssetGet = "/api.user.v1.User/AssetGet"
 const OperationUserFigureEdit = "/api.user.v1.User/FigureEdit"
 const OperationUserRaceRecordList = "/api.user.v1.User/RaceRecordList"
 
 type UserHTTPServer interface {
+	// AssetGet 获取用户资产
+	AssetGet(context.Context, *AssetGetRequest) (*AssetGetReply, error)
 	// FigureEdit 修改形象
 	FigureEdit(context.Context, *FigureEditRequest) (*FigureEditReply, error)
 	// RaceRecordList 战绩
@@ -33,6 +36,7 @@ func RegisterUserHTTPServer(s *http.Server, srv UserHTTPServer) {
 	r := s.Route("/")
 	r.POST("/st-games/v1/user/race/record", _User_RaceRecordList0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/user/figure/edit", _User_FigureEdit0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/user/asset/get", _User_AssetGet0_HTTP_Handler(srv))
 }
 
 func _User_RaceRecordList0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
@@ -79,7 +83,30 @@ func _User_FigureEdit0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) e
 	}
 }
 
+func _User_AssetGet0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in AssetGetRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserAssetGet)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.AssetGet(ctx, req.(*AssetGetRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*AssetGetReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type UserHTTPClient interface {
+	AssetGet(ctx context.Context, req *AssetGetRequest, opts ...http.CallOption) (rsp *AssetGetReply, err error)
 	FigureEdit(ctx context.Context, req *FigureEditRequest, opts ...http.CallOption) (rsp *FigureEditReply, err error)
 	RaceRecordList(ctx context.Context, req *RaceRecordListRequest, opts ...http.CallOption) (rsp *RaceRecordListReply, err error)
 }
@@ -90,6 +117,19 @@ type UserHTTPClientImpl struct {
 
 func NewUserHTTPClient(client *http.Client) UserHTTPClient {
 	return &UserHTTPClientImpl{client}
+}
+
+func (c *UserHTTPClientImpl) AssetGet(ctx context.Context, in *AssetGetRequest, opts ...http.CallOption) (*AssetGetReply, error) {
+	var out AssetGetReply
+	pattern := "/st-games/v1/user/asset/get"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationUserAssetGet))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
 }
 
 func (c *UserHTTPClientImpl) FigureEdit(ctx context.Context, in *FigureEditRequest, opts ...http.CallOption) (*FigureEditReply, error) {

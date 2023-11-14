@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	User_RaceRecordList_FullMethodName = "/api.user.v1.User/RaceRecordList"
 	User_FigureEdit_FullMethodName     = "/api.user.v1.User/FigureEdit"
+	User_AssetGet_FullMethodName       = "/api.user.v1.User/AssetGet"
 )
 
 // UserClient is the client API for User service.
@@ -31,6 +32,8 @@ type UserClient interface {
 	RaceRecordList(ctx context.Context, in *RaceRecordListRequest, opts ...grpc.CallOption) (*RaceRecordListReply, error)
 	// 修改形象
 	FigureEdit(ctx context.Context, in *FigureEditRequest, opts ...grpc.CallOption) (*FigureEditReply, error)
+	// 获取用户资产
+	AssetGet(ctx context.Context, in *AssetGetRequest, opts ...grpc.CallOption) (*AssetGetReply, error)
 }
 
 type userClient struct {
@@ -59,6 +62,15 @@ func (c *userClient) FigureEdit(ctx context.Context, in *FigureEditRequest, opts
 	return out, nil
 }
 
+func (c *userClient) AssetGet(ctx context.Context, in *AssetGetRequest, opts ...grpc.CallOption) (*AssetGetReply, error) {
+	out := new(AssetGetReply)
+	err := c.cc.Invoke(ctx, User_AssetGet_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
@@ -67,6 +79,8 @@ type UserServer interface {
 	RaceRecordList(context.Context, *RaceRecordListRequest) (*RaceRecordListReply, error)
 	// 修改形象
 	FigureEdit(context.Context, *FigureEditRequest) (*FigureEditReply, error)
+	// 获取用户资产
+	AssetGet(context.Context, *AssetGetRequest) (*AssetGetReply, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -79,6 +93,9 @@ func (UnimplementedUserServer) RaceRecordList(context.Context, *RaceRecordListRe
 }
 func (UnimplementedUserServer) FigureEdit(context.Context, *FigureEditRequest) (*FigureEditReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FigureEdit not implemented")
+}
+func (UnimplementedUserServer) AssetGet(context.Context, *AssetGetRequest) (*AssetGetReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AssetGet not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -129,6 +146,24 @@ func _User_FigureEdit_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_AssetGet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AssetGetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).AssetGet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_AssetGet_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).AssetGet(ctx, req.(*AssetGetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -143,6 +178,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FigureEdit",
 			Handler:    _User_FigureEdit_Handler,
+		},
+		{
+			MethodName: "AssetGet",
+			Handler:    _User_AssetGet_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
