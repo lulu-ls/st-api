@@ -64,6 +64,7 @@ message ListItem {
 	string ware_external_url = 15; // 封面图
 	string information = 16; // 介绍
 	bool is_phone_bill = 17; // 是否是话费
+	int32 ware_type = 18; // 商品类型
 	//	int32 loot_pool_id = 8;
 }
 

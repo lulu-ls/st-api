@@ -360,6 +360,8 @@ func (m *ListItem) validate(all bool) error {
 
 	// no validation rules for IsPhoneBill
 
+	// no validation rules for WareType
+
 	if len(errors) > 0 {
 		return ListItemMultiError(errors)
 	}
