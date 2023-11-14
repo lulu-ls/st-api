@@ -436,22 +436,22 @@ var _ interface {
 	ErrorName() string
 } = RaceRecordListItemValidationError{}
 
-// Validate checks the field values on FigureEditRequest with the rules defined
+// Validate checks the field values on InfoEditRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.
-func (m *FigureEditRequest) Validate() error {
+func (m *InfoEditRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on FigureEditRequest with the rules
+// ValidateAll checks the field values on InfoEditRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// FigureEditRequestMultiError, or nil if none found.
-func (m *FigureEditRequest) ValidateAll() error {
+// InfoEditRequestMultiError, or nil if none found.
+func (m *InfoEditRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *FigureEditRequest) validate(all bool) error {
+func (m *InfoEditRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -464,31 +464,24 @@ func (m *FigureEditRequest) validate(all bool) error {
 
 	// no validation rules for ChannelId
 
-	if m.GetFigure() <= 0 {
-		err := FigureEditRequestValidationError{
-			field:  "Figure",
-			reason: "value must be greater than 0",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for Figure
+
+	// no validation rules for Gender
 
 	if len(errors) > 0 {
-		return FigureEditRequestMultiError(errors)
+		return InfoEditRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// FigureEditRequestMultiError is an error wrapping multiple validation errors
-// returned by FigureEditRequest.ValidateAll() if the designated constraints
+// InfoEditRequestMultiError is an error wrapping multiple validation errors
+// returned by InfoEditRequest.ValidateAll() if the designated constraints
 // aren't met.
-type FigureEditRequestMultiError []error
+type InfoEditRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m FigureEditRequestMultiError) Error() string {
+func (m InfoEditRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -497,11 +490,11 @@ func (m FigureEditRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m FigureEditRequestMultiError) AllErrors() []error { return m }
+func (m InfoEditRequestMultiError) AllErrors() []error { return m }
 
-// FigureEditRequestValidationError is the validation error returned by
-// FigureEditRequest.Validate if the designated constraints aren't met.
-type FigureEditRequestValidationError struct {
+// InfoEditRequestValidationError is the validation error returned by
+// InfoEditRequest.Validate if the designated constraints aren't met.
+type InfoEditRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -509,24 +502,22 @@ type FigureEditRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e FigureEditRequestValidationError) Field() string { return e.field }
+func (e InfoEditRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e FigureEditRequestValidationError) Reason() string { return e.reason }
+func (e InfoEditRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e FigureEditRequestValidationError) Cause() error { return e.cause }
+func (e InfoEditRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e FigureEditRequestValidationError) Key() bool { return e.key }
+func (e InfoEditRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e FigureEditRequestValidationError) ErrorName() string {
-	return "FigureEditRequestValidationError"
-}
+func (e InfoEditRequestValidationError) ErrorName() string { return "InfoEditRequestValidationError" }
 
 // Error satisfies the builtin error interface
-func (e FigureEditRequestValidationError) Error() string {
+func (e InfoEditRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -538,14 +529,14 @@ func (e FigureEditRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sFigureEditRequest.%s: %s%s",
+		"invalid %sInfoEditRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = FigureEditRequestValidationError{}
+var _ error = InfoEditRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -553,24 +544,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = FigureEditRequestValidationError{}
+} = InfoEditRequestValidationError{}
 
-// Validate checks the field values on FigureEditReply with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *FigureEditReply) Validate() error {
+// Validate checks the field values on InfoEditReply with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *InfoEditReply) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on FigureEditReply with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// FigureEditReplyMultiError, or nil if none found.
-func (m *FigureEditReply) ValidateAll() error {
+// ValidateAll checks the field values on InfoEditReply with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in InfoEditReplyMultiError, or
+// nil if none found.
+func (m *InfoEditReply) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *FigureEditReply) validate(all bool) error {
+func (m *InfoEditReply) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -578,19 +569,19 @@ func (m *FigureEditReply) validate(all bool) error {
 	var errors []error
 
 	if len(errors) > 0 {
-		return FigureEditReplyMultiError(errors)
+		return InfoEditReplyMultiError(errors)
 	}
 
 	return nil
 }
 
-// FigureEditReplyMultiError is an error wrapping multiple validation errors
-// returned by FigureEditReply.ValidateAll() if the designated constraints
+// InfoEditReplyMultiError is an error wrapping multiple validation errors
+// returned by InfoEditReply.ValidateAll() if the designated constraints
 // aren't met.
-type FigureEditReplyMultiError []error
+type InfoEditReplyMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m FigureEditReplyMultiError) Error() string {
+func (m InfoEditReplyMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -599,11 +590,11 @@ func (m FigureEditReplyMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m FigureEditReplyMultiError) AllErrors() []error { return m }
+func (m InfoEditReplyMultiError) AllErrors() []error { return m }
 
-// FigureEditReplyValidationError is the validation error returned by
-// FigureEditReply.Validate if the designated constraints aren't met.
-type FigureEditReplyValidationError struct {
+// InfoEditReplyValidationError is the validation error returned by
+// InfoEditReply.Validate if the designated constraints aren't met.
+type InfoEditReplyValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -611,22 +602,22 @@ type FigureEditReplyValidationError struct {
 }
 
 // Field function returns field value.
-func (e FigureEditReplyValidationError) Field() string { return e.field }
+func (e InfoEditReplyValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e FigureEditReplyValidationError) Reason() string { return e.reason }
+func (e InfoEditReplyValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e FigureEditReplyValidationError) Cause() error { return e.cause }
+func (e InfoEditReplyValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e FigureEditReplyValidationError) Key() bool { return e.key }
+func (e InfoEditReplyValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e FigureEditReplyValidationError) ErrorName() string { return "FigureEditReplyValidationError" }
+func (e InfoEditReplyValidationError) ErrorName() string { return "InfoEditReplyValidationError" }
 
 // Error satisfies the builtin error interface
-func (e FigureEditReplyValidationError) Error() string {
+func (e InfoEditReplyValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -638,14 +629,14 @@ func (e FigureEditReplyValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sFigureEditReply.%s: %s%s",
+		"invalid %sInfoEditReply.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = FigureEditReplyValidationError{}
+var _ error = InfoEditReplyValidationError{}
 
 var _ interface {
 	Field() string
@@ -653,7 +644,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = FigureEditReplyValidationError{}
+} = InfoEditReplyValidationError{}
 
 // Validate checks the field values on AssetGetRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the

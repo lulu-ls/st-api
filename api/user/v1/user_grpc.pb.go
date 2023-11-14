@@ -20,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	User_RaceRecordList_FullMethodName = "/api.user.v1.User/RaceRecordList"
-	User_FigureEdit_FullMethodName     = "/api.user.v1.User/FigureEdit"
+	User_InfoEdit_FullMethodName       = "/api.user.v1.User/InfoEdit"
 	User_AssetGet_FullMethodName       = "/api.user.v1.User/AssetGet"
 )
 
@@ -31,7 +31,7 @@ type UserClient interface {
 	// 战绩
 	RaceRecordList(ctx context.Context, in *RaceRecordListRequest, opts ...grpc.CallOption) (*RaceRecordListReply, error)
 	// 修改形象
-	FigureEdit(ctx context.Context, in *FigureEditRequest, opts ...grpc.CallOption) (*FigureEditReply, error)
+	InfoEdit(ctx context.Context, in *InfoEditRequest, opts ...grpc.CallOption) (*InfoEditReply, error)
 	// 获取用户资产
 	AssetGet(ctx context.Context, in *AssetGetRequest, opts ...grpc.CallOption) (*AssetGetReply, error)
 }
@@ -53,9 +53,9 @@ func (c *userClient) RaceRecordList(ctx context.Context, in *RaceRecordListReque
 	return out, nil
 }
 
-func (c *userClient) FigureEdit(ctx context.Context, in *FigureEditRequest, opts ...grpc.CallOption) (*FigureEditReply, error) {
-	out := new(FigureEditReply)
-	err := c.cc.Invoke(ctx, User_FigureEdit_FullMethodName, in, out, opts...)
+func (c *userClient) InfoEdit(ctx context.Context, in *InfoEditRequest, opts ...grpc.CallOption) (*InfoEditReply, error) {
+	out := new(InfoEditReply)
+	err := c.cc.Invoke(ctx, User_InfoEdit_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +78,7 @@ type UserServer interface {
 	// 战绩
 	RaceRecordList(context.Context, *RaceRecordListRequest) (*RaceRecordListReply, error)
 	// 修改形象
-	FigureEdit(context.Context, *FigureEditRequest) (*FigureEditReply, error)
+	InfoEdit(context.Context, *InfoEditRequest) (*InfoEditReply, error)
 	// 获取用户资产
 	AssetGet(context.Context, *AssetGetRequest) (*AssetGetReply, error)
 	mustEmbedUnimplementedUserServer()
@@ -91,8 +91,8 @@ type UnimplementedUserServer struct {
 func (UnimplementedUserServer) RaceRecordList(context.Context, *RaceRecordListRequest) (*RaceRecordListReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RaceRecordList not implemented")
 }
-func (UnimplementedUserServer) FigureEdit(context.Context, *FigureEditRequest) (*FigureEditReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FigureEdit not implemented")
+func (UnimplementedUserServer) InfoEdit(context.Context, *InfoEditRequest) (*InfoEditReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InfoEdit not implemented")
 }
 func (UnimplementedUserServer) AssetGet(context.Context, *AssetGetRequest) (*AssetGetReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AssetGet not implemented")
@@ -128,20 +128,20 @@ func _User_RaceRecordList_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _User_FigureEdit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FigureEditRequest)
+func _User_InfoEdit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InfoEditRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServer).FigureEdit(ctx, in)
+		return srv.(UserServer).InfoEdit(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: User_FigureEdit_FullMethodName,
+		FullMethod: User_InfoEdit_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).FigureEdit(ctx, req.(*FigureEditRequest))
+		return srv.(UserServer).InfoEdit(ctx, req.(*InfoEditRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -176,8 +176,8 @@ var User_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _User_RaceRecordList_Handler,
 		},
 		{
-			MethodName: "FigureEdit",
-			Handler:    _User_FigureEdit_Handler,
+			MethodName: "InfoEdit",
+			Handler:    _User_InfoEdit_Handler,
 		},
 		{
 			MethodName: "AssetGet",

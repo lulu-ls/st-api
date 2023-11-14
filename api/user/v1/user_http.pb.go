@@ -20,14 +20,14 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationUserAssetGet = "/api.user.v1.User/AssetGet"
-const OperationUserFigureEdit = "/api.user.v1.User/FigureEdit"
+const OperationUserInfoEdit = "/api.user.v1.User/InfoEdit"
 const OperationUserRaceRecordList = "/api.user.v1.User/RaceRecordList"
 
 type UserHTTPServer interface {
 	// AssetGet 获取用户资产
 	AssetGet(context.Context, *AssetGetRequest) (*AssetGetReply, error)
-	// FigureEdit 修改形象
-	FigureEdit(context.Context, *FigureEditRequest) (*FigureEditReply, error)
+	// InfoEdit 修改形象
+	InfoEdit(context.Context, *InfoEditRequest) (*InfoEditReply, error)
 	// RaceRecordList 战绩
 	RaceRecordList(context.Context, *RaceRecordListRequest) (*RaceRecordListReply, error)
 }
@@ -35,7 +35,7 @@ type UserHTTPServer interface {
 func RegisterUserHTTPServer(s *http.Server, srv UserHTTPServer) {
 	r := s.Route("/")
 	r.POST("/st-games/v1/user/race/record", _User_RaceRecordList0_HTTP_Handler(srv))
-	r.POST("/st-games/v1/user/figure/edit", _User_FigureEdit0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/user/info/edit", _User_InfoEdit0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/user/asset/get", _User_AssetGet0_HTTP_Handler(srv))
 }
 
@@ -61,24 +61,24 @@ func _User_RaceRecordList0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Contex
 	}
 }
 
-func _User_FigureEdit0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
+func _User_InfoEdit0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in FigureEditRequest
+		var in InfoEditRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationUserFigureEdit)
+		http.SetOperation(ctx, OperationUserInfoEdit)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.FigureEdit(ctx, req.(*FigureEditRequest))
+			return srv.InfoEdit(ctx, req.(*InfoEditRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*FigureEditReply)
+		reply := out.(*InfoEditReply)
 		return ctx.Result(200, reply)
 	}
 }
@@ -107,7 +107,7 @@ func _User_AssetGet0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) err
 
 type UserHTTPClient interface {
 	AssetGet(ctx context.Context, req *AssetGetRequest, opts ...http.CallOption) (rsp *AssetGetReply, err error)
-	FigureEdit(ctx context.Context, req *FigureEditRequest, opts ...http.CallOption) (rsp *FigureEditReply, err error)
+	InfoEdit(ctx context.Context, req *InfoEditRequest, opts ...http.CallOption) (rsp *InfoEditReply, err error)
 	RaceRecordList(ctx context.Context, req *RaceRecordListRequest, opts ...http.CallOption) (rsp *RaceRecordListReply, err error)
 }
 
@@ -132,11 +132,11 @@ func (c *UserHTTPClientImpl) AssetGet(ctx context.Context, in *AssetGetRequest, 
 	return &out, err
 }
 
-func (c *UserHTTPClientImpl) FigureEdit(ctx context.Context, in *FigureEditRequest, opts ...http.CallOption) (*FigureEditReply, error) {
-	var out FigureEditReply
-	pattern := "/st-games/v1/user/figure/edit"
+func (c *UserHTTPClientImpl) InfoEdit(ctx context.Context, in *InfoEditRequest, opts ...http.CallOption) (*InfoEditReply, error) {
+	var out InfoEditReply
+	pattern := "/st-games/v1/user/info/edit"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationUserFigureEdit))
+	opts = append(opts, http.Operation(OperationUserInfoEdit))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

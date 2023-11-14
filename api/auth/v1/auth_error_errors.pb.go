@@ -55,12 +55,12 @@ func IsSessionKeyInvalid(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrorReason_SESSION_KEY_INVALID.String() && e.Code == 401
+	return e.Reason == ErrorReason_SESSION_KEY_INVALID.String() && e.Code == 499
 }
 
 // session key 过期
 func ErrorSessionKeyInvalid(format string, args ...interface{}) *errors.Error {
-	return errors.New(401, ErrorReason_SESSION_KEY_INVALID.String(), fmt.Sprintf(format, args...))
+	return errors.New(499, ErrorReason_SESSION_KEY_INVALID.String(), fmt.Sprintf(format, args...))
 }
 
 func IsAuthChannelAppidIsRequired(err error) bool {

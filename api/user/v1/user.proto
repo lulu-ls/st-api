@@ -20,9 +20,9 @@ service User {
 	};
 
 	// 修改形象
-	rpc FigureEdit (FigureEditRequest) returns (FigureEditReply) {
+	rpc InfoEdit (InfoEditRequest) returns (InfoEditReply) {
 		option (google.api.http) = {
-			post: "/st-games/v1/user/figure/edit",
+			post: "/st-games/v1/user/info/edit",
 			body: "*",
 		};
 	};
@@ -62,13 +62,14 @@ message RaceRecordListItem {
 	int64 leave_time = 13; // 离开时间
 }
 
-message FigureEditRequest {
+message InfoEditRequest {
 	int64 user_id = 1; // 用户 id
 	int32 appId = 2; // 渠道 id
 	int32 channelId = 3; // 渠道 id
-	int32 figure = 4 [(validate.rules).int32 = {gt: 0}]; // 形象
+	int32 figure = 4; // 形象  [(validate.rules).int32 = {gt: 0}]
+	int32 gender = 5; // 性别 0 未知 1 男 2 女
 }
-message FigureEditReply {
+message InfoEditReply {
 
 }
 
