@@ -9,9 +9,9 @@ option java_multiple_files = true;
 option java_package = "api.wx.v1";
 
 service Deal {
-	rpc MiniPay (MiniPayRequest) returns (order.v1.CreateOrderReply); // 小程序创建订单接口
-	rpc JSPay (JSPayRequest) returns (order.v1.CreateOrderReply); // web创建订单接口
-	rpc VirtualPay (VirtualPayRequest) returns (order.v1.CreateOrderReply); // 虚拟支付
+	rpc MiniPay (MiniPayRequest) returns (order.v1.ConfirmPayReply); // 小程序创建订单接口
+	rpc JSPay (JSPayRequest) returns (order.v1.ConfirmPayReply); // web创建订单接口
+	rpc VirtualPay (VirtualPayRequest) returns (order.v1.ConfirmPayReply); // 虚拟支付
 
 }
 
@@ -46,7 +46,8 @@ message JSPayReply {
 }
 
 message VirtualPayRequest {
-	int64 order_id = 2; // 商户系统内部的订单号，32个字符内、可包含字母，其他说明见商户订单号
+	int64 order_id = 1; // 商户系统内部的订单号，32个字符内、可包含字母，其他说明见商户订单号
+	string out_order_id = 2; // 第三方订单号
 }
 message VirtualPayReply {
 	VirtualPayStatus is_payed = 1; // 是否支付成功, 0 否 1是

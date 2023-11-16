@@ -10,7 +10,7 @@ option java_package = "api.order.v1";
 
 service Order {
 	rpc CreateOrder (CreateOrderRequest) returns (CreateOrderReply); // 创建订单
-	rpc RetryPay (RetryPayRequest) returns (CreateOrderReply); //
+	rpc ConfirmPay (ConfirmPayRequest) returns (ConfirmPayReply); // 确认订单支付
 	rpc PayResult (PayResultRequest) returns (PayResultReply); // 返回订单状态
 	rpc GetOrder (GetOrderRequest) returns (GetOrderReply); // 获取订单信息
 	rpc ListOrder (ListOrderRequest) returns (ListOrderReply); // 获取订单列表
@@ -44,12 +44,13 @@ message CreateOrderRequest {
 	string description = 7; // 描述
 //	repeated CreateOrderWareItem order_ware_item = 8;
 	OrderType order_type = 9;
+	string out_order_id = 10; // 第三方订单号
 }
 message CreateOrderReply {
-//	int64 order_id = 1; // 订单 id
-	string res_info = 2; // 返回信息 json 字符串，根据业务自己解析
+	int64 order_id = 1; // 订单 id
+//	string res_info = 2; // 返回信息 json 字符串，根据业务自己解析
 //	OrderStatus order_status = 3; // 处理状态
-	PayResultRequest pay_info = 4; // 支付状态
+//	PayResultRequest pay_info = 4; // 支付状态
 }
 message CreateOrderWareItem {
 	 int32 ware_id = 1; // 商品 id
@@ -104,9 +105,10 @@ message RefundReply {
 
 }
 
-message RetryPayRequest {
+message ConfirmPayRequest {
 	int64 order_id = 1; // 订单号
 }
-message RetryPayReply {
-
+message ConfirmPayReply {
+	string res_info = 2; // 返回信息 json 字符串，根据业务自己解析
+	PayResultRequest pay_info = 4; // 支付状态
 }

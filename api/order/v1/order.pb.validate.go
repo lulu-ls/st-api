@@ -107,6 +107,8 @@ func (m *CreateOrderRequest) validate(all bool) error {
 
 	// no validation rules for OrderType
 
+	// no validation rules for OutOrderId
+
 	if len(errors) > 0 {
 		return CreateOrderRequestMultiError(errors)
 	}
@@ -209,36 +211,7 @@ func (m *CreateOrderReply) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for ResInfo
-
-	if all {
-		switch v := interface{}(m.GetPayInfo()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, CreateOrderReplyValidationError{
-					field:  "PayInfo",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, CreateOrderReplyValidationError{
-					field:  "PayInfo",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetPayInfo()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return CreateOrderReplyValidationError{
-				field:  "PayInfo",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for OrderId
 
 	if len(errors) > 0 {
 		return CreateOrderReplyMultiError(errors)
@@ -1281,22 +1254,22 @@ var _ interface {
 	ErrorName() string
 } = RefundReplyValidationError{}
 
-// Validate checks the field values on RetryPayRequest with the rules defined
+// Validate checks the field values on ConfirmPayRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.
-func (m *RetryPayRequest) Validate() error {
+func (m *ConfirmPayRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on RetryPayRequest with the rules
+// ValidateAll checks the field values on ConfirmPayRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// RetryPayRequestMultiError, or nil if none found.
-func (m *RetryPayRequest) ValidateAll() error {
+// ConfirmPayRequestMultiError, or nil if none found.
+func (m *ConfirmPayRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *RetryPayRequest) validate(all bool) error {
+func (m *ConfirmPayRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1306,19 +1279,19 @@ func (m *RetryPayRequest) validate(all bool) error {
 	// no validation rules for OrderId
 
 	if len(errors) > 0 {
-		return RetryPayRequestMultiError(errors)
+		return ConfirmPayRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// RetryPayRequestMultiError is an error wrapping multiple validation errors
-// returned by RetryPayRequest.ValidateAll() if the designated constraints
+// ConfirmPayRequestMultiError is an error wrapping multiple validation errors
+// returned by ConfirmPayRequest.ValidateAll() if the designated constraints
 // aren't met.
-type RetryPayRequestMultiError []error
+type ConfirmPayRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m RetryPayRequestMultiError) Error() string {
+func (m ConfirmPayRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1327,11 +1300,11 @@ func (m RetryPayRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m RetryPayRequestMultiError) AllErrors() []error { return m }
+func (m ConfirmPayRequestMultiError) AllErrors() []error { return m }
 
-// RetryPayRequestValidationError is the validation error returned by
-// RetryPayRequest.Validate if the designated constraints aren't met.
-type RetryPayRequestValidationError struct {
+// ConfirmPayRequestValidationError is the validation error returned by
+// ConfirmPayRequest.Validate if the designated constraints aren't met.
+type ConfirmPayRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1339,22 +1312,24 @@ type RetryPayRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e RetryPayRequestValidationError) Field() string { return e.field }
+func (e ConfirmPayRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e RetryPayRequestValidationError) Reason() string { return e.reason }
+func (e ConfirmPayRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e RetryPayRequestValidationError) Cause() error { return e.cause }
+func (e ConfirmPayRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e RetryPayRequestValidationError) Key() bool { return e.key }
+func (e ConfirmPayRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e RetryPayRequestValidationError) ErrorName() string { return "RetryPayRequestValidationError" }
+func (e ConfirmPayRequestValidationError) ErrorName() string {
+	return "ConfirmPayRequestValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e RetryPayRequestValidationError) Error() string {
+func (e ConfirmPayRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1366,14 +1341,14 @@ func (e RetryPayRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sRetryPayRequest.%s: %s%s",
+		"invalid %sConfirmPayRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = RetryPayRequestValidationError{}
+var _ error = ConfirmPayRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -1381,44 +1356,75 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = RetryPayRequestValidationError{}
+} = ConfirmPayRequestValidationError{}
 
-// Validate checks the field values on RetryPayReply with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *RetryPayReply) Validate() error {
+// Validate checks the field values on ConfirmPayReply with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *ConfirmPayReply) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on RetryPayReply with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in RetryPayReplyMultiError, or
-// nil if none found.
-func (m *RetryPayReply) ValidateAll() error {
+// ValidateAll checks the field values on ConfirmPayReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ConfirmPayReplyMultiError, or nil if none found.
+func (m *ConfirmPayReply) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *RetryPayReply) validate(all bool) error {
+func (m *ConfirmPayReply) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
+	// no validation rules for ResInfo
+
+	if all {
+		switch v := interface{}(m.GetPayInfo()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ConfirmPayReplyValidationError{
+					field:  "PayInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ConfirmPayReplyValidationError{
+					field:  "PayInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPayInfo()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ConfirmPayReplyValidationError{
+				field:  "PayInfo",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
-		return RetryPayReplyMultiError(errors)
+		return ConfirmPayReplyMultiError(errors)
 	}
 
 	return nil
 }
 
-// RetryPayReplyMultiError is an error wrapping multiple validation errors
-// returned by RetryPayReply.ValidateAll() if the designated constraints
+// ConfirmPayReplyMultiError is an error wrapping multiple validation errors
+// returned by ConfirmPayReply.ValidateAll() if the designated constraints
 // aren't met.
-type RetryPayReplyMultiError []error
+type ConfirmPayReplyMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m RetryPayReplyMultiError) Error() string {
+func (m ConfirmPayReplyMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1427,11 +1433,11 @@ func (m RetryPayReplyMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m RetryPayReplyMultiError) AllErrors() []error { return m }
+func (m ConfirmPayReplyMultiError) AllErrors() []error { return m }
 
-// RetryPayReplyValidationError is the validation error returned by
-// RetryPayReply.Validate if the designated constraints aren't met.
-type RetryPayReplyValidationError struct {
+// ConfirmPayReplyValidationError is the validation error returned by
+// ConfirmPayReply.Validate if the designated constraints aren't met.
+type ConfirmPayReplyValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1439,22 +1445,22 @@ type RetryPayReplyValidationError struct {
 }
 
 // Field function returns field value.
-func (e RetryPayReplyValidationError) Field() string { return e.field }
+func (e ConfirmPayReplyValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e RetryPayReplyValidationError) Reason() string { return e.reason }
+func (e ConfirmPayReplyValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e RetryPayReplyValidationError) Cause() error { return e.cause }
+func (e ConfirmPayReplyValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e RetryPayReplyValidationError) Key() bool { return e.key }
+func (e ConfirmPayReplyValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e RetryPayReplyValidationError) ErrorName() string { return "RetryPayReplyValidationError" }
+func (e ConfirmPayReplyValidationError) ErrorName() string { return "ConfirmPayReplyValidationError" }
 
 // Error satisfies the builtin error interface
-func (e RetryPayReplyValidationError) Error() string {
+func (e ConfirmPayReplyValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1466,14 +1472,14 @@ func (e RetryPayReplyValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sRetryPayReply.%s: %s%s",
+		"invalid %sConfirmPayReply.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = RetryPayReplyValidationError{}
+var _ error = ConfirmPayReplyValidationError{}
 
 var _ interface {
 	Field() string
@@ -1481,4 +1487,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = RetryPayReplyValidationError{}
+} = ConfirmPayReplyValidationError{}
