@@ -41,6 +41,22 @@ service Game {
 			body: "*",
 		};
 	};
+
+	// 获取提示
+	rpc GetGameNotify (GetGameNotifyRequest) returns (GetGameNotifyReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/game/notify/get",
+			body: "*",
+		};
+	};
+
+	// 阅读提示
+	rpc ReadGameNotify (ReadGameNotifyRequest) returns (ReadGameNotifyReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/game/notify/read",
+			body: "*",
+		};
+	};
 }
 
 // 公告类别
@@ -65,7 +81,7 @@ enum RefreshCycle {
 	month = 3;
 }
 
-//游戏类型
+// 游戏类型
 enum GameType {
 	GameTypeUnspecified = 0;
 	GameTypeDigHole = 1; //挖坑
@@ -73,12 +89,18 @@ enum GameType {
 	GameTypeMahjong = 3; //麻将
 }
 
-//游戏类别
+// 游戏类别
 enum GameCategory {
 	GameCategoryUnspecified = 0;
 	GameCategoryGold = 1; //金币场（自由场）
 	GameCategoryCompetition = 2; //竞技场
 	GameCategoryPrivate = 3; //好友房
+}
+
+// 游戏通知
+enum GameNotifyType {
+	_2 = 0;
+	RegisterAward = 1; // 注册奖励
 }
 
 message AnnouncementListRequest {
@@ -146,3 +168,22 @@ message GameInfoReply{
 	string table_id = 5; // 桌号
 }
 
+message GetGameNotifyRequest {
+	int32 app_id = 2; // app id
+	int32 channel_id = 3; // channel id
+	int64 user_id = 4; // 用户 id
+	GameNotifyType notify_type = 5; // 通知类型
+}
+message GetGameNotifyReply {
+	bool is_show = 1; // 是否展示
+}
+
+message ReadGameNotifyRequest {
+	int32 app_id = 2; // app id
+	int32 channel_id = 3; // channel id
+	int64 user_id = 4; // 用户 id
+	GameNotifyType notify_type = 5; // 通知类型
+}
+message ReadGameNotifyReply {
+
+}

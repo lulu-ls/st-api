@@ -23,4 +23,5 @@ enum ErrorReason {
   AUTH_CHANNEL_APPID_IS_REQUIRED = 10 [(errors.code) = 400];
 
   LOGIN_CODE_IS_INVALID = 11 [(errors.code) = 400];
+  LOGIN_USER_NO_NOT_ENOUGH = 12 [(errors.code) = 402];
 }

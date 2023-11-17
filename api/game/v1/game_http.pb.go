@@ -21,6 +21,8 @@ const _ = http.SupportPackageIsVersion1
 
 const OperationGameAnnouncementList = "/api.game.v1.Game/AnnouncementList"
 const OperationGameGameInfo = "/api.game.v1.Game/GameInfo"
+const OperationGameGetGameNotify = "/api.game.v1.Game/GetGameNotify"
+const OperationGameReadGameNotify = "/api.game.v1.Game/ReadGameNotify"
 const OperationGameTaskList = "/api.game.v1.Game/TaskList"
 const OperationGameTaskReward = "/api.game.v1.Game/TaskReward"
 
@@ -29,6 +31,10 @@ type GameHTTPServer interface {
 	AnnouncementList(context.Context, *AnnouncementListRequest) (*AnnouncementListReply, error)
 	// GameInfo 获取房间信息
 	GameInfo(context.Context, *GameInfoRequest) (*GameInfoReply, error)
+	// GetGameNotify 获取提示
+	GetGameNotify(context.Context, *GetGameNotifyRequest) (*GetGameNotifyReply, error)
+	// ReadGameNotify 阅读提示
+	ReadGameNotify(context.Context, *ReadGameNotifyRequest) (*ReadGameNotifyReply, error)
 	// TaskList 任务列表
 	TaskList(context.Context, *TaskListRequest) (*TaskListReply, error)
 	// TaskReward 兑换任务奖励
@@ -41,6 +47,8 @@ func RegisterGameHTTPServer(s *http.Server, srv GameHTTPServer) {
 	r.POST("/st-games/v1/game/task/list", _Game_TaskList0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/task/reward", _Game_TaskReward0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/info", _Game_GameInfo0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/game/notify/get", _Game_GetGameNotify0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/game/notify/read", _Game_ReadGameNotify0_HTTP_Handler(srv))
 }
 
 func _Game_AnnouncementList0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) error {
@@ -131,9 +139,55 @@ func _Game_GameInfo0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) err
 	}
 }
 
+func _Game_GetGameNotify0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetGameNotifyRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationGameGetGameNotify)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetGameNotify(ctx, req.(*GetGameNotifyRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetGameNotifyReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Game_ReadGameNotify0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ReadGameNotifyRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationGameReadGameNotify)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ReadGameNotify(ctx, req.(*ReadGameNotifyRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ReadGameNotifyReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type GameHTTPClient interface {
 	AnnouncementList(ctx context.Context, req *AnnouncementListRequest, opts ...http.CallOption) (rsp *AnnouncementListReply, err error)
 	GameInfo(ctx context.Context, req *GameInfoRequest, opts ...http.CallOption) (rsp *GameInfoReply, err error)
+	GetGameNotify(ctx context.Context, req *GetGameNotifyRequest, opts ...http.CallOption) (rsp *GetGameNotifyReply, err error)
+	ReadGameNotify(ctx context.Context, req *ReadGameNotifyRequest, opts ...http.CallOption) (rsp *ReadGameNotifyReply, err error)
 	TaskList(ctx context.Context, req *TaskListRequest, opts ...http.CallOption) (rsp *TaskListReply, err error)
 	TaskReward(ctx context.Context, req *TaskRewardRequest, opts ...http.CallOption) (rsp *TaskRewardReply, err error)
 }
@@ -164,6 +218,32 @@ func (c *GameHTTPClientImpl) GameInfo(ctx context.Context, in *GameInfoRequest, 
 	pattern := "/st-games/v1/game/info"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationGameGameInfo))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *GameHTTPClientImpl) GetGameNotify(ctx context.Context, in *GetGameNotifyRequest, opts ...http.CallOption) (*GetGameNotifyReply, error) {
+	var out GetGameNotifyReply
+	pattern := "/st-games/v1/game/notify/get"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationGameGetGameNotify))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *GameHTTPClientImpl) ReadGameNotify(ctx context.Context, in *ReadGameNotifyRequest, opts ...http.CallOption) (*ReadGameNotifyReply, error) {
+	var out ReadGameNotifyReply
+	pattern := "/st-games/v1/game/notify/read"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationGameReadGameNotify))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

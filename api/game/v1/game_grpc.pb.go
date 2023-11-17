@@ -23,6 +23,8 @@ const (
 	Game_TaskList_FullMethodName         = "/api.game.v1.Game/TaskList"
 	Game_TaskReward_FullMethodName       = "/api.game.v1.Game/TaskReward"
 	Game_GameInfo_FullMethodName         = "/api.game.v1.Game/GameInfo"
+	Game_GetGameNotify_FullMethodName    = "/api.game.v1.Game/GetGameNotify"
+	Game_ReadGameNotify_FullMethodName   = "/api.game.v1.Game/ReadGameNotify"
 )
 
 // GameClient is the client API for Game service.
@@ -37,6 +39,10 @@ type GameClient interface {
 	TaskReward(ctx context.Context, in *TaskRewardRequest, opts ...grpc.CallOption) (*TaskRewardReply, error)
 	// 获取房间信息
 	GameInfo(ctx context.Context, in *GameInfoRequest, opts ...grpc.CallOption) (*GameInfoReply, error)
+	// 获取提示
+	GetGameNotify(ctx context.Context, in *GetGameNotifyRequest, opts ...grpc.CallOption) (*GetGameNotifyReply, error)
+	// 阅读提示
+	ReadGameNotify(ctx context.Context, in *ReadGameNotifyRequest, opts ...grpc.CallOption) (*ReadGameNotifyReply, error)
 }
 
 type gameClient struct {
@@ -83,6 +89,24 @@ func (c *gameClient) GameInfo(ctx context.Context, in *GameInfoRequest, opts ...
 	return out, nil
 }
 
+func (c *gameClient) GetGameNotify(ctx context.Context, in *GetGameNotifyRequest, opts ...grpc.CallOption) (*GetGameNotifyReply, error) {
+	out := new(GetGameNotifyReply)
+	err := c.cc.Invoke(ctx, Game_GetGameNotify_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gameClient) ReadGameNotify(ctx context.Context, in *ReadGameNotifyRequest, opts ...grpc.CallOption) (*ReadGameNotifyReply, error) {
+	out := new(ReadGameNotifyReply)
+	err := c.cc.Invoke(ctx, Game_ReadGameNotify_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GameServer is the server API for Game service.
 // All implementations must embed UnimplementedGameServer
 // for forward compatibility
@@ -95,6 +119,10 @@ type GameServer interface {
 	TaskReward(context.Context, *TaskRewardRequest) (*TaskRewardReply, error)
 	// 获取房间信息
 	GameInfo(context.Context, *GameInfoRequest) (*GameInfoReply, error)
+	// 获取提示
+	GetGameNotify(context.Context, *GetGameNotifyRequest) (*GetGameNotifyReply, error)
+	// 阅读提示
+	ReadGameNotify(context.Context, *ReadGameNotifyRequest) (*ReadGameNotifyReply, error)
 	mustEmbedUnimplementedGameServer()
 }
 
@@ -113,6 +141,12 @@ func (UnimplementedGameServer) TaskReward(context.Context, *TaskRewardRequest) (
 }
 func (UnimplementedGameServer) GameInfo(context.Context, *GameInfoRequest) (*GameInfoReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GameInfo not implemented")
+}
+func (UnimplementedGameServer) GetGameNotify(context.Context, *GetGameNotifyRequest) (*GetGameNotifyReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGameNotify not implemented")
+}
+func (UnimplementedGameServer) ReadGameNotify(context.Context, *ReadGameNotifyRequest) (*ReadGameNotifyReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadGameNotify not implemented")
 }
 func (UnimplementedGameServer) mustEmbedUnimplementedGameServer() {}
 
@@ -199,6 +233,42 @@ func _Game_GameInfo_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Game_GetGameNotify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGameNotifyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameServer).GetGameNotify(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Game_GetGameNotify_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameServer).GetGameNotify(ctx, req.(*GetGameNotifyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Game_ReadGameNotify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadGameNotifyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameServer).ReadGameNotify(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Game_ReadGameNotify_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameServer).ReadGameNotify(ctx, req.(*ReadGameNotifyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Game_ServiceDesc is the grpc.ServiceDesc for Game service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -221,6 +291,14 @@ var Game_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GameInfo",
 			Handler:    _Game_GameInfo_Handler,
+		},
+		{
+			MethodName: "GetGameNotify",
+			Handler:    _Game_GetGameNotify_Handler,
+		},
+		{
+			MethodName: "ReadGameNotify",
+			Handler:    _Game_ReadGameNotify_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

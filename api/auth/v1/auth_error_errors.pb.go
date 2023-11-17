@@ -86,3 +86,15 @@ func IsLoginCodeIsInvalid(err error) bool {
 func ErrorLoginCodeIsInvalid(format string, args ...interface{}) *errors.Error {
 	return errors.New(400, ErrorReason_LOGIN_CODE_IS_INVALID.String(), fmt.Sprintf(format, args...))
 }
+
+func IsLoginUserNoNotEnough(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_LOGIN_USER_NO_NOT_ENOUGH.String() && e.Code == 402
+}
+
+func ErrorLoginUserNoNotEnough(format string, args ...interface{}) *errors.Error {
+	return errors.New(402, ErrorReason_LOGIN_USER_NO_NOT_ENOUGH.String(), fmt.Sprintf(format, args...))
+}
