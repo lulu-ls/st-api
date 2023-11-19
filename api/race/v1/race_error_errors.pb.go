@@ -73,6 +73,7 @@ func ErrorRaceSignupTimeLimit(format string, args ...interface{}) *errors.Error 
 	return errors.New(410, ErrorReason_RACE_SIGNUP_TIME_LIMIT.String(), fmt.Sprintf(format, args...))
 }
 
+// 比赛已开始
 func IsRaceIsStart(err error) bool {
 	if err == nil {
 		return false
@@ -81,6 +82,7 @@ func IsRaceIsStart(err error) bool {
 	return e.Reason == ErrorReason_RACE_IS_START.String() && e.Code == 412
 }
 
+// 比赛已开始
 func ErrorRaceIsStart(format string, args ...interface{}) *errors.Error {
 	return errors.New(412, ErrorReason_RACE_IS_START.String(), fmt.Sprintf(format, args...))
 }
@@ -109,4 +111,18 @@ func IsRaceSignupCancel(err error) bool {
 // 已经取消报名
 func ErrorRaceSignupCancel(format string, args ...interface{}) *errors.Error {
 	return errors.New(414, ErrorReason_RACE_SIGNUP_CANCEL.String(), fmt.Sprintf(format, args...))
+}
+
+// 已在比赛中
+func IsRaceIsInGame(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_RACE_IS_IN_GAME.String() && e.Code == 498
+}
+
+// 已在比赛中
+func ErrorRaceIsInGame(format string, args ...interface{}) *errors.Error {
+	return errors.New(498, ErrorReason_RACE_IS_IN_GAME.String(), fmt.Sprintf(format, args...))
 }
