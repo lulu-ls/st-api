@@ -2344,6 +2344,8 @@ func (m *RaceSignupCancelReply) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for GameConfigId
+
 	if len(errors) > 0 {
 		return RaceSignupCancelReplyMultiError(errors)
 	}
@@ -2423,3 +2425,212 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = RaceSignupCancelReplyValidationError{}
+
+// Validate checks the field values on PodiumRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *PodiumRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on PodiumRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in PodiumRequestMultiError, or
+// nil if none found.
+func (m *PodiumRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *PodiumRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for GameConfigId
+
+	if len(errors) > 0 {
+		return PodiumRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// PodiumRequestMultiError is an error wrapping multiple validation errors
+// returned by PodiumRequest.ValidateAll() if the designated constraints
+// aren't met.
+type PodiumRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m PodiumRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m PodiumRequestMultiError) AllErrors() []error { return m }
+
+// PodiumRequestValidationError is the validation error returned by
+// PodiumRequest.Validate if the designated constraints aren't met.
+type PodiumRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e PodiumRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e PodiumRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e PodiumRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e PodiumRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e PodiumRequestValidationError) ErrorName() string { return "PodiumRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e PodiumRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sPodiumRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = PodiumRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = PodiumRequestValidationError{}
+
+// Validate checks the field values on PodiumReply with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *PodiumReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on PodiumReply with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in PodiumReplyMultiError, or
+// nil if none found.
+func (m *PodiumReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *PodiumReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Ranking
+
+	// no validation rules for Image
+
+	// no validation rules for Quantity
+
+	// no validation rules for Title
+
+	if len(errors) > 0 {
+		return PodiumReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// PodiumReplyMultiError is an error wrapping multiple validation errors
+// returned by PodiumReply.ValidateAll() if the designated constraints aren't met.
+type PodiumReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m PodiumReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m PodiumReplyMultiError) AllErrors() []error { return m }
+
+// PodiumReplyValidationError is the validation error returned by
+// PodiumReply.Validate if the designated constraints aren't met.
+type PodiumReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e PodiumReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e PodiumReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e PodiumReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e PodiumReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e PodiumReplyValidationError) ErrorName() string { return "PodiumReplyValidationError" }
+
+// Error satisfies the builtin error interface
+func (e PodiumReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sPodiumReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = PodiumReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = PodiumReplyValidationError{}

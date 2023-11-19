@@ -10,6 +10,8 @@ option java_multiple_files = true;
 option java_package = "api.race.v1";
 
 service Race {
+
+  // 比赛侧边栏分类
   rpc RaceType (RaceTypeRequest) returns (RaceTypeReply) {
     option (google.api.http) = {
       post: "/st-games/v1/race/sub_type",
@@ -17,6 +19,7 @@ service Race {
     };
   };
 
+  // 比赛列表
   rpc RaceList (RaceListRequest) returns (RaceListReply) {
     option (google.api.http) = {
       post: "/st-games/v1/race/list",
@@ -24,6 +27,7 @@ service Race {
     };
   };
 
+  // 比赛详情
   rpc RaceDetail (RaceDetailRequest) returns (ListRaceItem) {
     option (google.api.http) = {
       post: "/st-games/v1/race/detail",
@@ -31,6 +35,7 @@ service Race {
     };
   };
 
+  // 比赛奖励
   rpc RaceReward (RaceRewardRequest) returns (RaceRewardReply) {
     option (google.api.http) = {
       post: "/st-games/v1/race/reward",
@@ -38,6 +43,7 @@ service Race {
     };
   };
 
+  // 赛制
   rpc RaceRule (RaceRuleRequest) returns (RaceRuleReply) {
     option (google.api.http) = {
       post: "/st-games/v1/race/rule",
@@ -45,6 +51,7 @@ service Race {
     };
   };
 
+  // 报名
   rpc RaceSignup(RaceSignupRequest) returns (RaceSignupReply) {
     option (google.api.http) = {
       post: "/st-games/v1/race/signup",
@@ -52,9 +59,18 @@ service Race {
     };
   }
 
+  // 取消报名
   rpc RaceSignupCancel(RaceSignupCancelRequest) returns (RaceSignupCancelReply) {
     option (google.api.http) = {
       post: "/st-games/v1/race/signup_cancel",
+      body: "*",
+    };
+  }
+
+  // 领奖台
+  rpc Podium(PodiumRequest) returns (PodiumReply) {
+    option (google.api.http) = {
+      post: "/st-games/v1/race/podium",
       body: "*",
     };
   }
@@ -172,5 +188,15 @@ message RaceSignupCancelRequest {
   int32 game_config_id = 2; // 赛事配置 id
 }
 message RaceSignupCancelReply {
+  int32 game_config_id = 1; // 赛事配置 id
+}
 
+message PodiumRequest {
+  int32 game_config_id = 1; // 赛事配置 id
+}
+message PodiumReply {
+  int32 ranking = 1; // 名次
+  string image = 2; // 奖励图片
+  int32 quantity = 3; // 数量
+  string title = 4; // 标题
 }
