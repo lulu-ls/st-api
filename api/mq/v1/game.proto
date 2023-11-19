@@ -16,6 +16,7 @@ enum MqTopic {
 	RaceSignup = 4; // 赛事报名
 	FreeSignup = 5; // 自由场报名
 	AssetEdit = 6; // 用户资产变动
+	RaceStart = 7; // 比赛开始
 }
 
 enum SignupType {
@@ -89,4 +90,13 @@ message AssetEditRequest {
 	int64 user_id = 1; // 用户 id
 	int64 seq_id = 2; // 唯一 id
 	repeated item.v1.AssetItem item = 3; // 变动详情
+}
+
+message RaceStartRequest {
+	int32 game_config_id = 1; // 赛事配置 id
+	int32 game_id = 2; // 比赛 id
+	repeated RaceStartUserItem user_list = 3; // 用户
+}
+message RaceStartUserItem {
+	int64 user_id = 1; // 用户 id
 }

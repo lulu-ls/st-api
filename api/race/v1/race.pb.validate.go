@@ -2138,6 +2138,8 @@ func (m *RaceSignupReply) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for GameConfigId
+
 	if len(errors) > 0 {
 		return RaceSignupReplyMultiError(errors)
 	}

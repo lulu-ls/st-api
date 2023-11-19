@@ -180,7 +180,7 @@ message RaceSignupRequest {
   int32 game_config_id = 2; // 赛事配置 id
 }
 message RaceSignupReply {
-
+  int32 game_config_id = 1; // 赛事配置 id
 }
 
 message RaceSignupCancelRequest {
