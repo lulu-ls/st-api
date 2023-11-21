@@ -4,7 +4,7 @@ package api.user.v1;
 
 import "google/api/annotations.proto";
 import "common/v1/common.proto";
-import "validate/validate.proto";
+//import "validate/validate.proto";
 
 option go_package = "github.com/lulu-ls/st-api/api/user/v1;v1";
 option java_multiple_files = true;
@@ -48,7 +48,7 @@ message RaceRecordListReply {
 }
 message RaceRecordListItem {
 	int64 id = 1; // 记录 id
-	int32 game_id = 2; // 游戏id
+	int64 game_id = 2; // 游戏id
 	int32 game_category_id = 3; // 比赛类型
 	string game_category_name = 4; // 比赛类型名称
 	int32 game_config_id = 5; // 比赛配置 id
