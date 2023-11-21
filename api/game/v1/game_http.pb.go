@@ -21,6 +21,7 @@ const _ = http.SupportPackageIsVersion1
 
 const OperationGameAnnouncementList = "/api.game.v1.Game/AnnouncementList"
 const OperationGameGameInfo = "/api.game.v1.Game/GameInfo"
+const OperationGameGetAppConfigDict = "/api.game.v1.Game/GetAppConfigDict"
 const OperationGameGetGameNotify = "/api.game.v1.Game/GetGameNotify"
 const OperationGameReadGameNotify = "/api.game.v1.Game/ReadGameNotify"
 const OperationGameTaskList = "/api.game.v1.Game/TaskList"
@@ -31,6 +32,8 @@ type GameHTTPServer interface {
 	AnnouncementList(context.Context, *AnnouncementListRequest) (*AnnouncementListReply, error)
 	// GameInfo 获取房间信息
 	GameInfo(context.Context, *GameInfoRequest) (*GameInfoReply, error)
+	// GetAppConfigDict 获取 app 功能配置
+	GetAppConfigDict(context.Context, *GetAppConfigDictRequest) (*GetAppConfigDictReply, error)
 	// GetGameNotify 获取提示
 	GetGameNotify(context.Context, *GetGameNotifyRequest) (*GetGameNotifyReply, error)
 	// ReadGameNotify 阅读提示
@@ -49,6 +52,7 @@ func RegisterGameHTTPServer(s *http.Server, srv GameHTTPServer) {
 	r.POST("/st-games/v1/game/info", _Game_GameInfo0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/notify/get", _Game_GetGameNotify0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/notify/read", _Game_ReadGameNotify0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/game/dict/list", _Game_GetAppConfigDict0_HTTP_Handler(srv))
 }
 
 func _Game_AnnouncementList0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) error {
@@ -183,9 +187,32 @@ func _Game_ReadGameNotify0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Contex
 	}
 }
 
+func _Game_GetAppConfigDict0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetAppConfigDictRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationGameGetAppConfigDict)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetAppConfigDict(ctx, req.(*GetAppConfigDictRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetAppConfigDictReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type GameHTTPClient interface {
 	AnnouncementList(ctx context.Context, req *AnnouncementListRequest, opts ...http.CallOption) (rsp *AnnouncementListReply, err error)
 	GameInfo(ctx context.Context, req *GameInfoRequest, opts ...http.CallOption) (rsp *GameInfoReply, err error)
+	GetAppConfigDict(ctx context.Context, req *GetAppConfigDictRequest, opts ...http.CallOption) (rsp *GetAppConfigDictReply, err error)
 	GetGameNotify(ctx context.Context, req *GetGameNotifyRequest, opts ...http.CallOption) (rsp *GetGameNotifyReply, err error)
 	ReadGameNotify(ctx context.Context, req *ReadGameNotifyRequest, opts ...http.CallOption) (rsp *ReadGameNotifyReply, err error)
 	TaskList(ctx context.Context, req *TaskListRequest, opts ...http.CallOption) (rsp *TaskListReply, err error)
@@ -218,6 +245,19 @@ func (c *GameHTTPClientImpl) GameInfo(ctx context.Context, in *GameInfoRequest, 
 	pattern := "/st-games/v1/game/info"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationGameGameInfo))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *GameHTTPClientImpl) GetAppConfigDict(ctx context.Context, in *GetAppConfigDictRequest, opts ...http.CallOption) (*GetAppConfigDictReply, error) {
+	var out GetAppConfigDictReply
+	pattern := "/st-games/v1/game/dict/list"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationGameGetAppConfigDict))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

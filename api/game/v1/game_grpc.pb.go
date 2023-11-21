@@ -25,6 +25,7 @@ const (
 	Game_GameInfo_FullMethodName         = "/api.game.v1.Game/GameInfo"
 	Game_GetGameNotify_FullMethodName    = "/api.game.v1.Game/GetGameNotify"
 	Game_ReadGameNotify_FullMethodName   = "/api.game.v1.Game/ReadGameNotify"
+	Game_GetAppConfigDict_FullMethodName = "/api.game.v1.Game/GetAppConfigDict"
 )
 
 // GameClient is the client API for Game service.
@@ -43,6 +44,8 @@ type GameClient interface {
 	GetGameNotify(ctx context.Context, in *GetGameNotifyRequest, opts ...grpc.CallOption) (*GetGameNotifyReply, error)
 	// 阅读提示
 	ReadGameNotify(ctx context.Context, in *ReadGameNotifyRequest, opts ...grpc.CallOption) (*ReadGameNotifyReply, error)
+	// 获取 app 功能配置
+	GetAppConfigDict(ctx context.Context, in *GetAppConfigDictRequest, opts ...grpc.CallOption) (*GetAppConfigDictReply, error)
 }
 
 type gameClient struct {
@@ -107,6 +110,15 @@ func (c *gameClient) ReadGameNotify(ctx context.Context, in *ReadGameNotifyReque
 	return out, nil
 }
 
+func (c *gameClient) GetAppConfigDict(ctx context.Context, in *GetAppConfigDictRequest, opts ...grpc.CallOption) (*GetAppConfigDictReply, error) {
+	out := new(GetAppConfigDictReply)
+	err := c.cc.Invoke(ctx, Game_GetAppConfigDict_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GameServer is the server API for Game service.
 // All implementations must embed UnimplementedGameServer
 // for forward compatibility
@@ -123,6 +135,8 @@ type GameServer interface {
 	GetGameNotify(context.Context, *GetGameNotifyRequest) (*GetGameNotifyReply, error)
 	// 阅读提示
 	ReadGameNotify(context.Context, *ReadGameNotifyRequest) (*ReadGameNotifyReply, error)
+	// 获取 app 功能配置
+	GetAppConfigDict(context.Context, *GetAppConfigDictRequest) (*GetAppConfigDictReply, error)
 	mustEmbedUnimplementedGameServer()
 }
 
@@ -147,6 +161,9 @@ func (UnimplementedGameServer) GetGameNotify(context.Context, *GetGameNotifyRequ
 }
 func (UnimplementedGameServer) ReadGameNotify(context.Context, *ReadGameNotifyRequest) (*ReadGameNotifyReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReadGameNotify not implemented")
+}
+func (UnimplementedGameServer) GetAppConfigDict(context.Context, *GetAppConfigDictRequest) (*GetAppConfigDictReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAppConfigDict not implemented")
 }
 func (UnimplementedGameServer) mustEmbedUnimplementedGameServer() {}
 
@@ -269,6 +286,24 @@ func _Game_ReadGameNotify_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Game_GetAppConfigDict_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAppConfigDictRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameServer).GetAppConfigDict(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Game_GetAppConfigDict_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameServer).GetAppConfigDict(ctx, req.(*GetAppConfigDictRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Game_ServiceDesc is the grpc.ServiceDesc for Game service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -299,6 +334,10 @@ var Game_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ReadGameNotify",
 			Handler:    _Game_ReadGameNotify_Handler,
+		},
+		{
+			MethodName: "GetAppConfigDict",
+			Handler:    _Game_GetAppConfigDict_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

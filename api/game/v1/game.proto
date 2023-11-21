@@ -57,6 +57,14 @@ service Game {
 			body: "*",
 		};
 	};
+
+	// 获取 app 功能配置
+	rpc GetAppConfigDict (GetAppConfigDictRequest) returns (GetAppConfigDictReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/game/dict/list",
+			body: "*",
+		};
+	};
 }
 
 // 公告类别
@@ -101,6 +109,25 @@ enum GameCategory {
 enum GameNotifyType {
 	_2 = 0;
 	RegisterAward = 1; // 注册奖励
+}
+
+// 设备类型
+enum DeviceType {
+	_4 = 0; // 忽略
+	Android = 1; // 安卓
+	iOS = 2; // ios
+	Windows = 3; // Windows
+//	Marmalade = 4; // Marmalade
+//	Linux = 5; // Linux
+}
+
+// 版本类型
+enum VersionType {
+	_3 = 0;
+	audit = 1; // 审核版本
+	develop = 2; // 开发版
+	trial = 3; // 体验版本
+	release = 4; // 正式版
 }
 
 message AnnouncementListRequest {
@@ -186,4 +213,21 @@ message ReadGameNotifyRequest {
 }
 message ReadGameNotifyReply {
 
+}
+
+message GetAppConfigDictRequest {
+	int32 app_id = 2; // app id
+	int32 channel_id = 3; // channel id
+	string version = 4; // 版本 id
+	DeviceType device = 5; // 1 android 2 ios
+	VersionType version_type = 6; // 配置类型
+}
+message GetAppConfigDictReply {
+	repeated GetAppConfigDictItem list = 1; // 列表
+}
+message GetAppConfigDictItem {
+	int32 dict_id = 1; // 字典 id
+	string key = 2; // 键
+	string value = 3; // 值
+//	int32 action = 4; // 动作
 }
