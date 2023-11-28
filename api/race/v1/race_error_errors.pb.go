@@ -126,3 +126,17 @@ func IsRaceIsInGame(err error) bool {
 func ErrorRaceIsInGame(format string, args ...interface{}) *errors.Error {
 	return errors.New(498, ErrorReason_RACE_IS_IN_GAME.String(), fmt.Sprintf(format, args...))
 }
+
+// 已经报名其他比赛
+func IsRaceIsSignup(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_RACE_IS_SIGNUP.String() && e.Code == 415
+}
+
+// 已经报名其他比赛
+func ErrorRaceIsSignup(format string, args ...interface{}) *errors.Error {
+	return errors.New(415, ErrorReason_RACE_IS_SIGNUP.String(), fmt.Sprintf(format, args...))
+}

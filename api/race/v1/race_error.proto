@@ -26,4 +26,5 @@ enum ErrorReason {
   RACE_SIGNUP_FAIL_PEOPLE = 13 [(errors.code) = 413];
   RACE_SIGNUP_CANCEL = 14 [(errors.code) = 414]; // 已经取消报名
   RACE_IS_IN_GAME = 15 [(errors.code) = 498]; // 已在比赛中
+  RACE_IS_SIGNUP = 16 [(errors.code) = 415]; // 已经报名其他比赛
 }
