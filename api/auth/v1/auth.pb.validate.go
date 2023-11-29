@@ -281,6 +281,256 @@ var _ interface {
 	ErrorName() string
 } = LoginReplyValidationError{}
 
+// Validate checks the field values on LoginForAppRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *LoginForAppRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on LoginForAppRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// LoginForAppRequestMultiError, or nil if none found.
+func (m *LoginForAppRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *LoginForAppRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetCode()) < 5 {
+		err := LoginForAppRequestValidationError{
+			field:  "Code",
+			reason: "value length must be at least 5 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
+
+	if len(errors) > 0 {
+		return LoginForAppRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// LoginForAppRequestMultiError is an error wrapping multiple validation errors
+// returned by LoginForAppRequest.ValidateAll() if the designated constraints
+// aren't met.
+type LoginForAppRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m LoginForAppRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m LoginForAppRequestMultiError) AllErrors() []error { return m }
+
+// LoginForAppRequestValidationError is the validation error returned by
+// LoginForAppRequest.Validate if the designated constraints aren't met.
+type LoginForAppRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e LoginForAppRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e LoginForAppRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e LoginForAppRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e LoginForAppRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e LoginForAppRequestValidationError) ErrorName() string {
+	return "LoginForAppRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e LoginForAppRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sLoginForAppRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = LoginForAppRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = LoginForAppRequestValidationError{}
+
+// Validate checks the field values on LoginForAppReply with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *LoginForAppReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on LoginForAppReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// LoginForAppReplyMultiError, or nil if none found.
+func (m *LoginForAppReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *LoginForAppReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for AccessToken
+
+	// no validation rules for ExpireTime
+
+	if all {
+		switch v := interface{}(m.GetUser()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, LoginForAppReplyValidationError{
+					field:  "User",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, LoginForAppReplyValidationError{
+					field:  "User",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetUser()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return LoginForAppReplyValidationError{
+				field:  "User",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return LoginForAppReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// LoginForAppReplyMultiError is an error wrapping multiple validation errors
+// returned by LoginForAppReply.ValidateAll() if the designated constraints
+// aren't met.
+type LoginForAppReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m LoginForAppReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m LoginForAppReplyMultiError) AllErrors() []error { return m }
+
+// LoginForAppReplyValidationError is the validation error returned by
+// LoginForAppReply.Validate if the designated constraints aren't met.
+type LoginForAppReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e LoginForAppReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e LoginForAppReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e LoginForAppReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e LoginForAppReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e LoginForAppReplyValidationError) ErrorName() string { return "LoginForAppReplyValidationError" }
+
+// Error satisfies the builtin error interface
+func (e LoginForAppReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sLoginForAppReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = LoginForAppReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = LoginForAppReplyValidationError{}
+
 // Validate checks the field values on LoginTestRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.

@@ -16,6 +16,14 @@ service Auth {
 			body: "*",
 		};
 	};
+
+	rpc LoginForApp (LoginForAppRequest) returns (LoginForAppReply){
+		option (google.api.http) = {
+			post: "/st-games/v1/auth/login/app",
+			body: "*",
+		};
+	};
+
 	rpc LoginTest (LoginTestRequest) returns (LoginReply){
 		option (google.api.http) = {
 			post: "/st-games/v1/auth/login_test",
@@ -43,6 +51,17 @@ message LoginRequest {
 	int32 channelId = 3; // 渠道 id
 }
 message LoginReply {
+	string access_token = 1;
+	int64 expire_time = 2;
+	LoginUser user = 3;
+}
+
+message LoginForAppRequest{
+	string code = 1 [(validate.rules).string.min_len =  5];
+	int32 appId = 2; // 渠道 id
+	int32 channelId = 3; // 渠道 id
+}
+message LoginForAppReply {
 	string access_token = 1;
 	int64 expire_time = 2;
 	LoginUser user = 3;
