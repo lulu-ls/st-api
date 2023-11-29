@@ -36,6 +36,7 @@ service Auth {
 	};
 }
 
+
 message LoginRequest {
 	string code = 1 [(validate.rules).string.min_len =  5];
 	int32 appId = 2; // 渠道 id

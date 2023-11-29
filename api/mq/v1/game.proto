@@ -18,6 +18,7 @@ enum MqTopic {
 	AssetEdit = 6; // 用户资产变动
 	RaceStart = 7; // 比赛开始
 	RaceEnd = 8; // 比赛结束
+	UserRaceEnd = 9; // 用户比赛结束
 }
 
 enum SignupType {
@@ -104,4 +105,9 @@ message RaceStartRequest {
 
 message RaceEndRequest {
 	int64 game_id = 1; // 比赛 id
+}
+
+message UserRaceEndRequest {
+	int64 game_id = 1; // 比赛 id
+	repeated int64 user_ids = 2; // 用户 id 集合
 }
