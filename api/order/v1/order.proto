@@ -32,6 +32,7 @@ enum OrderType {
 	WxMiniPay = 1; // 微信小程序支付
 	WxJSPay = 2; // 微信 h5 支付
 	WxVirtualPay = 3; // 微信虚拟支付
+	ApplePay = 4; // 苹果支付
 }
 
 message CreateOrderRequest {
