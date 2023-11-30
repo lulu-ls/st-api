@@ -3,19 +3,20 @@
 
 openapi: 3.0.3
 info:
-    title: Auth API
+    title: Apple API
     version: 0.0.1
 paths:
-    /st-games/v1/auth/decrypt:
+    /st-games/v1/apple/pay/notice:
         post:
             tags:
-                - Auth
-            operationId: Auth_Decrypt
+                - Apple
+            description: 支付通知
+            operationId: Apple_PayNotice
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/DecryptRequest'
+                            $ref: '#/components/schemas/PayNoticeRequest'
                 required: true
             responses:
                 "200":
@@ -23,23 +24,23 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DecryptReply'
+                                $ref: '#/components/schemas/PayNoticeReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /st-games/v1/auth/get_info:
+    /st-games/v1/apple/verify_receipt:
         post:
             tags:
-                - Auth
-            operationId: Auth_GetInfo
+                - Apple
+            operationId: Apple_VerifyReceipt
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/GetInfoRequest'
+                            $ref: '#/components/schemas/VerifyReceiptRequest'
                 required: true
             responses:
                 "200":
@@ -47,79 +48,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/LoginReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /st-games/v1/auth/login:
-        post:
-            tags:
-                - Auth
-            operationId: Auth_Login
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/LoginRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/LoginReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /st-games/v1/auth/login/app:
-        post:
-            tags:
-                - Auth
-            operationId: Auth_LoginForApp
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/LoginForAppRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/LoginForAppReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /st-games/v1/auth/login_test:
-        post:
-            tags:
-                - Auth
-            operationId: Auth_LoginTest
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/LoginTestRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/LoginReply'
+                                $ref: '#/components/schemas/VerifyReceiptReply'
                 default:
                     description: Default error response
                     content:
@@ -128,85 +57,6 @@ paths:
                                 $ref: '#/components/schemas/Status'
 components:
     schemas:
-        DecryptReply:
-            type: object
-            properties:
-                language:
-                    type: string
-                city:
-                    type: string
-                province:
-                    type: string
-                avatar:
-                    type: string
-                nickName:
-                    type: string
-                gender:
-                    type: integer
-                    format: int32
-                country:
-                    type: string
-                unionId:
-                    type: string
-                userNo:
-                    type: string
-                userId:
-                    type: string
-                status:
-                    type: integer
-                    format: int32
-                figure:
-                    type: integer
-                    format: int32
-        DecryptRequest:
-            type: object
-            properties:
-                encryptedData:
-                    type: string
-                    description: string open_id = 1 [(validate.rules).string.min_len =  5];
-                iv:
-                    type: string
-                userInfo:
-                    $ref: '#/components/schemas/DecryptUserInfo'
-                userId:
-                    type: string
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-        DecryptUserInfo:
-            type: object
-            properties:
-                language:
-                    type: string
-                city:
-                    type: string
-                province:
-                    type: string
-                avatarUrl:
-                    type: string
-                nickName:
-                    type: string
-                gender:
-                    type: integer
-                    format: int32
-                country:
-                    type: string
-                unionId:
-                    type: string
-        GetInfoRequest:
-            type: object
-            properties:
-                userId:
-                    type: string
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
         GoogleProtobufAny:
             type: object
             properties:
@@ -215,94 +65,12 @@ components:
                     description: The type of the serialized message.
             additionalProperties: true
             description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        LoginForAppReply:
+        PayNoticeReply:
             type: object
-            properties:
-                accessToken:
-                    type: string
-                expireTime:
-                    type: string
-                user:
-                    $ref: '#/components/schemas/LoginUser'
-        LoginForAppRequest:
+            properties: {}
+        PayNoticeRequest:
             type: object
-            properties:
-                code:
-                    type: string
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-        LoginReply:
-            type: object
-            properties:
-                accessToken:
-                    type: string
-                expireTime:
-                    type: string
-                user:
-                    $ref: '#/components/schemas/LoginUser'
-        LoginRequest:
-            type: object
-            properties:
-                code:
-                    type: string
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-        LoginTestRequest:
-            type: object
-            properties:
-                userName:
-                    type: string
-                password:
-                    type: string
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-        LoginUser:
-            type: object
-            properties:
-                userNo:
-                    type: string
-                nickName:
-                    type: string
-                avatar:
-                    type: string
-                phone:
-                    type: string
-                email:
-                    type: string
-                gender:
-                    type: integer
-                    format: int32
-                birthDate:
-                    type: string
-                status:
-                    type: integer
-                    format: int32
-                gold:
-                    type: integer
-                    format: int32
-                diamond:
-                    type: integer
-                    format: int32
-                ticket:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
-                figure:
-                    type: integer
-                    format: int32
+            properties: {}
         Status:
             type: object
             properties:
@@ -319,5 +87,11 @@ components:
                         $ref: '#/components/schemas/GoogleProtobufAny'
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        VerifyReceiptReply:
+            type: object
+            properties: {}
+        VerifyReceiptRequest:
+            type: object
+            properties: {}
 tags:
-    - name: Auth
+    - name: Apple

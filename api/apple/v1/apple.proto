@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package api.apple.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/lulu-ls/st-api/api/apple/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.apple.v1";
+
+service Apple {
+	rpc VerifyReceipt (VerifyReceiptRequest) returns (VerifyReceiptReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/apple/verify_receipt",
+			body: "*",
+		};
+	};
+	// 支付通知
+	rpc PayNotice (PayNoticeRequest) returns (PayNoticeReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/apple/pay/notice",
+			body: "*",
+		};
+	};
+}
+
+message VerifyReceiptRequest {
+	int64 order_id = 1; // 订单号
+	string data = 2; // 数据
+}
+message VerifyReceiptReply {}
+
+message PayNoticeRequest {}
+message PayNoticeReply {}
+
