@@ -43,6 +43,7 @@ message JSPayReply {
 	string sign_type = 4; // 签名方式
 	string time_stamp = 6; // 时间戳
 	string pay_sign = 7; // 支付签名
+	string env = 8; // 环境  dev、pro
 }
 
 message VirtualPayRequest {

@@ -99,6 +99,7 @@ message JSBuyReply {
 	double order_amount = 3; // 订单金额
 	int32 quantity = 4; // 购买数量
 	string title = 5; // 标题
+	string env = 6; // 环境
 }
 
 message GetPurchaseRequest {

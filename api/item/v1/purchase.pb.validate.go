@@ -794,6 +794,8 @@ func (m *JSBuyReply) validate(all bool) error {
 
 	// no validation rules for Title
 
+	// no validation rules for Env
+
 	if len(errors) > 0 {
 		return JSBuyReplyMultiError(errors)
 	}

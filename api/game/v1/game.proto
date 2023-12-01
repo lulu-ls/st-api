@@ -59,7 +59,7 @@ service Game {
 	};
 
 	// 获取 app 功能配置
-	rpc GetAppConfigDict (GetAppConfigDictRequest) returns (GetAppConfigDictReply) {
+	rpc GetAppConfig (GetAppConfigRequest) returns (GetAppConfigReply) {
 		option (google.api.http) = {
 			post: "/st-games/v1/game/dict/list",
 			body: "*",
@@ -215,18 +215,18 @@ message ReadGameNotifyReply {
 
 }
 
-message GetAppConfigDictRequest {
+message GetAppConfigRequest {
 	int32 app_id = 2; // app id
 	int32 channel_id = 3; // channel id
 	string version = 4; // 版本 id
 	DeviceType device = 5; // 1 android 2 ios
 	VersionType version_type = 6; // 配置类型
 }
-message GetAppConfigDictReply {
-	repeated GetAppConfigDictItem list = 1; // 列表
+message GetAppConfigReply {
+	repeated GetAppConfigItem list = 1; // 列表
 }
-message GetAppConfigDictItem {
-	int32 dict_id = 1; // 字典 id
+message GetAppConfigItem {
+	int32 app_config_id = 1; // 字典 id
 	string key = 2; // 键
 	string value = 3; // 值
 //	int32 action = 4; // 动作
