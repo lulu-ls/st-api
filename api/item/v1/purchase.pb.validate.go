@@ -1326,3 +1326,236 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetPurchaseRecordReplyValidationError{}
+
+// Validate checks the field values on AppBuyRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *AppBuyRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AppBuyRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AppBuyRequestMultiError, or
+// nil if none found.
+func (m *AppBuyRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AppBuyRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
+
+	// no validation rules for PurchaseId
+
+	// no validation rules for UserId
+
+	// no validation rules for OrderId
+
+	if len(errors) > 0 {
+		return AppBuyRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// AppBuyRequestMultiError is an error wrapping multiple validation errors
+// returned by AppBuyRequest.ValidateAll() if the designated constraints
+// aren't met.
+type AppBuyRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AppBuyRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AppBuyRequestMultiError) AllErrors() []error { return m }
+
+// AppBuyRequestValidationError is the validation error returned by
+// AppBuyRequest.Validate if the designated constraints aren't met.
+type AppBuyRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AppBuyRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AppBuyRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AppBuyRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AppBuyRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AppBuyRequestValidationError) ErrorName() string { return "AppBuyRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AppBuyRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAppBuyRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AppBuyRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AppBuyRequestValidationError{}
+
+// Validate checks the field values on AppBuyReply with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *AppBuyReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AppBuyReply with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AppBuyReplyMultiError, or
+// nil if none found.
+func (m *AppBuyReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AppBuyReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for AppId
+
+	// no validation rules for PartnerId
+
+	// no validation rules for PrepayId
+
+	// no validation rules for Package
+
+	// no validation rules for NonceStr
+
+	// no validation rules for Timestamp
+
+	// no validation rules for Sign
+
+	// no validation rules for OrderId
+
+	// no validation rules for IsPayed
+
+	// no validation rules for OrderAmount
+
+	// no validation rules for Quantity
+
+	// no validation rules for Title
+
+	if len(errors) > 0 {
+		return AppBuyReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// AppBuyReplyMultiError is an error wrapping multiple validation errors
+// returned by AppBuyReply.ValidateAll() if the designated constraints aren't met.
+type AppBuyReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AppBuyReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AppBuyReplyMultiError) AllErrors() []error { return m }
+
+// AppBuyReplyValidationError is the validation error returned by
+// AppBuyReply.Validate if the designated constraints aren't met.
+type AppBuyReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AppBuyReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AppBuyReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AppBuyReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AppBuyReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AppBuyReplyValidationError) ErrorName() string { return "AppBuyReplyValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AppBuyReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAppBuyReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AppBuyReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AppBuyReplyValidationError{}

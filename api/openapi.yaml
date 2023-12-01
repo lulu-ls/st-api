@@ -3,20 +3,19 @@
 
 openapi: 3.0.3
 info:
-    title: Apple API
+    title: Purchase API
     version: 0.0.1
 paths:
-    /st-games/v1/apple/pay/notice:
+    /st-games/v1/item/purchase/buy/app:
         post:
             tags:
-                - Apple
-            description: 支付通知
-            operationId: Apple_PayNotice
+                - Purchase
+            operationId: Purchase_AppBuy
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/PayNoticeRequest'
+                            $ref: '#/components/schemas/AppBuyRequest'
                 required: true
             responses:
                 "200":
@@ -24,23 +23,23 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/PayNoticeReply'
+                                $ref: '#/components/schemas/AppBuyReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /st-games/v1/apple/verify_receipt:
+    /st-games/v1/item/purchase/buy/js:
         post:
             tags:
-                - Apple
-            operationId: Apple_VerifyReceipt
+                - Purchase
+            operationId: Purchase_JSBuy
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/VerifyReceiptRequest'
+                            $ref: '#/components/schemas/JSBuyRequest'
                 required: true
             responses:
                 "200":
@@ -48,7 +47,55 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/VerifyReceiptReply'
+                                $ref: '#/components/schemas/JSBuyReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /st-games/v1/item/purchase/buy/virtual:
+        post:
+            tags:
+                - Purchase
+            operationId: Purchase_VirtualBuy
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/VirtualBuyRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/VirtualBuyReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /st-games/v1/item/purchase/list:
+        post:
+            tags:
+                - Purchase
+            operationId: Purchase_PurchaseList
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/PurchaseListRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PurchaseListReply'
                 default:
                     description: Default error response
                     content:
@@ -57,6 +104,52 @@ paths:
                                 $ref: '#/components/schemas/Status'
 components:
     schemas:
+        AppBuyReply:
+            type: object
+            properties:
+                appId:
+                    type: string
+                partnerId:
+                    type: string
+                prepayId:
+                    type: string
+                package:
+                    type: string
+                nonceStr:
+                    type: string
+                timestamp:
+                    type: string
+                sign:
+                    type: string
+                orderId:
+                    type: string
+                isPayed:
+                    type: integer
+                    format: enum
+                orderAmount:
+                    type: number
+                    format: double
+                quantity:
+                    type: integer
+                    format: int32
+                title:
+                    type: string
+        AppBuyRequest:
+            type: object
+            properties:
+                appId:
+                    type: integer
+                    format: int32
+                channelId:
+                    type: integer
+                    format: int32
+                purchaseId:
+                    type: integer
+                    format: int32
+                userId:
+                    type: string
+                orderId:
+                    type: string
         GoogleProtobufAny:
             type: object
             properties:
@@ -65,12 +158,87 @@ components:
                     description: The type of the serialized message.
             additionalProperties: true
             description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        PayNoticeReply:
+        JSBuyReply:
             type: object
-            properties: {}
-        PayNoticeRequest:
+            properties:
+                isPayed:
+                    type: integer
+                    format: enum
+                orderId:
+                    type: string
+                orderAmount:
+                    type: number
+                    format: double
+                quantity:
+                    type: integer
+                    format: int32
+                title:
+                    type: string
+        JSBuyRequest:
             type: object
-            properties: {}
+            properties:
+                appId:
+                    type: integer
+                    format: int32
+                channelId:
+                    type: integer
+                    format: int32
+                purchaseId:
+                    type: integer
+                    format: int32
+                userId:
+                    type: string
+                orderId:
+                    type: string
+        PurchaseListItem:
+            type: object
+            properties:
+                purchaseId:
+                    type: integer
+                    format: int32
+                quantity:
+                    type: integer
+                    format: int32
+                price:
+                    type: number
+                    format: double
+                exchangeItemId:
+                    type: integer
+                    format: int32
+                exchangeItemQuantity:
+                    type: integer
+                    format: int32
+                exchangeItemImage:
+                    type: string
+                exchangeItemName:
+                    type: string
+                subtitle:
+                    type: string
+                tag:
+                    type: string
+                image:
+                    type: string
+                itemId:
+                    type: integer
+                    format: int32
+                title:
+                    type: string
+        PurchaseListReply:
+            type: object
+            properties:
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/PurchaseListItem'
+                total:
+                    type: integer
+                    format: int32
+        PurchaseListRequest:
+            type: object
+            properties:
+                itemId:
+                    type: integer
+                    format: int32
         Status:
             type: object
             properties:
@@ -87,11 +255,51 @@ components:
                         $ref: '#/components/schemas/GoogleProtobufAny'
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-        VerifyReceiptReply:
+        VirtualBuyReply:
             type: object
-            properties: {}
-        VerifyReceiptRequest:
+            properties:
+                isPayed:
+                    type: integer
+                    format: enum
+                env:
+                    type: integer
+                    format: int32
+                offerId:
+                    type: string
+                currencyType:
+                    type: string
+                platform:
+                    type: string
+                outTradNo:
+                    type: string
+                    description: int32 quantity = 6; // 购买数量
+                orderAmount:
+                    type: number
+                    format: double
+                quantity:
+                    type: integer
+                    format: int32
+                mode:
+                    type: string
+                orderId:
+                    type: string
+                title:
+                    type: string
+        VirtualBuyRequest:
             type: object
-            properties: {}
+            properties:
+                appId:
+                    type: integer
+                    format: int32
+                channelId:
+                    type: integer
+                    format: int32
+                purchaseId:
+                    type: integer
+                    format: int32
+                userId:
+                    type: string
+                orderId:
+                    type: string
 tags:
-    - name: Apple
+    - name: Purchase

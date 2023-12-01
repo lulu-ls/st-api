@@ -20,7 +20,13 @@ service Purchase {
 	};
 	rpc JSBuy (JSBuyRequest) returns (JSBuyReply) {
 		option (google.api.http) = {
-			post: "/st-games/v1/item/purchase/buy/js", // 虚拟支付
+			post: "/st-games/v1/item/purchase/buy/js", // js 支付
+			body: "*",
+		};
+	};
+	rpc AppBuy (AppBuyRequest) returns (AppBuyReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/item/purchase/buy/app", // app 支付
 			body: "*",
 		};
 	};
@@ -129,4 +135,27 @@ message GetPurchaseRecordReply {
 	double price = 10; // 价格
 	int32 quantity = 11; // 数量
 	string extra = 12; // 额外信息
+}
+
+message AppBuyRequest {
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	int32 purchase_id = 3; // 道具配置 id
+	int64 user_id = 5; // 用户 id
+	int64 order_id = 6; // order id
+	//	order.v1.OrderType order_type = 7; // 订单类型
+}
+message AppBuyReply {
+	string app_id = 1; // 微信开放平台审核通过的移动应用appid 。示例值：wx8888888888888888
+	string partner_id = 2; // 请填写商户号 mch id 对应的值。示例值：1900000109
+	string prepay_id = 3; // 微信返回的支付交易会话ID，该值有效期为2小时。示例值： WX1217752501201407033233368018
+	string package = 4; // 	暂填写固定值Sign=WXPay 示例值：Sign=WXPay
+	string nonce_str = 5; // 	随机字符串，不长于32位。推荐随机数生成算法。示例值： 5K8264ILTKCH16CQ2502SI8ZNMTM67VS
+	string timestamp = 6; // 时间戳，标准北京时间，时区为东八区，自1970年1月1日 0点0分0秒以来的秒数。注意：部分系统取到的值为毫秒级，需要转换成秒(10位数字)。示例值：1412000000
+	string sign = 7; // 签名，使用字段appId、timeStamp、nonceStr、prepay id计算得出的签名值 注意：取值RSA格式
+	int64 order_id = 8; // 盛唐订单号
+	wx.v1.VirtualPayStatus is_payed = 9; // 是否支付成功, 0 否 1是
+	double order_amount = 10; // 订单金额
+	int32 quantity = 11; // 购买数量
+	string title = 12; // 标题
 }
