@@ -68,8 +68,8 @@ message LoginForAppReply {
 }
 
 message LoginTestRequest {
-	string user_name = 1;
-	string password = 2;
+	string user_name = 1 [(validate.rules).string.min_len =  1];
+	string password = 2 [(validate.rules).string.min_len =  1];
 	int32 appId = 3; // 渠道 id
 	int32 channelId = 4; // 渠道 id
 }

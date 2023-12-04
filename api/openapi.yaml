@@ -3,19 +3,19 @@
 
 openapi: 3.0.3
 info:
-    title: Purchase API
+    title: Auth API
     version: 0.0.1
 paths:
-    /st-games/v1/item/purchase/buy/app:
+    /st-games/v1/auth/decrypt:
         post:
             tags:
-                - Purchase
-            operationId: Purchase_AppBuy
+                - Auth
+            operationId: Auth_Decrypt
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/AppBuyRequest'
+                            $ref: '#/components/schemas/DecryptRequest'
                 required: true
             responses:
                 "200":
@@ -23,23 +23,23 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/AppBuyReply'
+                                $ref: '#/components/schemas/DecryptReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /st-games/v1/item/purchase/buy/js:
+    /st-games/v1/auth/get_info:
         post:
             tags:
-                - Purchase
-            operationId: Purchase_JSBuy
+                - Auth
+            operationId: Auth_GetInfo
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/JSBuyRequest'
+                            $ref: '#/components/schemas/GetInfoRequest'
                 required: true
             responses:
                 "200":
@@ -47,23 +47,23 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/JSBuyReply'
+                                $ref: '#/components/schemas/LoginReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /st-games/v1/item/purchase/buy/virtual:
+    /st-games/v1/auth/login:
         post:
             tags:
-                - Purchase
-            operationId: Purchase_VirtualBuy
+                - Auth
+            operationId: Auth_Login
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/VirtualBuyRequest'
+                            $ref: '#/components/schemas/LoginRequest'
                 required: true
             responses:
                 "200":
@@ -71,23 +71,23 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/VirtualBuyReply'
+                                $ref: '#/components/schemas/LoginReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /st-games/v1/item/purchase/list:
+    /st-games/v1/auth/login/app:
         post:
             tags:
-                - Purchase
-            operationId: Purchase_PurchaseList
+                - Auth
+            operationId: Auth_LoginForApp
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/PurchaseListRequest'
+                            $ref: '#/components/schemas/LoginForAppRequest'
                 required: true
             responses:
                 "200":
@@ -95,7 +95,31 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/PurchaseListReply'
+                                $ref: '#/components/schemas/LoginForAppReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /st-games/v1/auth/login_test:
+        post:
+            tags:
+                - Auth
+            operationId: Auth_LoginTest
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LoginTestRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LoginReply'
                 default:
                     description: Default error response
                     content:
@@ -104,52 +128,85 @@ paths:
                                 $ref: '#/components/schemas/Status'
 components:
     schemas:
-        AppBuyReply:
+        DecryptReply:
             type: object
             properties:
-                appId:
+                language:
                     type: string
-                partnerId:
+                city:
                     type: string
-                prepayId:
+                province:
                     type: string
-                package:
+                avatar:
                     type: string
-                nonceStr:
+                nickName:
                     type: string
-                timestamp:
-                    type: string
-                sign:
-                    type: string
-                orderId:
-                    type: string
-                isPayed:
-                    type: integer
-                    format: enum
-                orderAmount:
-                    type: number
-                    format: double
-                quantity:
+                gender:
                     type: integer
                     format: int32
-                title:
+                country:
                     type: string
-        AppBuyRequest:
+                unionId:
+                    type: string
+                userNo:
+                    type: string
+                userId:
+                    type: string
+                status:
+                    type: integer
+                    format: int32
+                figure:
+                    type: integer
+                    format: int32
+        DecryptRequest:
             type: object
             properties:
+                encryptedData:
+                    type: string
+                    description: string open_id = 1 [(validate.rules).string.min_len =  5];
+                iv:
+                    type: string
+                userInfo:
+                    $ref: '#/components/schemas/DecryptUserInfo'
+                userId:
+                    type: string
                 appId:
                     type: integer
                     format: int32
                 channelId:
                     type: integer
                     format: int32
-                purchaseId:
+        DecryptUserInfo:
+            type: object
+            properties:
+                language:
+                    type: string
+                city:
+                    type: string
+                province:
+                    type: string
+                avatarUrl:
+                    type: string
+                nickName:
+                    type: string
+                gender:
                     type: integer
                     format: int32
+                country:
+                    type: string
+                unionId:
+                    type: string
+        GetInfoRequest:
+            type: object
+            properties:
                 userId:
                     type: string
-                orderId:
-                    type: string
+                appId:
+                    type: integer
+                    format: int32
+                channelId:
+                    type: integer
+                    format: int32
         GoogleProtobufAny:
             type: object
             properties:
@@ -158,87 +215,92 @@ components:
                     description: The type of the serialized message.
             additionalProperties: true
             description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        JSBuyReply:
+        LoginForAppReply:
             type: object
             properties:
-                isPayed:
-                    type: integer
-                    format: enum
-                orderId:
+                accessToken:
                     type: string
-                orderAmount:
-                    type: number
-                    format: double
-                quantity:
-                    type: integer
-                    format: int32
-                title:
+                expireTime:
                     type: string
-                env:
-                    type: string
-        JSBuyRequest:
+                user:
+                    $ref: '#/components/schemas/LoginUser'
+        LoginForAppRequest:
             type: object
             properties:
+                code:
+                    type: string
                 appId:
                     type: integer
                     format: int32
                 channelId:
                     type: integer
                     format: int32
-                purchaseId:
+        LoginReply:
+            type: object
+            properties:
+                accessToken:
+                    type: string
+                expireTime:
+                    type: string
+                user:
+                    $ref: '#/components/schemas/LoginUser'
+        LoginRequest:
+            type: object
+            properties:
+                code:
+                    type: string
+                appId:
+                    type: integer
+                    format: int32
+                channelId:
+                    type: integer
+                    format: int32
+        LoginTestRequest:
+            type: object
+            properties:
+                userName:
+                    type: string
+                password:
+                    type: string
+                appId:
+                    type: integer
+                    format: int32
+                channelId:
+                    type: integer
+                    format: int32
+        LoginUser:
+            type: object
+            properties:
+                userNo:
+                    type: string
+                nickName:
+                    type: string
+                avatar:
+                    type: string
+                phone:
+                    type: string
+                email:
+                    type: string
+                gender:
+                    type: integer
+                    format: int32
+                birthDate:
+                    type: string
+                status:
+                    type: integer
+                    format: int32
+                gold:
+                    type: integer
+                    format: int32
+                diamond:
+                    type: integer
+                    format: int32
+                ticket:
                     type: integer
                     format: int32
                 userId:
                     type: string
-                orderId:
-                    type: string
-        PurchaseListItem:
-            type: object
-            properties:
-                purchaseId:
-                    type: integer
-                    format: int32
-                quantity:
-                    type: integer
-                    format: int32
-                price:
-                    type: number
-                    format: double
-                exchangeItemId:
-                    type: integer
-                    format: int32
-                exchangeItemQuantity:
-                    type: integer
-                    format: int32
-                exchangeItemImage:
-                    type: string
-                exchangeItemName:
-                    type: string
-                subtitle:
-                    type: string
-                tag:
-                    type: string
-                image:
-                    type: string
-                itemId:
-                    type: integer
-                    format: int32
-                title:
-                    type: string
-        PurchaseListReply:
-            type: object
-            properties:
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/PurchaseListItem'
-                total:
-                    type: integer
-                    format: int32
-        PurchaseListRequest:
-            type: object
-            properties:
-                itemId:
+                figure:
                     type: integer
                     format: int32
         Status:
@@ -257,51 +319,5 @@ components:
                         $ref: '#/components/schemas/GoogleProtobufAny'
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-        VirtualBuyReply:
-            type: object
-            properties:
-                isPayed:
-                    type: integer
-                    format: enum
-                env:
-                    type: integer
-                    format: int32
-                offerId:
-                    type: string
-                currencyType:
-                    type: string
-                platform:
-                    type: string
-                outTradNo:
-                    type: string
-                    description: int32 quantity = 6; // 购买数量
-                orderAmount:
-                    type: number
-                    format: double
-                quantity:
-                    type: integer
-                    format: int32
-                mode:
-                    type: string
-                orderId:
-                    type: string
-                title:
-                    type: string
-        VirtualBuyRequest:
-            type: object
-            properties:
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-                purchaseId:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
-                orderId:
-                    type: string
 tags:
-    - name: Purchase
+    - name: Auth
