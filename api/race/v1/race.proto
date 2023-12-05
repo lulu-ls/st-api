@@ -75,6 +75,14 @@ service Race {
     };
   }
 
+  // 用户绑定赛事系列
+  rpc GameSeriesBindUser(GameSeriesBindUserRequest) returns (GameSeriesBindUserReply) {
+    option (google.api.http) = {
+      post: "/st-games/v1/race/bind_user",
+      body: "*",
+    };
+  }
+
 }
 // 报名状态 0 未报名 1 已报名
 enum SignupStatus {
@@ -82,8 +90,17 @@ enum SignupStatus {
   ALREADY = 1;
 }
 
+message GameSeriesBindUserRequest {
+  int32 app_id = 2;
+  int64 user_id = 3;
+  string series_id_encry = 4;
+}
+//返回参数
+message GameSeriesBindUserReply {
+}
 message RaceTypeRequest {
   int32 app_id = 2;
+  int32 home_show = 4;
 }
 message RaceTypeReply {
   repeated RaceTypeItem list = 1;
@@ -92,6 +109,8 @@ message RaceTypeReply {
 message RaceTypeItem {
   int32 game_series_id = 1;
   string name = 2;
+  string home_show = 3;
+  string image = 4;
 }
 
 message RaceListRequest {

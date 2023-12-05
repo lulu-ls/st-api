@@ -35,6 +35,216 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on GameSeriesBindUserRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GameSeriesBindUserRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GameSeriesBindUserRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GameSeriesBindUserRequestMultiError, or nil if none found.
+func (m *GameSeriesBindUserRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GameSeriesBindUserRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for AppId
+
+	// no validation rules for UserId
+
+	// no validation rules for SeriesIdEncry
+
+	if len(errors) > 0 {
+		return GameSeriesBindUserRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GameSeriesBindUserRequestMultiError is an error wrapping multiple validation
+// errors returned by GameSeriesBindUserRequest.ValidateAll() if the
+// designated constraints aren't met.
+type GameSeriesBindUserRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GameSeriesBindUserRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GameSeriesBindUserRequestMultiError) AllErrors() []error { return m }
+
+// GameSeriesBindUserRequestValidationError is the validation error returned by
+// GameSeriesBindUserRequest.Validate if the designated constraints aren't met.
+type GameSeriesBindUserRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GameSeriesBindUserRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GameSeriesBindUserRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GameSeriesBindUserRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GameSeriesBindUserRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GameSeriesBindUserRequestValidationError) ErrorName() string {
+	return "GameSeriesBindUserRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GameSeriesBindUserRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGameSeriesBindUserRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GameSeriesBindUserRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GameSeriesBindUserRequestValidationError{}
+
+// Validate checks the field values on GameSeriesBindUserReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GameSeriesBindUserReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GameSeriesBindUserReply with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GameSeriesBindUserReplyMultiError, or nil if none found.
+func (m *GameSeriesBindUserReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GameSeriesBindUserReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return GameSeriesBindUserReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// GameSeriesBindUserReplyMultiError is an error wrapping multiple validation
+// errors returned by GameSeriesBindUserReply.ValidateAll() if the designated
+// constraints aren't met.
+type GameSeriesBindUserReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GameSeriesBindUserReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GameSeriesBindUserReplyMultiError) AllErrors() []error { return m }
+
+// GameSeriesBindUserReplyValidationError is the validation error returned by
+// GameSeriesBindUserReply.Validate if the designated constraints aren't met.
+type GameSeriesBindUserReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GameSeriesBindUserReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GameSeriesBindUserReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GameSeriesBindUserReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GameSeriesBindUserReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GameSeriesBindUserReplyValidationError) ErrorName() string {
+	return "GameSeriesBindUserReplyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GameSeriesBindUserReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGameSeriesBindUserReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GameSeriesBindUserReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GameSeriesBindUserReplyValidationError{}
+
 // Validate checks the field values on RaceTypeRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.
@@ -58,6 +268,8 @@ func (m *RaceTypeRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for AppId
+
+	// no validation rules for HomeShow
 
 	if len(errors) > 0 {
 		return RaceTypeRequestMultiError(errors)
@@ -298,6 +510,10 @@ func (m *RaceTypeItem) validate(all bool) error {
 	// no validation rules for GameSeriesId
 
 	// no validation rules for Name
+
+	// no validation rules for HomeShow
+
+	// no validation rules for Image
 
 	if len(errors) > 0 {
 		return RaceTypeItemMultiError(errors)

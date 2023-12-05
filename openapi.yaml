@@ -3,369 +3,20 @@
 
 openapi: 3.0.3
 info:
-    title: ""
+    title: Race API
     version: 0.0.1
 paths:
-    /st-games/v1/auth/decrypt:
-        post:
-            tags:
-                - Auth
-            operationId: Auth_Decrypt
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.auth.v1.DecryptRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.auth.v1.DecryptReply'
-    /st-games/v1/auth/get_info:
-        post:
-            tags:
-                - Auth
-            operationId: Auth_GetInfo
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.auth.v1.GetInfoRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.auth.v1.LoginReply'
-    /st-games/v1/auth/login:
-        post:
-            tags:
-                - Auth
-            operationId: Auth_Login
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.auth.v1.LoginRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.auth.v1.LoginReply'
-    /st-games/v1/auth/login_test:
-        post:
-            tags:
-                - Auth
-            operationId: Auth_LoginTest
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.auth.v1.LoginTestRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.auth.v1.LoginReply'
-    /st-games/v1/bag/emoji/list:
-        post:
-            tags:
-                - Bag
-            description: 表情列表
-            operationId: Bag_ListEmoji
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.bag.v1.ListEmojiRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.bag.v1.ListEmojiReply'
-    /st-games/v1/bag/emoji/use:
-        post:
-            tags:
-                - Bag
-            description: 使用表情
-            operationId: Bag_UseEmoji
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.bag.v1.UseEmojiRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.bag.v1.UseEmojiReply'
-    /st-games/v1/bag/item/list:
-        post:
-            tags:
-                - Bag
-            description: 背包道具列表
-            operationId: Bag_ListItem
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.bag.v1.ItemListRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.bag.v1.ItemListReply'
-    /st-games/v1/free/list:
-        post:
-            tags:
-                - Free
-            operationId: Free_FreeList
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.race.v1.FreeListRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.race.v1.FreeListReply'
-    /st-games/v1/free/signup:
-        post:
-            tags:
-                - Free
-            operationId: Free_FreeSignup
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.race.v1.FreeSignupRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.race.v1.FreeSignupReply'
-    /st-games/v1/free/sub_type:
-        post:
-            tags:
-                - Free
-            operationId: Free_FreeType
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.race.v1.FreeTypeRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.race.v1.FreeTypeReply'
-    /st-games/v1/game/announcement/list:
-        post:
-            tags:
-                - Game
-            description: 公告列表
-            operationId: Game_AnnouncementList
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.game.v1.AnnouncementListRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.game.v1.AnnouncementListReply'
-    /st-games/v1/game/info:
-        post:
-            tags:
-                - Game
-            description: 获取房间信息
-            operationId: Game_GameInfo
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.game.v1.GameInfoRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.game.v1.GameInfoReply'
-    /st-games/v1/game/task/list:
-        post:
-            tags:
-                - Game
-            description: 任务列表
-            operationId: Game_TaskList
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.game.v1.TaskListRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.game.v1.TaskListReply'
-    /st-games/v1/game/task/reward:
-        post:
-            tags:
-                - Game
-            description: 兑换任务奖励
-            operationId: Game_TaskReward
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.game.v1.TaskRewardRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.game.v1.TaskRewardReply'
-    /st-games/v1/item/list:
-        post:
-            tags:
-                - Item
-            operationId: Item_ListItem
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.item.v1.ListItemRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.item.v1.ListItemReply'
-    /st-games/v1/item/purchase/buy/js:
-        post:
-            tags:
-                - Purchase
-            operationId: Purchase_JSBuy
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.item.v1.JSBuyRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.item.v1.JSBuyReply'
-    /st-games/v1/item/purchase/buy/virtual:
-        post:
-            tags:
-                - Purchase
-            operationId: Purchase_VirtualBuy
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.item.v1.VirtualBuyRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.item.v1.VirtualBuyReply'
-    /st-games/v1/item/purchase/list:
-        post:
-            tags:
-                - Purchase
-            operationId: Purchase_PurchaseList
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.item.v1.PurchaseListRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.item.v1.PurchaseListReply'
-    /st-games/v1/mall/notify:
-        post:
-            tags:
-                - Mall
-            description: 订单通知
-            operationId: Mall_RechargeNotify
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.mall.v1.RechargeNotifyRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.mall.v1.RechargeNotifyReply'
     /st-games/v1/race/detail:
         post:
             tags:
                 - Race
+            description: 比赛详情
             operationId: Race_RaceDetail
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.race.v1.RaceDetailRequest'
+                            $ref: '#/components/schemas/RaceDetailRequest'
                 required: true
             responses:
                 "200":
@@ -373,17 +24,24 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.race.v1.ListRaceItem'
+                                $ref: '#/components/schemas/ListRaceItem'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /st-games/v1/race/list:
         post:
             tags:
                 - Race
+            description: 比赛列表
             operationId: Race_RaceList
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.race.v1.RaceListRequest'
+                            $ref: '#/components/schemas/RaceListRequest'
                 required: true
             responses:
                 "200":
@@ -391,17 +49,49 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.race.v1.RaceListReply'
+                                $ref: '#/components/schemas/RaceListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /st-games/v1/race/podium:
+        post:
+            tags:
+                - Race
+            description: 领奖台
+            operationId: Race_Podium
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/PodiumRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PodiumReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /st-games/v1/race/reward:
         post:
             tags:
                 - Race
+            description: 比赛奖励
             operationId: Race_RaceReward
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.race.v1.RaceRewardRequest'
+                            $ref: '#/components/schemas/RaceRewardRequest'
                 required: true
             responses:
                 "200":
@@ -409,17 +99,24 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.race.v1.RaceRewardReply'
+                                $ref: '#/components/schemas/RaceRewardReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /st-games/v1/race/rule:
         post:
             tags:
                 - Race
+            description: 赛制
             operationId: Race_RaceRule
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.race.v1.RaceRuleRequest'
+                            $ref: '#/components/schemas/RaceRuleRequest'
                 required: true
             responses:
                 "200":
@@ -427,17 +124,24 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.race.v1.RaceRuleReply'
+                                $ref: '#/components/schemas/RaceRuleReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /st-games/v1/race/signup:
         post:
             tags:
                 - Race
+            description: 报名
             operationId: Race_RaceSignup
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.race.v1.RaceSignupRequest'
+                            $ref: '#/components/schemas/RaceSignupRequest'
                 required: true
             responses:
                 "200":
@@ -445,17 +149,24 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.race.v1.RaceSignupReply'
+                                $ref: '#/components/schemas/RaceSignupReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /st-games/v1/race/signup_cancel:
         post:
             tags:
                 - Race
+            description: 取消报名
             operationId: Race_RaceSignupCancel
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.race.v1.RaceSignupCancelRequest'
+                            $ref: '#/components/schemas/RaceSignupCancelRequest'
                 required: true
             responses:
                 "200":
@@ -463,17 +174,24 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.race.v1.RaceSignupCancelReply'
+                                $ref: '#/components/schemas/RaceSignupCancelReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /st-games/v1/race/sub_type:
         post:
             tags:
                 - Race
+            description: 比赛侧边栏分类
             operationId: Race_RaceType
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.race.v1.RaceTypeRequest'
+                            $ref: '#/components/schemas/RaceTypeRequest'
                 required: true
             responses:
                 "200":
@@ -481,963 +199,24 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.race.v1.RaceTypeReply'
-    /st-games/v1/user/race/record:
-        post:
-            tags:
-                - User
-            description: 战绩
-            operationId: User_RaceRecordList
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.user.v1.RaceRecordListRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
+                                $ref: '#/components/schemas/RaceTypeReply'
+                default:
+                    description: Default error response
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.user.v1.RaceRecordListReply'
-    /st-games/v1/ware/category:
-        post:
-            tags:
-                - Ware
-            description: 商品分类
-            operationId: Ware_CategoryWare
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.ware.v1.CategoryWareRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.ware.v1.CategoryWareReply'
-    /st-games/v1/ware/exchange/info:
-        post:
-            tags:
-                - Ware
-            description: 获取兑换信息
-            operationId: Ware_ExchangeInfo
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.ware.v1.ExchangeInfoRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.ware.v1.ExchangeInfoReply'
-    /st-games/v1/ware/exchange/list:
-        post:
-            tags:
-                - Ware
-            description: 兑换记录
-            operationId: Ware_ExchangeList
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.ware.v1.ExchangeListRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.ware.v1.ExchangeListReply'
-    /st-games/v1/ware/exchange/matter:
-        post:
-            tags:
-                - Ware
-            description: 兑换实物
-            operationId: Ware_ExchangeMatter
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.ware.v1.ExchangeMatterRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.ware.v1.ExchangeMatterReply'
-    /st-games/v1/ware/exchange/virtual:
-        post:
-            tags:
-                - Ware
-            description: 兑换虚拟商品
-            operationId: Ware_ExchangeVirtual
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.ware.v1.ExchangeVirtualRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.ware.v1.ExchangeVirtualReply'
-    /st-games/v1/ware/get:
-        post:
-            tags:
-                - Ware
-            description: 获取商品
-            operationId: Ware_GetWare
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.ware.v1.GetWareRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.ware.v1.ListWareItem'
-    /st-games/v1/ware/list:
-        post:
-            tags:
-                - Ware
-            description: 商品列表
-            operationId: Ware_ListWare
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.ware.v1.ListWareRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.ware.v1.ListWareReply'
-    /st-games/v1/wx/html:
-        get:
-            tags:
-                - Message
-            operationId: Message_WxJSPayHtml
-            parameters:
-                - name: orderId
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.wx.v1.WxJSPayHtmlReply'
-    /st-games/v1/wx/notify/pay:
-        post:
-            tags:
-                - Message
-            operationId: Message_PayNotify
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.wx.v1.PayNotifyRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.wx.v1.PayNotifyReply'
-    /st-games/v1/wx/service:
-        get:
-            tags:
-                - Message
-            operationId: Message_WxService
-            parameters:
-                - name: FromUserName
-                  in: query
-                  schema:
-                    type: string
-                - name: ToUserName
-                  in: query
-                  schema:
-                    type: string
-                - name: Content
-                  in: query
-                  schema:
-                    type: string
-                - name: CreateTime
-                  in: query
-                  schema:
-                    type: string
-                - name: MsgId
-                  in: query
-                  schema:
-                    type: string
-                - name: MsgType
-                  in: query
-                  schema:
-                    type: string
-                - name: PagePath
-                  in: query
-                  schema:
-                    type: string
-                - name: Title
-                  in: query
-                  schema:
-                    type: string
-                - name: AppId
-                  in: query
-                  schema:
-                    type: string
-                - name: ThumbUrl
-                  in: query
-                  schema:
-                    type: string
-                - name: ThumbMediaId
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.wx.v1.WxServiceReply'
-        post:
-            tags:
-                - Message
-            operationId: Message_WxService
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.wx.v1.WxServiceRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.wx.v1.WxServiceReply'
+                                $ref: '#/components/schemas/Status'
 components:
     schemas:
-        api.auth.v1.DecryptReply:
+        GoogleProtobufAny:
             type: object
             properties:
-                language:
-                    type: string
-                city:
-                    type: string
-                province:
-                    type: string
-                avatar:
-                    type: string
-                nickName:
-                    type: string
-                gender:
-                    type: integer
-                    format: int32
-                country:
-                    type: string
-                unionId:
-                    type: string
-                userNo:
-                    type: string
-                userId:
-                    type: string
-                status:
-                    type: integer
-                    format: int32
-        api.auth.v1.DecryptRequest:
-            type: object
-            properties:
-                encryptedData:
-                    type: string
-                    description: string open_id = 1 [(validate.rules).string.min_len =  5];
-                iv:
-                    type: string
-                userInfo:
-                    $ref: '#/components/schemas/api.auth.v1.DecryptUserInfo'
-                userId:
-                    type: string
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-        api.auth.v1.DecryptUserInfo:
-            type: object
-            properties:
-                language:
-                    type: string
-                city:
-                    type: string
-                province:
-                    type: string
-                avatarUrl:
-                    type: string
-                nickName:
-                    type: string
-                gender:
-                    type: integer
-                    format: int32
-                country:
-                    type: string
-                unionId:
-                    type: string
-        api.auth.v1.GetInfoRequest:
-            type: object
-            properties:
-                userId:
-                    type: string
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-        api.auth.v1.LoginReply:
-            type: object
-            properties:
-                accessToken:
-                    type: string
-                expireTime:
-                    type: string
-                user:
-                    $ref: '#/components/schemas/api.auth.v1.LoginUser'
-        api.auth.v1.LoginRequest:
-            type: object
-            properties:
-                code:
-                    type: string
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-        api.auth.v1.LoginTestRequest:
-            type: object
-            properties:
-                userName:
-                    type: string
-                password:
-                    type: string
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-        api.auth.v1.LoginUser:
-            type: object
-            properties:
-                userNo:
-                    type: string
-                nickName:
-                    type: string
-                avatar:
-                    type: string
-                phone:
-                    type: string
-                email:
-                    type: string
-                gender:
-                    type: integer
-                    format: int32
-                birthDate:
-                    type: string
-                status:
-                    type: integer
-                    format: int32
-                gold:
-                    type: integer
-                    format: int32
-                diamond:
-                    type: integer
-                    format: int32
-                ticket:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
-        api.bag.v1.ItemListReply:
-            type: object
-            properties:
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.bag.v1.ListItem'
-                total:
-                    type: integer
-                    format: int32
-        api.bag.v1.ItemListRequest:
-            type: object
-            properties:
-                page:
-                    $ref: '#/components/schemas/api.common.v1.Paginate'
-                appId:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
-        api.bag.v1.ListEmojiItem:
-            type: object
-            properties:
-                itemId:
-                    type: integer
-                    format: int32
-                itemName:
-                    type: string
-                itemImage:
-                    type: string
-                total:
-                    type: integer
-                    format: int32
-                exchangeItemId:
-                    type: integer
-                    format: int32
-                exchangeItemName:
-                    type: string
-                exchangeItemImage:
-                    type: string
-                exchangeItemQuantity:
-                    type: integer
-                    format: int32
-        api.bag.v1.ListEmojiReply:
-            type: object
-            properties:
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.bag.v1.ListEmojiItem'
-                total:
-                    type: integer
-                    format: int32
-        api.bag.v1.ListEmojiRequest:
-            type: object
-            properties:
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
-        api.bag.v1.ListItem:
-            type: object
-            properties:
-                itemId:
-                    type: integer
-                    format: int32
-                itemCategoryId:
-                    type: integer
-                    format: int32
-                itemFuncId:
-                    type: integer
-                    format: int32
-                name:
-                    type: string
-                title:
-                    type: string
-                image:
-                    type: string
-                maxStack:
-                    type: integer
-                    format: int32
-                total:
-                    type: integer
-                    format: int32
-                itemExchangeWareId:
-                    type: integer
-                    format: int32
-                itemQuantity:
-                    type: integer
-                    format: int32
-                wareId:
-                    type: integer
-                    format: int32
-                wareCategoryId:
-                    type: integer
-                    format: int32
-                wareName:
-                    type: string
-                wareImage:
-                    type: string
-                wareExternalUrl:
-                    type: string
-                information:
-                    type: string
-        api.bag.v1.UseEmojiReply:
-            type: object
-            properties: {}
-        api.bag.v1.UseEmojiRequest:
-            type: object
-            properties:
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
-                itemId:
-                    type: integer
-                    format: int32
-                quantity:
-                    type: integer
-                    format: int32
-        api.common.v1.Paginate:
-            type: object
-            properties:
-                page:
-                    type: integer
-                    format: int32
-                size:
-                    type: integer
-                    format: int32
-        api.game.v1.AnnouncementListItem:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                title:
-                    type: string
-                information:
-                    type: string
-                image:
-                    type: string
-        api.game.v1.AnnouncementListReply:
-            type: object
-            properties:
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.game.v1.AnnouncementListItem'
-                total:
-                    type: integer
-                    format: int32
-        api.game.v1.AnnouncementListRequest:
-            type: object
-            properties:
-                page:
-                    $ref: '#/components/schemas/api.common.v1.Paginate'
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-        api.game.v1.GameInfoReply:
-            type: object
-            properties:
-                inGame:
-                    type: boolean
-                gameId:
-                    type: string
-                gameType:
-                    type: integer
-                    format: enum
-                gameCategory:
-                    type: integer
-                    format: enum
-                tableId:
-                    type: string
-        api.game.v1.GameInfoRequest:
-            type: object
-            properties:
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
-        api.game.v1.TaskListItem:
-            type: object
-            properties:
-                taskId:
-                    type: integer
-                    format: int32
-                title:
-                    type: string
-                itemId:
-                    type: integer
-                    format: int32
-                itemName:
-                    type: string
-                itemImage:
-                    type: string
-                itemQuantity:
-                    type: integer
-                    format: int32
-                status:
-                    type: integer
-                    format: enum
-                number:
-                    type: integer
-                    format: int32
-                process:
-                    type: integer
-                    format: int32
-                refreshCycle:
-                    type: integer
-                    format: enum
-                gameType:
-                    type: integer
-                    format: int32
-                action:
-                    type: integer
-                    format: int32
-                url:
-                    type: string
-        api.game.v1.TaskListReply:
-            type: object
-            properties:
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.game.v1.TaskListItem'
-                total:
-                    type: integer
-                    format: int32
-        api.game.v1.TaskListRequest:
-            type: object
-            properties:
-                page:
-                    $ref: '#/components/schemas/api.common.v1.Paginate'
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
-        api.game.v1.TaskRewardReply:
-            type: object
-            properties: {}
-        api.game.v1.TaskRewardRequest:
-            type: object
-            properties:
-                userId:
-                    type: string
-                taskId:
-                    type: integer
-                    format: int32
-        api.item.v1.JSBuyReply:
-            type: object
-            properties:
-                orderId:
-                    type: string
-        api.item.v1.JSBuyRequest:
-            type: object
-            properties:
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-                purchaseId:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
-                orderId:
-                    type: string
-        api.item.v1.ListItem:
-            type: object
-            properties:
-                itemId:
-                    type: integer
-                    format: int32
-                itemCategoryId:
-                    type: integer
-                    format: int32
-                itemFuncId:
-                    type: integer
-                    format: int32
-                name:
-                    type: string
-                title:
-                    type: string
-                image:
-                    type: string
-                maxStack:
-                    type: integer
-                    format: int32
-        api.item.v1.ListItemReply:
-            type: object
-            properties:
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.item.v1.ListItem'
-                total:
-                    type: integer
-                    format: int32
-        api.item.v1.ListItemRequest:
-            type: object
-            properties:
-                page:
-                    $ref: '#/components/schemas/api.common.v1.Paginate'
-                appId:
-                    type: integer
-                    format: int32
-        api.item.v1.PurchaseListItem:
-            type: object
-            properties:
-                purchaseId:
-                    type: integer
-                    format: int32
-                quantity:
-                    type: integer
-                    format: int32
-                price:
-                    type: number
-                    format: double
-                exchangeItemId:
-                    type: integer
-                    format: int32
-                exchangeItemQuantity:
-                    type: integer
-                    format: int32
-                exchangeItemImage:
-                    type: string
-                exchangeItemName:
-                    type: string
-                subtitle:
-                    type: string
-                tag:
-                    type: string
-                image:
-                    type: string
-                itemId:
-                    type: integer
-                    format: int32
-                title:
-                    type: string
-        api.item.v1.PurchaseListReply:
-            type: object
-            properties:
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.item.v1.PurchaseListItem'
-                total:
-                    type: integer
-                    format: int32
-        api.item.v1.PurchaseListRequest:
-            type: object
-            properties:
-                itemId:
-                    type: integer
-                    format: int32
-        api.item.v1.VirtualBuyReply:
-            type: object
-            properties:
-                isPayed:
-                    type: integer
-                    format: enum
-                env:
-                    type: integer
-                    format: int32
-                offerId:
-                    type: string
-                currencyType:
-                    type: string
-                platform:
-                    type: string
-                outTradNo:
-                    type: string
-                    description: int32 quantity = 6; // 购买数量
-                orderAmount:
-                    type: number
-                    format: double
-                quantity:
-                    type: integer
-                    format: int32
-                mode:
-                    type: string
-                orderId:
-                    type: string
-        api.item.v1.VirtualBuyRequest:
-            type: object
-            properties:
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-                purchaseId:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
-                orderId:
-                    type: string
-        api.mall.v1.RechargeNotifyReply:
-            type: object
-            properties: {}
-        api.mall.v1.RechargeNotifyRequest:
-            type: object
-            properties:
-                appId:
-                    type: string
-                orderId:
-                    type: string
-                outOrderId:
-                    type: string
-                orderStatus:
-                    type: string
-                orderDesc:
-                    type: string
-                completeTime:
-                    type: string
-                sign:
-                    type: string
-                ext1:
-                    type: string
-                ext2:
-                    type: string
-                ext3:
-                    type: string
-        api.race.v1.FreeListItem:
-            type: object
-            properties:
-                gameFreeConfigId:
-                    type: integer
-                    format: int32
-                gameTypeId:
-                    type: integer
-                    format: int32
-                gameTypeName:
-                    type: string
-                name:
-                    type: string
-                    description: |-
-                        int32 game_category_id = 4; // 赛事类型 id
-                        	string game_category_name = 5; // 赛事分类名称
-                title:
-                    type: string
-                image:
-                    type: string
-                desc:
-                    type: string
-                itemId:
-                    type: integer
-                    format: int32
-                itemName:
-                    type: string
-                itemImage:
-                    type: string
-                quantity:
-                    type: integer
-                    format: int32
-                minQuantity:
-                    type: integer
-                    format: int32
-                maxQuantity:
-                    type: integer
-                    format: int32
-                maxMultiple:
-                    type: integer
-                    format: int32
-                robot:
-                    type: integer
-                    format: int32
-                baseScore:
-                    type: integer
-                    format: int32
-                peopleNo:
-                    type: integer
-                    format: int32
-        api.race.v1.FreeListReply:
-            type: object
-            properties:
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.race.v1.FreeListItem'
-                total:
-                    type: integer
-                    format: int32
-        api.race.v1.FreeListRequest:
-            type: object
-            properties:
-                appId:
-                    type: integer
-                    format: int32
-                gameSeriesId:
-                    type: integer
-                    format: int32
-        api.race.v1.FreeSignupReply:
-            type: object
-            properties: {}
-        api.race.v1.FreeSignupRequest:
-            type: object
-            properties:
-                userId:
-                    type: string
-                gameFreeConfigId:
-                    type: integer
-                    format: int32
-        api.race.v1.FreeTypeItem:
-            type: object
-            properties:
-                gameSeriesId:
-                    type: integer
-                    format: int32
-                name:
-                    type: string
-        api.race.v1.FreeTypeReply:
-            type: object
-            properties:
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.race.v1.FreeTypeItem'
-                total:
-                    type: integer
-                    format: int32
-        api.race.v1.FreeTypeRequest:
-            type: object
-            properties:
-                appId:
-                    type: integer
-                    format: int32
-        api.race.v1.ListRaceItem:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        ListRaceItem:
             type: object
             properties:
                 type:
@@ -1478,7 +257,7 @@ components:
                 signupItem:
                     type: array
                     items:
-                        $ref: '#/components/schemas/api.race.v1.SignupItem'
+                        $ref: '#/components/schemas/SignupItem'
                 earliestTime:
                     type: string
                 gameConfigId:
@@ -1487,7 +266,26 @@ components:
                 signupStatus:
                     type: integer
                     format: int32
-        api.race.v1.RaceDetailRequest:
+        PodiumReply:
+            type: object
+            properties:
+                ranking:
+                    type: integer
+                    format: int32
+                image:
+                    type: string
+                quantity:
+                    type: integer
+                    format: int32
+                title:
+                    type: string
+        PodiumRequest:
+            type: object
+            properties:
+                gameConfigId:
+                    type: integer
+                    format: int32
+        RaceDetailRequest:
             type: object
             properties:
                 gameConfigId:
@@ -1495,17 +293,17 @@ components:
                     format: int32
                 userId:
                     type: string
-        api.race.v1.RaceListReply:
+        RaceListReply:
             type: object
             properties:
                 list:
                     type: array
                     items:
-                        $ref: '#/components/schemas/api.race.v1.ListRaceItem'
+                        $ref: '#/components/schemas/ListRaceItem'
                 total:
                     type: integer
                     format: int32
-        api.race.v1.RaceListRequest:
+        RaceListRequest:
             type: object
             properties:
                 gameSeriesId:
@@ -1516,7 +314,7 @@ components:
                     format: int32
                 userId:
                     type: string
-        api.race.v1.RaceRewardItem:
+        RaceRewardItem:
             type: object
             properties:
                 id:
@@ -1533,28 +331,28 @@ components:
                 detail:
                     type: array
                     items:
-                        $ref: '#/components/schemas/api.race.v1.RaceRewardRuleDetail'
-        api.race.v1.RaceRewardReply:
+                        $ref: '#/components/schemas/RaceRewardRuleDetail'
+        RaceRewardReply:
             type: object
             properties:
                 list:
                     type: array
                     items:
-                        $ref: '#/components/schemas/api.race.v1.RaceRewardRuleItem'
+                        $ref: '#/components/schemas/RaceRewardRuleItem'
                 total:
                     type: integer
                     format: int32
                 rostrumItem:
                     type: array
                     items:
-                        $ref: '#/components/schemas/api.race.v1.RaceRostrumItem'
-        api.race.v1.RaceRewardRequest:
+                        $ref: '#/components/schemas/RaceRostrumItem'
+        RaceRewardRequest:
             type: object
             properties:
                 gameConfigId:
                     type: integer
                     format: int32
-        api.race.v1.RaceRewardRuleDetail:
+        RaceRewardRuleDetail:
             type: object
             properties:
                 itemId:
@@ -1568,7 +366,7 @@ components:
                 sendType:
                     type: integer
                     format: int32
-        api.race.v1.RaceRewardRuleItem:
+        RaceRewardRuleItem:
             type: object
             properties:
                 gameRuleConfigId:
@@ -1580,8 +378,8 @@ components:
                 item:
                     type: array
                     items:
-                        $ref: '#/components/schemas/api.race.v1.RaceRewardItem'
-        api.race.v1.RaceRostrumItem:
+                        $ref: '#/components/schemas/RaceRewardItem'
+        RaceRostrumItem:
             type: object
             properties:
                 gameRostrumConfigId:
@@ -1597,32 +395,24 @@ components:
                     type: string
                 title:
                     type: string
-        api.race.v1.RaceRuleReply:
+        RaceRuleReply:
             type: object
             properties:
                 rule:
                     type: string
-        api.race.v1.RaceRuleRequest:
+        RaceRuleRequest:
             type: object
             properties:
                 gameConfigId:
                     type: integer
                     format: int32
-        api.race.v1.RaceSignupCancelReply:
-            type: object
-            properties: {}
-        api.race.v1.RaceSignupCancelRequest:
+        RaceSignupCancelReply:
             type: object
             properties:
-                userId:
-                    type: string
                 gameConfigId:
                     type: integer
                     format: int32
-        api.race.v1.RaceSignupReply:
-            type: object
-            properties: {}
-        api.race.v1.RaceSignupRequest:
+        RaceSignupCancelRequest:
             type: object
             properties:
                 userId:
@@ -1630,7 +420,21 @@ components:
                 gameConfigId:
                     type: integer
                     format: int32
-        api.race.v1.RaceTypeItem:
+        RaceSignupReply:
+            type: object
+            properties:
+                gameConfigId:
+                    type: integer
+                    format: int32
+        RaceSignupRequest:
+            type: object
+            properties:
+                userId:
+                    type: string
+                gameConfigId:
+                    type: integer
+                    format: int32
+        RaceTypeItem:
             type: object
             properties:
                 gameSeriesId:
@@ -1638,422 +442,55 @@ components:
                     format: int32
                 name:
                     type: string
-        api.race.v1.RaceTypeReply:
-            type: object
-            properties:
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.race.v1.RaceTypeItem'
-                total:
-                    type: integer
-                    format: int32
-        api.race.v1.RaceTypeRequest:
-            type: object
-            properties:
-                appId:
-                    type: integer
-                    format: int32
-        api.race.v1.SignupItem:
-            type: object
-            properties:
-                itemId:
-                    type: integer
-                    format: int32
-                itemName:
-                    type: string
-                quantity:
-                    type: integer
-                    format: int32
-        api.user.v1.RaceRecordListItem:
-            type: object
-            properties:
-                id:
-                    type: string
-                gameId:
-                    type: integer
-                    format: int32
-                gameCategoryId:
-                    type: integer
-                    format: int32
-                gameCategoryName:
-                    type: string
-                gameConfigId:
-                    type: integer
-                    format: int32
-                gameConfigName:
-                    type: string
-                gameConfigTitle:
-                    type: string
-                rounds:
-                    type: integer
-                    format: int32
-                rank:
-                    type: integer
-                    format: int32
-                win:
-                    type: integer
-                    format: int32
-                lose:
-                    type: integer
-                    format: int32
-                enterTime:
-                    type: string
-                leaveTime:
-                    type: string
-        api.user.v1.RaceRecordListReply:
-            type: object
-            properties:
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.user.v1.RaceRecordListItem'
-                total:
-                    type: integer
-                    format: int32
-        api.user.v1.RaceRecordListRequest:
-            type: object
-            properties:
-                page:
-                    $ref: '#/components/schemas/api.common.v1.Paginate'
-                userId:
-                    type: string
-                appId:
-                    type: integer
-                    format: int32
-        api.ware.v1.CategoryWareItem:
-            type: object
-            properties:
-                wareCategoryId:
-                    type: integer
-                    format: int32
-                name:
-                    type: string
-                children:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.ware.v1.CategoryWareItem'
-        api.ware.v1.CategoryWareReply:
-            type: object
-            properties:
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.ware.v1.CategoryWareItem'
-        api.ware.v1.CategoryWareRequest:
-            type: object
-            properties:
-                appId:
-                    type: integer
-                    format: int32
-        api.ware.v1.ExchangeInfoReply:
-            type: object
-            properties:
-                name:
-                    type: string
-                phone:
-                    type: string
-                address:
-                    type: string
-        api.ware.v1.ExchangeInfoRequest:
-            type: object
-            properties:
-                userId:
-                    type: string
-                channelId:
-                    type: integer
-                    format: int32
-                wareType:
-                    type: integer
-                    format: int32
-        api.ware.v1.ExchangeItem:
-            type: object
-            properties:
-                wareId:
-                    type: integer
-                    format: int32
-                itemId:
-                    type: integer
-                    format: int32
-                itemName:
-                    type: string
-                itemImage:
-                    type: string
-                itemQuantity:
-                    type: integer
-                    format: int32
-                itemExchangeWareId:
-                    type: integer
-                    format: int32
-        api.ware.v1.ExchangeListItem:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                wareId:
-                    type: integer
-                    format: int32
-                wareType:
-                    type: integer
-                    format: int32
-                wareName:
-                    type: string
-                wareImage:
-                    type: string
-                itemId:
-                    type: integer
-                    format: int32
-                itemImage:
-                    type: string
-                itemQuantity:
-                    type: integer
-                    format: int32
-                createdTime:
-                    type: string
-                expressTime:
-                    type: string
-                name:
-                    type: string
-                phone:
-                    type: string
-                address:
-                    type: string
-                quantity:
-                    type: integer
-                    format: int32
-                status:
-                    type: integer
-                    format: int32
-                statusName:
-                    type: string
-        api.ware.v1.ExchangeListReply:
-            type: object
-            properties:
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.ware.v1.ExchangeListItem'
-                total:
-                    type: integer
-                    format: int32
-        api.ware.v1.ExchangeListRequest:
-            type: object
-            properties:
-                channelId:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
-        api.ware.v1.ExchangeMatterReply:
-            type: object
-            properties: {}
-        api.ware.v1.ExchangeMatterRequest:
-            type: object
-            properties:
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
-                itemExchangeWareId:
-                    type: integer
-                    format: int32
-                phone:
-                    type: string
-                name:
-                    type: string
-                address:
-                    type: string
-        api.ware.v1.ExchangeVirtualReply:
-            type: object
-            properties: {}
-        api.ware.v1.ExchangeVirtualRequest:
-            type: object
-            properties:
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
-                itemExchangeWareId:
-                    type: integer
-                    format: int32
-                phoneType:
-                    type: integer
-                    format: enum
-                phone:
-                    type: string
-        api.ware.v1.GetWareRequest:
-            type: object
-            properties:
-                wareId:
-                    type: integer
-                    format: int32
-        api.ware.v1.ListWareItem:
-            type: object
-            properties:
-                wareId:
-                    type: integer
-                    format: int32
-                wareType:
-                    type: integer
-                    format: int32
-                wareTypeName:
-                    type: string
-                wareCategoryId:
-                    type: integer
-                    format: int32
-                wareCategoryName:
-                    type: string
-                name:
+                homeShow:
                     type: string
                 image:
                     type: string
-                externalUrl:
-                    type: string
-                information:
-                    type: string
-                price:
-                    type: number
-                    format: double
-                point:
-                    type: integer
-                    format: int32
-                settlePrice:
-                    type: number
-                    format: double
-                exchangeItem:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.ware.v1.ExchangeItem'
-        api.ware.v1.ListWareReply:
+        RaceTypeReply:
             type: object
             properties:
                 list:
                     type: array
                     items:
-                        $ref: '#/components/schemas/api.ware.v1.ListWareItem'
+                        $ref: '#/components/schemas/RaceTypeItem'
                 total:
                     type: integer
                     format: int32
-        api.ware.v1.ListWareRequest:
+        RaceTypeRequest:
             type: object
             properties:
-                page:
-                    $ref: '#/components/schemas/api.common.v1.Paginate'
                 appId:
                     type: integer
                     format: int32
-                wareId:
-                    type: array
-                    items:
-                        type: integer
-                        format: int32
-                wareType:
-                    type: array
-                    items:
-                        type: integer
-                        format: int32
-                name:
-                    type: string
-                wareCategoryId:
+                homeShow:
                     type: integer
                     format: int32
-                itemIds:
-                    type: array
-                    items:
-                        type: integer
-                        format: int32
-        api.wx.v1.PayNotifyReply:
+        SignupItem:
+            type: object
+            properties:
+                itemId:
+                    type: integer
+                    format: int32
+                itemName:
+                    type: string
+                quantity:
+                    type: integer
+                    format: int32
+        Status:
             type: object
             properties:
                 code:
-                    type: string
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
                 message:
                     type: string
-        api.wx.v1.PayNotifyRequest:
-            type: object
-            properties:
-                id:
-                    type: string
-                createTime:
-                    type: string
-                eventType:
-                    type: string
-                resourceType:
-                    type: string
-                summary:
-                    type: string
-                resource:
-                    type: string
-        api.wx.v1.WxJSPayHtmlReply:
-            type: object
-            properties:
-                appId:
-                    type: string
-                nonceStr:
-                    type: string
-                package:
-                    type: string
-                signType:
-                    type: string
-                timeStamp:
-                    type: string
-                paySign:
-                    type: string
-                message:
-                    type: string
-            description: |-
-                {"app_id":"wx6b2e1f50bfeb9879"
-                 ,"nonce_str":"Gj8SCUslaFRcoMd5ZdhUHx2Fu8PcAvRd",
-                 "package":"prepay_id=wx26150155800783034184e2c698a3720000",
-                 "sign_type":"RSA",
-                 "time_stamp":"1698303716",
-                 "pay_sign":"DWbJaV6T3cOUVT7H3FlaFwETcMuMxogClJFeD/Ln3CzHj7HWlbbdI8pORPVKVNcQr7B0jurczFVTmLNhmJwFZtN11/dVpRA5NY/VTemQNtuCLMiC7wnvc0m6KUJ1Mt6Nd9v4pe3c3EiI1XpeOkU6OXJo+P4XKL14tOFZGC0gqbSIci9uXLTlg0jxJgrA1oPaZK2MaICzRwvVZDOl04z/sH77LDRX95bpPFF1WiQU+YzSblEZHWJiXlWBMf/t5iCqocD3aELnXDAjfxMmtQjivoGmsijOQUDwI2kxL5JC4gfDtlRUBwu9jLx6zQqq5X9e3JKCPSyOzyT8krJT2KzmMA=="}
-        api.wx.v1.WxServiceReply:
-            type: object
-            properties: {}
-        api.wx.v1.WxServiceRequest:
-            type: object
-            properties:
-                FromUserName:
-                    type: string
-                ToUserName:
-                    type: string
-                Content:
-                    type: string
-                CreateTime:
-                    type: string
-                MsgId:
-                    type: string
-                MsgType:
-                    type: string
-                PagePath:
-                    type: string
-                Title:
-                    type: string
-                AppId:
-                    type: string
-                ThumbUrl:
-                    type: string
-                ThumbMediaId:
-                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
 tags:
-    - name: Auth
-    - name: Bag
-    - name: Free
-    - name: Game
-    - name: Item
-    - name: Mall
-    - name: Message
-    - name: Purchase
     - name: Race
-    - name: User
-    - name: Ware

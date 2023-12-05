@@ -19,14 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Race_RaceType_FullMethodName         = "/api.race.v1.Race/RaceType"
-	Race_RaceList_FullMethodName         = "/api.race.v1.Race/RaceList"
-	Race_RaceDetail_FullMethodName       = "/api.race.v1.Race/RaceDetail"
-	Race_RaceReward_FullMethodName       = "/api.race.v1.Race/RaceReward"
-	Race_RaceRule_FullMethodName         = "/api.race.v1.Race/RaceRule"
-	Race_RaceSignup_FullMethodName       = "/api.race.v1.Race/RaceSignup"
-	Race_RaceSignupCancel_FullMethodName = "/api.race.v1.Race/RaceSignupCancel"
-	Race_Podium_FullMethodName           = "/api.race.v1.Race/Podium"
+	Race_RaceType_FullMethodName           = "/api.race.v1.Race/RaceType"
+	Race_RaceList_FullMethodName           = "/api.race.v1.Race/RaceList"
+	Race_RaceDetail_FullMethodName         = "/api.race.v1.Race/RaceDetail"
+	Race_RaceReward_FullMethodName         = "/api.race.v1.Race/RaceReward"
+	Race_RaceRule_FullMethodName           = "/api.race.v1.Race/RaceRule"
+	Race_RaceSignup_FullMethodName         = "/api.race.v1.Race/RaceSignup"
+	Race_RaceSignupCancel_FullMethodName   = "/api.race.v1.Race/RaceSignupCancel"
+	Race_Podium_FullMethodName             = "/api.race.v1.Race/Podium"
+	Race_GameSeriesBindUser_FullMethodName = "/api.race.v1.Race/GameSeriesBindUser"
 )
 
 // RaceClient is the client API for Race service.
@@ -49,6 +50,8 @@ type RaceClient interface {
 	RaceSignupCancel(ctx context.Context, in *RaceSignupCancelRequest, opts ...grpc.CallOption) (*RaceSignupCancelReply, error)
 	// 领奖台
 	Podium(ctx context.Context, in *PodiumRequest, opts ...grpc.CallOption) (*PodiumReply, error)
+	// 用户绑定赛事系列
+	GameSeriesBindUser(ctx context.Context, in *GameSeriesBindUserRequest, opts ...grpc.CallOption) (*GameSeriesBindUserReply, error)
 }
 
 type raceClient struct {
@@ -131,6 +134,15 @@ func (c *raceClient) Podium(ctx context.Context, in *PodiumRequest, opts ...grpc
 	return out, nil
 }
 
+func (c *raceClient) GameSeriesBindUser(ctx context.Context, in *GameSeriesBindUserRequest, opts ...grpc.CallOption) (*GameSeriesBindUserReply, error) {
+	out := new(GameSeriesBindUserReply)
+	err := c.cc.Invoke(ctx, Race_GameSeriesBindUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RaceServer is the server API for Race service.
 // All implementations must embed UnimplementedRaceServer
 // for forward compatibility
@@ -151,6 +163,8 @@ type RaceServer interface {
 	RaceSignupCancel(context.Context, *RaceSignupCancelRequest) (*RaceSignupCancelReply, error)
 	// 领奖台
 	Podium(context.Context, *PodiumRequest) (*PodiumReply, error)
+	// 用户绑定赛事系列
+	GameSeriesBindUser(context.Context, *GameSeriesBindUserRequest) (*GameSeriesBindUserReply, error)
 	mustEmbedUnimplementedRaceServer()
 }
 
@@ -181,6 +195,9 @@ func (UnimplementedRaceServer) RaceSignupCancel(context.Context, *RaceSignupCanc
 }
 func (UnimplementedRaceServer) Podium(context.Context, *PodiumRequest) (*PodiumReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Podium not implemented")
+}
+func (UnimplementedRaceServer) GameSeriesBindUser(context.Context, *GameSeriesBindUserRequest) (*GameSeriesBindUserReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GameSeriesBindUser not implemented")
 }
 func (UnimplementedRaceServer) mustEmbedUnimplementedRaceServer() {}
 
@@ -339,6 +356,24 @@ func _Race_Podium_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Race_GameSeriesBindUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GameSeriesBindUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RaceServer).GameSeriesBindUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Race_GameSeriesBindUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RaceServer).GameSeriesBindUser(ctx, req.(*GameSeriesBindUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Race_ServiceDesc is the grpc.ServiceDesc for Race service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -377,6 +412,10 @@ var Race_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Podium",
 			Handler:    _Race_Podium_Handler,
+		},
+		{
+			MethodName: "GameSeriesBindUser",
+			Handler:    _Race_GameSeriesBindUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

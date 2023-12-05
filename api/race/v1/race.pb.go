@@ -69,18 +69,121 @@ func (SignupStatus) EnumDescriptor() ([]byte, []int) {
 	return file_race_v1_race_proto_rawDescGZIP(), []int{0}
 }
 
+type GameSeriesBindUserRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	AppId         int32  `protobuf:"varint,2,opt,name=app_id,json=appId,proto3" json:"app_id,omitempty"`
+	UserId        int64  `protobuf:"varint,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	SeriesIdEncry string `protobuf:"bytes,4,opt,name=series_id_encry,json=seriesIdEncry,proto3" json:"series_id_encry,omitempty"`
+}
+
+func (x *GameSeriesBindUserRequest) Reset() {
+	*x = GameSeriesBindUserRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_race_v1_race_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GameSeriesBindUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GameSeriesBindUserRequest) ProtoMessage() {}
+
+func (x *GameSeriesBindUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_race_v1_race_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GameSeriesBindUserRequest.ProtoReflect.Descriptor instead.
+func (*GameSeriesBindUserRequest) Descriptor() ([]byte, []int) {
+	return file_race_v1_race_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *GameSeriesBindUserRequest) GetAppId() int32 {
+	if x != nil {
+		return x.AppId
+	}
+	return 0
+}
+
+func (x *GameSeriesBindUserRequest) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *GameSeriesBindUserRequest) GetSeriesIdEncry() string {
+	if x != nil {
+		return x.SeriesIdEncry
+	}
+	return ""
+}
+
+// 返回参数
+type GameSeriesBindUserReply struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *GameSeriesBindUserReply) Reset() {
+	*x = GameSeriesBindUserReply{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_race_v1_race_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GameSeriesBindUserReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GameSeriesBindUserReply) ProtoMessage() {}
+
+func (x *GameSeriesBindUserReply) ProtoReflect() protoreflect.Message {
+	mi := &file_race_v1_race_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GameSeriesBindUserReply.ProtoReflect.Descriptor instead.
+func (*GameSeriesBindUserReply) Descriptor() ([]byte, []int) {
+	return file_race_v1_race_proto_rawDescGZIP(), []int{1}
+}
+
 type RaceTypeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AppId int32 `protobuf:"varint,2,opt,name=app_id,json=appId,proto3" json:"app_id,omitempty"`
+	AppId    int32 `protobuf:"varint,2,opt,name=app_id,json=appId,proto3" json:"app_id,omitempty"`
+	HomeShow int32 `protobuf:"varint,4,opt,name=home_show,json=homeShow,proto3" json:"home_show,omitempty"`
 }
 
 func (x *RaceTypeRequest) Reset() {
 	*x = RaceTypeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[0]
+		mi := &file_race_v1_race_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -93,7 +196,7 @@ func (x *RaceTypeRequest) String() string {
 func (*RaceTypeRequest) ProtoMessage() {}
 
 func (x *RaceTypeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[0]
+	mi := &file_race_v1_race_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -106,12 +209,19 @@ func (x *RaceTypeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceTypeRequest.ProtoReflect.Descriptor instead.
 func (*RaceTypeRequest) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{0}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *RaceTypeRequest) GetAppId() int32 {
 	if x != nil {
 		return x.AppId
+	}
+	return 0
+}
+
+func (x *RaceTypeRequest) GetHomeShow() int32 {
+	if x != nil {
+		return x.HomeShow
 	}
 	return 0
 }
@@ -128,7 +238,7 @@ type RaceTypeReply struct {
 func (x *RaceTypeReply) Reset() {
 	*x = RaceTypeReply{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[1]
+		mi := &file_race_v1_race_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -141,7 +251,7 @@ func (x *RaceTypeReply) String() string {
 func (*RaceTypeReply) ProtoMessage() {}
 
 func (x *RaceTypeReply) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[1]
+	mi := &file_race_v1_race_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -154,7 +264,7 @@ func (x *RaceTypeReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceTypeReply.ProtoReflect.Descriptor instead.
 func (*RaceTypeReply) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{1}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *RaceTypeReply) GetList() []*RaceTypeItem {
@@ -178,12 +288,14 @@ type RaceTypeItem struct {
 
 	GameSeriesId int32  `protobuf:"varint,1,opt,name=game_series_id,json=gameSeriesId,proto3" json:"game_series_id,omitempty"`
 	Name         string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	HomeShow     string `protobuf:"bytes,3,opt,name=home_show,json=homeShow,proto3" json:"home_show,omitempty"`
+	Image        string `protobuf:"bytes,4,opt,name=image,proto3" json:"image,omitempty"`
 }
 
 func (x *RaceTypeItem) Reset() {
 	*x = RaceTypeItem{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[2]
+		mi := &file_race_v1_race_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -196,7 +308,7 @@ func (x *RaceTypeItem) String() string {
 func (*RaceTypeItem) ProtoMessage() {}
 
 func (x *RaceTypeItem) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[2]
+	mi := &file_race_v1_race_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -209,7 +321,7 @@ func (x *RaceTypeItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceTypeItem.ProtoReflect.Descriptor instead.
 func (*RaceTypeItem) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{2}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *RaceTypeItem) GetGameSeriesId() int32 {
@@ -222,6 +334,20 @@ func (x *RaceTypeItem) GetGameSeriesId() int32 {
 func (x *RaceTypeItem) GetName() string {
 	if x != nil {
 		return x.Name
+	}
+	return ""
+}
+
+func (x *RaceTypeItem) GetHomeShow() string {
+	if x != nil {
+		return x.HomeShow
+	}
+	return ""
+}
+
+func (x *RaceTypeItem) GetImage() string {
+	if x != nil {
+		return x.Image
 	}
 	return ""
 }
@@ -239,7 +365,7 @@ type RaceListRequest struct {
 func (x *RaceListRequest) Reset() {
 	*x = RaceListRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[3]
+		mi := &file_race_v1_race_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -252,7 +378,7 @@ func (x *RaceListRequest) String() string {
 func (*RaceListRequest) ProtoMessage() {}
 
 func (x *RaceListRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[3]
+	mi := &file_race_v1_race_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -265,7 +391,7 @@ func (x *RaceListRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceListRequest.ProtoReflect.Descriptor instead.
 func (*RaceListRequest) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{3}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *RaceListRequest) GetGameSeriesId() int32 {
@@ -301,7 +427,7 @@ type RaceListReply struct {
 func (x *RaceListReply) Reset() {
 	*x = RaceListReply{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[4]
+		mi := &file_race_v1_race_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -314,7 +440,7 @@ func (x *RaceListReply) String() string {
 func (*RaceListReply) ProtoMessage() {}
 
 func (x *RaceListReply) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[4]
+	mi := &file_race_v1_race_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -327,7 +453,7 @@ func (x *RaceListReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceListReply.ProtoReflect.Descriptor instead.
 func (*RaceListReply) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{4}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *RaceListReply) GetList() []*ListRaceItem {
@@ -372,7 +498,7 @@ type ListRaceItem struct {
 func (x *ListRaceItem) Reset() {
 	*x = ListRaceItem{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[5]
+		mi := &file_race_v1_race_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -385,7 +511,7 @@ func (x *ListRaceItem) String() string {
 func (*ListRaceItem) ProtoMessage() {}
 
 func (x *ListRaceItem) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[5]
+	mi := &file_race_v1_race_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -398,7 +524,7 @@ func (x *ListRaceItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRaceItem.ProtoReflect.Descriptor instead.
 func (*ListRaceItem) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{5}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ListRaceItem) GetType() int32 {
@@ -533,7 +659,7 @@ type SignupItem struct {
 func (x *SignupItem) Reset() {
 	*x = SignupItem{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[6]
+		mi := &file_race_v1_race_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -546,7 +672,7 @@ func (x *SignupItem) String() string {
 func (*SignupItem) ProtoMessage() {}
 
 func (x *SignupItem) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[6]
+	mi := &file_race_v1_race_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -559,7 +685,7 @@ func (x *SignupItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SignupItem.ProtoReflect.Descriptor instead.
 func (*SignupItem) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{6}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *SignupItem) GetItemId() int32 {
@@ -595,7 +721,7 @@ type RaceDetailRequest struct {
 func (x *RaceDetailRequest) Reset() {
 	*x = RaceDetailRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[7]
+		mi := &file_race_v1_race_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -608,7 +734,7 @@ func (x *RaceDetailRequest) String() string {
 func (*RaceDetailRequest) ProtoMessage() {}
 
 func (x *RaceDetailRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[7]
+	mi := &file_race_v1_race_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -621,7 +747,7 @@ func (x *RaceDetailRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceDetailRequest.ProtoReflect.Descriptor instead.
 func (*RaceDetailRequest) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{7}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *RaceDetailRequest) GetGameConfigId() int32 {
@@ -649,7 +775,7 @@ type RaceRewardRequest struct {
 func (x *RaceRewardRequest) Reset() {
 	*x = RaceRewardRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[8]
+		mi := &file_race_v1_race_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -662,7 +788,7 @@ func (x *RaceRewardRequest) String() string {
 func (*RaceRewardRequest) ProtoMessage() {}
 
 func (x *RaceRewardRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[8]
+	mi := &file_race_v1_race_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -675,7 +801,7 @@ func (x *RaceRewardRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceRewardRequest.ProtoReflect.Descriptor instead.
 func (*RaceRewardRequest) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{8}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *RaceRewardRequest) GetGameConfigId() int32 {
@@ -698,7 +824,7 @@ type RaceRewardReply struct {
 func (x *RaceRewardReply) Reset() {
 	*x = RaceRewardReply{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[9]
+		mi := &file_race_v1_race_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -711,7 +837,7 @@ func (x *RaceRewardReply) String() string {
 func (*RaceRewardReply) ProtoMessage() {}
 
 func (x *RaceRewardReply) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[9]
+	mi := &file_race_v1_race_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -724,7 +850,7 @@ func (x *RaceRewardReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceRewardReply.ProtoReflect.Descriptor instead.
 func (*RaceRewardReply) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{9}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *RaceRewardReply) GetList() []*RaceRewardRuleItem {
@@ -761,7 +887,7 @@ type RaceRewardRuleItem struct {
 func (x *RaceRewardRuleItem) Reset() {
 	*x = RaceRewardRuleItem{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[10]
+		mi := &file_race_v1_race_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -774,7 +900,7 @@ func (x *RaceRewardRuleItem) String() string {
 func (*RaceRewardRuleItem) ProtoMessage() {}
 
 func (x *RaceRewardRuleItem) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[10]
+	mi := &file_race_v1_race_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -787,7 +913,7 @@ func (x *RaceRewardRuleItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceRewardRuleItem.ProtoReflect.Descriptor instead.
 func (*RaceRewardRuleItem) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{10}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *RaceRewardRuleItem) GetGameRuleConfigId() int32 {
@@ -826,7 +952,7 @@ type RaceRewardItem struct {
 func (x *RaceRewardItem) Reset() {
 	*x = RaceRewardItem{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[11]
+		mi := &file_race_v1_race_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -839,7 +965,7 @@ func (x *RaceRewardItem) String() string {
 func (*RaceRewardItem) ProtoMessage() {}
 
 func (x *RaceRewardItem) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[11]
+	mi := &file_race_v1_race_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -852,7 +978,7 @@ func (x *RaceRewardItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceRewardItem.ProtoReflect.Descriptor instead.
 func (*RaceRewardItem) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{11}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *RaceRewardItem) GetId() int32 {
@@ -904,7 +1030,7 @@ type RaceRewardRuleDetail struct {
 func (x *RaceRewardRuleDetail) Reset() {
 	*x = RaceRewardRuleDetail{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[12]
+		mi := &file_race_v1_race_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -917,7 +1043,7 @@ func (x *RaceRewardRuleDetail) String() string {
 func (*RaceRewardRuleDetail) ProtoMessage() {}
 
 func (x *RaceRewardRuleDetail) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[12]
+	mi := &file_race_v1_race_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -930,7 +1056,7 @@ func (x *RaceRewardRuleDetail) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceRewardRuleDetail.ProtoReflect.Descriptor instead.
 func (*RaceRewardRuleDetail) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{12}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *RaceRewardRuleDetail) GetItemId() int32 {
@@ -976,7 +1102,7 @@ type RaceRostrumItem struct {
 func (x *RaceRostrumItem) Reset() {
 	*x = RaceRostrumItem{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[13]
+		mi := &file_race_v1_race_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -989,7 +1115,7 @@ func (x *RaceRostrumItem) String() string {
 func (*RaceRostrumItem) ProtoMessage() {}
 
 func (x *RaceRostrumItem) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[13]
+	mi := &file_race_v1_race_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1002,7 +1128,7 @@ func (x *RaceRostrumItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceRostrumItem.ProtoReflect.Descriptor instead.
 func (*RaceRostrumItem) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{13}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *RaceRostrumItem) GetGameRostrumConfigId() int32 {
@@ -1051,7 +1177,7 @@ type RaceRuleRequest struct {
 func (x *RaceRuleRequest) Reset() {
 	*x = RaceRuleRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[14]
+		mi := &file_race_v1_race_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1064,7 +1190,7 @@ func (x *RaceRuleRequest) String() string {
 func (*RaceRuleRequest) ProtoMessage() {}
 
 func (x *RaceRuleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[14]
+	mi := &file_race_v1_race_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1077,7 +1203,7 @@ func (x *RaceRuleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceRuleRequest.ProtoReflect.Descriptor instead.
 func (*RaceRuleRequest) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{14}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *RaceRuleRequest) GetGameConfigId() int32 {
@@ -1098,7 +1224,7 @@ type RaceRuleReply struct {
 func (x *RaceRuleReply) Reset() {
 	*x = RaceRuleReply{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[15]
+		mi := &file_race_v1_race_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1111,7 +1237,7 @@ func (x *RaceRuleReply) String() string {
 func (*RaceRuleReply) ProtoMessage() {}
 
 func (x *RaceRuleReply) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[15]
+	mi := &file_race_v1_race_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1124,7 +1250,7 @@ func (x *RaceRuleReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceRuleReply.ProtoReflect.Descriptor instead.
 func (*RaceRuleReply) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{15}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *RaceRuleReply) GetRule() string {
@@ -1146,7 +1272,7 @@ type RaceSignupRequest struct {
 func (x *RaceSignupRequest) Reset() {
 	*x = RaceSignupRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[16]
+		mi := &file_race_v1_race_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1159,7 +1285,7 @@ func (x *RaceSignupRequest) String() string {
 func (*RaceSignupRequest) ProtoMessage() {}
 
 func (x *RaceSignupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[16]
+	mi := &file_race_v1_race_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1172,7 +1298,7 @@ func (x *RaceSignupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceSignupRequest.ProtoReflect.Descriptor instead.
 func (*RaceSignupRequest) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{16}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *RaceSignupRequest) GetUserId() int64 {
@@ -1200,7 +1326,7 @@ type RaceSignupReply struct {
 func (x *RaceSignupReply) Reset() {
 	*x = RaceSignupReply{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[17]
+		mi := &file_race_v1_race_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1213,7 +1339,7 @@ func (x *RaceSignupReply) String() string {
 func (*RaceSignupReply) ProtoMessage() {}
 
 func (x *RaceSignupReply) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[17]
+	mi := &file_race_v1_race_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1226,7 +1352,7 @@ func (x *RaceSignupReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceSignupReply.ProtoReflect.Descriptor instead.
 func (*RaceSignupReply) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{17}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *RaceSignupReply) GetGameConfigId() int32 {
@@ -1248,7 +1374,7 @@ type RaceSignupCancelRequest struct {
 func (x *RaceSignupCancelRequest) Reset() {
 	*x = RaceSignupCancelRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[18]
+		mi := &file_race_v1_race_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1261,7 +1387,7 @@ func (x *RaceSignupCancelRequest) String() string {
 func (*RaceSignupCancelRequest) ProtoMessage() {}
 
 func (x *RaceSignupCancelRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[18]
+	mi := &file_race_v1_race_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1274,7 +1400,7 @@ func (x *RaceSignupCancelRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceSignupCancelRequest.ProtoReflect.Descriptor instead.
 func (*RaceSignupCancelRequest) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{18}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *RaceSignupCancelRequest) GetUserId() int64 {
@@ -1302,7 +1428,7 @@ type RaceSignupCancelReply struct {
 func (x *RaceSignupCancelReply) Reset() {
 	*x = RaceSignupCancelReply{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[19]
+		mi := &file_race_v1_race_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1315,7 +1441,7 @@ func (x *RaceSignupCancelReply) String() string {
 func (*RaceSignupCancelReply) ProtoMessage() {}
 
 func (x *RaceSignupCancelReply) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[19]
+	mi := &file_race_v1_race_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1328,7 +1454,7 @@ func (x *RaceSignupCancelReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RaceSignupCancelReply.ProtoReflect.Descriptor instead.
 func (*RaceSignupCancelReply) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{19}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *RaceSignupCancelReply) GetGameConfigId() int32 {
@@ -1349,7 +1475,7 @@ type PodiumRequest struct {
 func (x *PodiumRequest) Reset() {
 	*x = PodiumRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[20]
+		mi := &file_race_v1_race_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1362,7 +1488,7 @@ func (x *PodiumRequest) String() string {
 func (*PodiumRequest) ProtoMessage() {}
 
 func (x *PodiumRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[20]
+	mi := &file_race_v1_race_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1375,7 +1501,7 @@ func (x *PodiumRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PodiumRequest.ProtoReflect.Descriptor instead.
 func (*PodiumRequest) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{20}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *PodiumRequest) GetGameConfigId() int32 {
@@ -1399,7 +1525,7 @@ type PodiumReply struct {
 func (x *PodiumReply) Reset() {
 	*x = PodiumReply{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_race_v1_race_proto_msgTypes[21]
+		mi := &file_race_v1_race_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1412,7 +1538,7 @@ func (x *PodiumReply) String() string {
 func (*PodiumReply) ProtoMessage() {}
 
 func (x *PodiumReply) ProtoReflect() protoreflect.Message {
-	mi := &file_race_v1_race_proto_msgTypes[21]
+	mi := &file_race_v1_race_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1425,7 +1551,7 @@ func (x *PodiumReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PodiumReply.ProtoReflect.Descriptor instead.
 func (*PodiumReply) Descriptor() ([]byte, []int) {
-	return file_race_v1_race_proto_rawDescGZIP(), []int{21}
+	return file_race_v1_race_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *PodiumReply) GetRanking() int32 {
@@ -1464,20 +1590,34 @@ var file_race_v1_race_proto_rawDesc = []byte{
 	0x31, 0x1a, 0x1c, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x61, 0x6e,
 	0x6e, 0x6f, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a,
 	0x17, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x2f, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61,
-	0x74, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x28, 0x0a, 0x0f, 0x52, 0x61, 0x63, 0x65,
+	0x74, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x73, 0x0a, 0x19, 0x47, 0x61, 0x6d, 0x65,
+	0x53, 0x65, 0x72, 0x69, 0x65, 0x73, 0x42, 0x69, 0x6e, 0x64, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x15, 0x0a, 0x06, 0x61, 0x70, 0x70, 0x5f, 0x69, 0x64, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x61, 0x70, 0x70, 0x49, 0x64, 0x12, 0x17, 0x0a, 0x07,
+	0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x75,
+	0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x26, 0x0a, 0x0f, 0x73, 0x65, 0x72, 0x69, 0x65, 0x73, 0x5f,
+	0x69, 0x64, 0x5f, 0x65, 0x6e, 0x63, 0x72, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d,
+	0x73, 0x65, 0x72, 0x69, 0x65, 0x73, 0x49, 0x64, 0x45, 0x6e, 0x63, 0x72, 0x79, 0x22, 0x19, 0x0a,
+	0x17, 0x47, 0x61, 0x6d, 0x65, 0x53, 0x65, 0x72, 0x69, 0x65, 0x73, 0x42, 0x69, 0x6e, 0x64, 0x55,
+	0x73, 0x65, 0x72, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x45, 0x0a, 0x0f, 0x52, 0x61, 0x63, 0x65,
 	0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x15, 0x0a, 0x06, 0x61,
 	0x70, 0x70, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x61, 0x70, 0x70,
-	0x49, 0x64, 0x22, 0x54, 0x0a, 0x0d, 0x52, 0x61, 0x63, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65,
-	0x70, 0x6c, 0x79, 0x12, 0x2d, 0x0a, 0x04, 0x6c, 0x69, 0x73, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28,
-	0x0b, 0x32, 0x19, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x72, 0x61, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e,
-	0x52, 0x61, 0x63, 0x65, 0x54, 0x79, 0x70, 0x65, 0x49, 0x74, 0x65, 0x6d, 0x52, 0x04, 0x6c, 0x69,
-	0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x05, 0x52, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x22, 0x48, 0x0a, 0x0c, 0x52, 0x61, 0x63, 0x65,
-	0x54, 0x79, 0x70, 0x65, 0x49, 0x74, 0x65, 0x6d, 0x12, 0x24, 0x0a, 0x0e, 0x67, 0x61, 0x6d, 0x65,
-	0x5f, 0x73, 0x65, 0x72, 0x69, 0x65, 0x73, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05,
-	0x52, 0x0c, 0x67, 0x61, 0x6d, 0x65, 0x53, 0x65, 0x72, 0x69, 0x65, 0x73, 0x49, 0x64, 0x12, 0x12,
-	0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61,
-	0x6d, 0x65, 0x22, 0x70, 0x0a, 0x0f, 0x52, 0x61, 0x63, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65,
+	0x49, 0x64, 0x12, 0x1b, 0x0a, 0x09, 0x68, 0x6f, 0x6d, 0x65, 0x5f, 0x73, 0x68, 0x6f, 0x77, 0x18,
+	0x04, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x68, 0x6f, 0x6d, 0x65, 0x53, 0x68, 0x6f, 0x77, 0x22,
+	0x54, 0x0a, 0x0d, 0x52, 0x61, 0x63, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79,
+	0x12, 0x2d, 0x0a, 0x04, 0x6c, 0x69, 0x73, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x19,
+	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x72, 0x61, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x61, 0x63,
+	0x65, 0x54, 0x79, 0x70, 0x65, 0x49, 0x74, 0x65, 0x6d, 0x52, 0x04, 0x6c, 0x69, 0x73, 0x74, 0x12,
+	0x14, 0x0a, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05,
+	0x74, 0x6f, 0x74, 0x61, 0x6c, 0x22, 0x7b, 0x0a, 0x0c, 0x52, 0x61, 0x63, 0x65, 0x54, 0x79, 0x70,
+	0x65, 0x49, 0x74, 0x65, 0x6d, 0x12, 0x24, 0x0a, 0x0e, 0x67, 0x61, 0x6d, 0x65, 0x5f, 0x73, 0x65,
+	0x72, 0x69, 0x65, 0x73, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0c, 0x67,
+	0x61, 0x6d, 0x65, 0x53, 0x65, 0x72, 0x69, 0x65, 0x73, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e,
+	0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12,
+	0x1b, 0x0a, 0x09, 0x68, 0x6f, 0x6d, 0x65, 0x5f, 0x73, 0x68, 0x6f, 0x77, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x08, 0x68, 0x6f, 0x6d, 0x65, 0x53, 0x68, 0x6f, 0x77, 0x12, 0x14, 0x0a, 0x05,
+	0x69, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x69, 0x6d, 0x61,
+	0x67, 0x65, 0x22, 0x70, 0x0a, 0x0f, 0x52, 0x61, 0x63, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65,
 	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x2d, 0x0a, 0x0e, 0x67, 0x61, 0x6d, 0x65, 0x5f, 0x73, 0x65,
 	0x72, 0x69, 0x65, 0x73, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x42, 0x07, 0xfa,
 	0x42, 0x04, 0x1a, 0x02, 0x20, 0x00, 0x52, 0x0c, 0x67, 0x61, 0x6d, 0x65, 0x53, 0x65, 0x72, 0x69,
@@ -1629,7 +1769,7 @@ var file_race_v1_race_proto_rawDesc = []byte{
 	0x69, 0x74, 0x6c, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x69, 0x74, 0x6c,
 	0x65, 0x2a, 0x24, 0x0a, 0x0c, 0x53, 0x69, 0x67, 0x6e, 0x75, 0x70, 0x53, 0x74, 0x61, 0x74, 0x75,
 	0x73, 0x12, 0x07, 0x0a, 0x03, 0x4e, 0x4f, 0x54, 0x10, 0x00, 0x12, 0x0b, 0x0a, 0x07, 0x41, 0x4c,
-	0x52, 0x45, 0x41, 0x44, 0x59, 0x10, 0x01, 0x32, 0x85, 0x07, 0x0a, 0x04, 0x52, 0x61, 0x63, 0x65,
+	0x52, 0x45, 0x41, 0x44, 0x59, 0x10, 0x01, 0x32, 0x92, 0x08, 0x0a, 0x04, 0x52, 0x61, 0x63, 0x65,
 	0x12, 0x6b, 0x0a, 0x08, 0x52, 0x61, 0x63, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x1c, 0x2e, 0x61,
 	0x70, 0x69, 0x2e, 0x72, 0x61, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x61, 0x63, 0x65, 0x54,
 	0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a, 0x2e, 0x61, 0x70, 0x69,
@@ -1685,12 +1825,20 @@ var file_race_v1_race_proto_rawDesc = []byte{
 	0x1a, 0x18, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x72, 0x61, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x50,
 	0x6f, 0x64, 0x69, 0x75, 0x6d, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x23, 0x82, 0xd3, 0xe4, 0x93,
 	0x02, 0x1d, 0x3a, 0x01, 0x2a, 0x22, 0x18, 0x2f, 0x73, 0x74, 0x2d, 0x67, 0x61, 0x6d, 0x65, 0x73,
-	0x2f, 0x76, 0x31, 0x2f, 0x72, 0x61, 0x63, 0x65, 0x2f, 0x70, 0x6f, 0x64, 0x69, 0x75, 0x6d, 0x42,
-	0x39, 0x0a, 0x0b, 0x61, 0x70, 0x69, 0x2e, 0x72, 0x61, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x50, 0x01,
-	0x5a, 0x28, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6c, 0x75, 0x6c,
-	0x75, 0x2d, 0x6c, 0x73, 0x2f, 0x73, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x61, 0x70, 0x69, 0x2f,
-	0x72, 0x61, 0x63, 0x65, 0x2f, 0x76, 0x31, 0x3b, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x2f, 0x76, 0x31, 0x2f, 0x72, 0x61, 0x63, 0x65, 0x2f, 0x70, 0x6f, 0x64, 0x69, 0x75, 0x6d, 0x12,
+	0x8a, 0x01, 0x0a, 0x12, 0x47, 0x61, 0x6d, 0x65, 0x53, 0x65, 0x72, 0x69, 0x65, 0x73, 0x42, 0x69,
+	0x6e, 0x64, 0x55, 0x73, 0x65, 0x72, 0x12, 0x26, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x72, 0x61, 0x63,
+	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x61, 0x6d, 0x65, 0x53, 0x65, 0x72, 0x69, 0x65, 0x73, 0x42,
+	0x69, 0x6e, 0x64, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24,
+	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x72, 0x61, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x61, 0x6d,
+	0x65, 0x53, 0x65, 0x72, 0x69, 0x65, 0x73, 0x42, 0x69, 0x6e, 0x64, 0x55, 0x73, 0x65, 0x72, 0x52,
+	0x65, 0x70, 0x6c, 0x79, 0x22, 0x26, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x3a, 0x01, 0x2a, 0x22,
+	0x1b, 0x2f, 0x73, 0x74, 0x2d, 0x67, 0x61, 0x6d, 0x65, 0x73, 0x2f, 0x76, 0x31, 0x2f, 0x72, 0x61,
+	0x63, 0x65, 0x2f, 0x62, 0x69, 0x6e, 0x64, 0x5f, 0x75, 0x73, 0x65, 0x72, 0x42, 0x39, 0x0a, 0x0b,
+	0x61, 0x70, 0x69, 0x2e, 0x72, 0x61, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x50, 0x01, 0x5a, 0x28, 0x67,
+	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6c, 0x75, 0x6c, 0x75, 0x2d, 0x6c,
+	0x73, 0x2f, 0x73, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x72, 0x61, 0x63,
+	0x65, 0x2f, 0x76, 0x31, 0x3b, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1706,58 +1854,62 @@ func file_race_v1_race_proto_rawDescGZIP() []byte {
 }
 
 var file_race_v1_race_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_race_v1_race_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
+var file_race_v1_race_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_race_v1_race_proto_goTypes = []interface{}{
-	(SignupStatus)(0),               // 0: api.race.v1.SignupStatus
-	(*RaceTypeRequest)(nil),         // 1: api.race.v1.RaceTypeRequest
-	(*RaceTypeReply)(nil),           // 2: api.race.v1.RaceTypeReply
-	(*RaceTypeItem)(nil),            // 3: api.race.v1.RaceTypeItem
-	(*RaceListRequest)(nil),         // 4: api.race.v1.RaceListRequest
-	(*RaceListReply)(nil),           // 5: api.race.v1.RaceListReply
-	(*ListRaceItem)(nil),            // 6: api.race.v1.ListRaceItem
-	(*SignupItem)(nil),              // 7: api.race.v1.SignupItem
-	(*RaceDetailRequest)(nil),       // 8: api.race.v1.RaceDetailRequest
-	(*RaceRewardRequest)(nil),       // 9: api.race.v1.RaceRewardRequest
-	(*RaceRewardReply)(nil),         // 10: api.race.v1.RaceRewardReply
-	(*RaceRewardRuleItem)(nil),      // 11: api.race.v1.RaceRewardRuleItem
-	(*RaceRewardItem)(nil),          // 12: api.race.v1.RaceRewardItem
-	(*RaceRewardRuleDetail)(nil),    // 13: api.race.v1.RaceRewardRuleDetail
-	(*RaceRostrumItem)(nil),         // 14: api.race.v1.RaceRostrumItem
-	(*RaceRuleRequest)(nil),         // 15: api.race.v1.RaceRuleRequest
-	(*RaceRuleReply)(nil),           // 16: api.race.v1.RaceRuleReply
-	(*RaceSignupRequest)(nil),       // 17: api.race.v1.RaceSignupRequest
-	(*RaceSignupReply)(nil),         // 18: api.race.v1.RaceSignupReply
-	(*RaceSignupCancelRequest)(nil), // 19: api.race.v1.RaceSignupCancelRequest
-	(*RaceSignupCancelReply)(nil),   // 20: api.race.v1.RaceSignupCancelReply
-	(*PodiumRequest)(nil),           // 21: api.race.v1.PodiumRequest
-	(*PodiumReply)(nil),             // 22: api.race.v1.PodiumReply
+	(SignupStatus)(0),                 // 0: api.race.v1.SignupStatus
+	(*GameSeriesBindUserRequest)(nil), // 1: api.race.v1.GameSeriesBindUserRequest
+	(*GameSeriesBindUserReply)(nil),   // 2: api.race.v1.GameSeriesBindUserReply
+	(*RaceTypeRequest)(nil),           // 3: api.race.v1.RaceTypeRequest
+	(*RaceTypeReply)(nil),             // 4: api.race.v1.RaceTypeReply
+	(*RaceTypeItem)(nil),              // 5: api.race.v1.RaceTypeItem
+	(*RaceListRequest)(nil),           // 6: api.race.v1.RaceListRequest
+	(*RaceListReply)(nil),             // 7: api.race.v1.RaceListReply
+	(*ListRaceItem)(nil),              // 8: api.race.v1.ListRaceItem
+	(*SignupItem)(nil),                // 9: api.race.v1.SignupItem
+	(*RaceDetailRequest)(nil),         // 10: api.race.v1.RaceDetailRequest
+	(*RaceRewardRequest)(nil),         // 11: api.race.v1.RaceRewardRequest
+	(*RaceRewardReply)(nil),           // 12: api.race.v1.RaceRewardReply
+	(*RaceRewardRuleItem)(nil),        // 13: api.race.v1.RaceRewardRuleItem
+	(*RaceRewardItem)(nil),            // 14: api.race.v1.RaceRewardItem
+	(*RaceRewardRuleDetail)(nil),      // 15: api.race.v1.RaceRewardRuleDetail
+	(*RaceRostrumItem)(nil),           // 16: api.race.v1.RaceRostrumItem
+	(*RaceRuleRequest)(nil),           // 17: api.race.v1.RaceRuleRequest
+	(*RaceRuleReply)(nil),             // 18: api.race.v1.RaceRuleReply
+	(*RaceSignupRequest)(nil),         // 19: api.race.v1.RaceSignupRequest
+	(*RaceSignupReply)(nil),           // 20: api.race.v1.RaceSignupReply
+	(*RaceSignupCancelRequest)(nil),   // 21: api.race.v1.RaceSignupCancelRequest
+	(*RaceSignupCancelReply)(nil),     // 22: api.race.v1.RaceSignupCancelReply
+	(*PodiumRequest)(nil),             // 23: api.race.v1.PodiumRequest
+	(*PodiumReply)(nil),               // 24: api.race.v1.PodiumReply
 }
 var file_race_v1_race_proto_depIdxs = []int32{
-	3,  // 0: api.race.v1.RaceTypeReply.list:type_name -> api.race.v1.RaceTypeItem
-	6,  // 1: api.race.v1.RaceListReply.list:type_name -> api.race.v1.ListRaceItem
-	7,  // 2: api.race.v1.ListRaceItem.signup_item:type_name -> api.race.v1.SignupItem
-	11, // 3: api.race.v1.RaceRewardReply.list:type_name -> api.race.v1.RaceRewardRuleItem
-	14, // 4: api.race.v1.RaceRewardReply.rostrum_item:type_name -> api.race.v1.RaceRostrumItem
-	12, // 5: api.race.v1.RaceRewardRuleItem.item:type_name -> api.race.v1.RaceRewardItem
-	13, // 6: api.race.v1.RaceRewardItem.detail:type_name -> api.race.v1.RaceRewardRuleDetail
-	1,  // 7: api.race.v1.Race.RaceType:input_type -> api.race.v1.RaceTypeRequest
-	4,  // 8: api.race.v1.Race.RaceList:input_type -> api.race.v1.RaceListRequest
-	8,  // 9: api.race.v1.Race.RaceDetail:input_type -> api.race.v1.RaceDetailRequest
-	9,  // 10: api.race.v1.Race.RaceReward:input_type -> api.race.v1.RaceRewardRequest
-	15, // 11: api.race.v1.Race.RaceRule:input_type -> api.race.v1.RaceRuleRequest
-	17, // 12: api.race.v1.Race.RaceSignup:input_type -> api.race.v1.RaceSignupRequest
-	19, // 13: api.race.v1.Race.RaceSignupCancel:input_type -> api.race.v1.RaceSignupCancelRequest
-	21, // 14: api.race.v1.Race.Podium:input_type -> api.race.v1.PodiumRequest
-	2,  // 15: api.race.v1.Race.RaceType:output_type -> api.race.v1.RaceTypeReply
-	5,  // 16: api.race.v1.Race.RaceList:output_type -> api.race.v1.RaceListReply
-	6,  // 17: api.race.v1.Race.RaceDetail:output_type -> api.race.v1.ListRaceItem
-	10, // 18: api.race.v1.Race.RaceReward:output_type -> api.race.v1.RaceRewardReply
-	16, // 19: api.race.v1.Race.RaceRule:output_type -> api.race.v1.RaceRuleReply
-	18, // 20: api.race.v1.Race.RaceSignup:output_type -> api.race.v1.RaceSignupReply
-	20, // 21: api.race.v1.Race.RaceSignupCancel:output_type -> api.race.v1.RaceSignupCancelReply
-	22, // 22: api.race.v1.Race.Podium:output_type -> api.race.v1.PodiumReply
-	15, // [15:23] is the sub-list for method output_type
-	7,  // [7:15] is the sub-list for method input_type
+	5,  // 0: api.race.v1.RaceTypeReply.list:type_name -> api.race.v1.RaceTypeItem
+	8,  // 1: api.race.v1.RaceListReply.list:type_name -> api.race.v1.ListRaceItem
+	9,  // 2: api.race.v1.ListRaceItem.signup_item:type_name -> api.race.v1.SignupItem
+	13, // 3: api.race.v1.RaceRewardReply.list:type_name -> api.race.v1.RaceRewardRuleItem
+	16, // 4: api.race.v1.RaceRewardReply.rostrum_item:type_name -> api.race.v1.RaceRostrumItem
+	14, // 5: api.race.v1.RaceRewardRuleItem.item:type_name -> api.race.v1.RaceRewardItem
+	15, // 6: api.race.v1.RaceRewardItem.detail:type_name -> api.race.v1.RaceRewardRuleDetail
+	3,  // 7: api.race.v1.Race.RaceType:input_type -> api.race.v1.RaceTypeRequest
+	6,  // 8: api.race.v1.Race.RaceList:input_type -> api.race.v1.RaceListRequest
+	10, // 9: api.race.v1.Race.RaceDetail:input_type -> api.race.v1.RaceDetailRequest
+	11, // 10: api.race.v1.Race.RaceReward:input_type -> api.race.v1.RaceRewardRequest
+	17, // 11: api.race.v1.Race.RaceRule:input_type -> api.race.v1.RaceRuleRequest
+	19, // 12: api.race.v1.Race.RaceSignup:input_type -> api.race.v1.RaceSignupRequest
+	21, // 13: api.race.v1.Race.RaceSignupCancel:input_type -> api.race.v1.RaceSignupCancelRequest
+	23, // 14: api.race.v1.Race.Podium:input_type -> api.race.v1.PodiumRequest
+	1,  // 15: api.race.v1.Race.GameSeriesBindUser:input_type -> api.race.v1.GameSeriesBindUserRequest
+	4,  // 16: api.race.v1.Race.RaceType:output_type -> api.race.v1.RaceTypeReply
+	7,  // 17: api.race.v1.Race.RaceList:output_type -> api.race.v1.RaceListReply
+	8,  // 18: api.race.v1.Race.RaceDetail:output_type -> api.race.v1.ListRaceItem
+	12, // 19: api.race.v1.Race.RaceReward:output_type -> api.race.v1.RaceRewardReply
+	18, // 20: api.race.v1.Race.RaceRule:output_type -> api.race.v1.RaceRuleReply
+	20, // 21: api.race.v1.Race.RaceSignup:output_type -> api.race.v1.RaceSignupReply
+	22, // 22: api.race.v1.Race.RaceSignupCancel:output_type -> api.race.v1.RaceSignupCancelReply
+	24, // 23: api.race.v1.Race.Podium:output_type -> api.race.v1.PodiumReply
+	2,  // 24: api.race.v1.Race.GameSeriesBindUser:output_type -> api.race.v1.GameSeriesBindUserReply
+	16, // [16:25] is the sub-list for method output_type
+	7,  // [7:16] is the sub-list for method input_type
 	7,  // [7:7] is the sub-list for extension type_name
 	7,  // [7:7] is the sub-list for extension extendee
 	0,  // [0:7] is the sub-list for field type_name
@@ -1770,7 +1922,7 @@ func file_race_v1_race_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_race_v1_race_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceTypeRequest); i {
+			switch v := v.(*GameSeriesBindUserRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1782,7 +1934,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceTypeReply); i {
+			switch v := v.(*GameSeriesBindUserReply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1794,7 +1946,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceTypeItem); i {
+			switch v := v.(*RaceTypeRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1806,7 +1958,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceListRequest); i {
+			switch v := v.(*RaceTypeReply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1818,7 +1970,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceListReply); i {
+			switch v := v.(*RaceTypeItem); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1830,7 +1982,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListRaceItem); i {
+			switch v := v.(*RaceListRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1842,7 +1994,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SignupItem); i {
+			switch v := v.(*RaceListReply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1854,7 +2006,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceDetailRequest); i {
+			switch v := v.(*ListRaceItem); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1866,7 +2018,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceRewardRequest); i {
+			switch v := v.(*SignupItem); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1878,7 +2030,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceRewardReply); i {
+			switch v := v.(*RaceDetailRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1890,7 +2042,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceRewardRuleItem); i {
+			switch v := v.(*RaceRewardRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1902,7 +2054,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceRewardItem); i {
+			switch v := v.(*RaceRewardReply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1914,7 +2066,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceRewardRuleDetail); i {
+			switch v := v.(*RaceRewardRuleItem); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1926,7 +2078,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceRostrumItem); i {
+			switch v := v.(*RaceRewardItem); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1938,7 +2090,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceRuleRequest); i {
+			switch v := v.(*RaceRewardRuleDetail); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1950,7 +2102,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceRuleReply); i {
+			switch v := v.(*RaceRostrumItem); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1962,7 +2114,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceSignupRequest); i {
+			switch v := v.(*RaceRuleRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1974,7 +2126,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceSignupReply); i {
+			switch v := v.(*RaceRuleReply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1986,7 +2138,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceSignupCancelRequest); i {
+			switch v := v.(*RaceSignupRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1998,7 +2150,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RaceSignupCancelReply); i {
+			switch v := v.(*RaceSignupReply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2010,7 +2162,7 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PodiumRequest); i {
+			switch v := v.(*RaceSignupCancelRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2022,6 +2174,30 @@ func file_race_v1_race_proto_init() {
 			}
 		}
 		file_race_v1_race_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RaceSignupCancelReply); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_race_v1_race_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PodiumRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_race_v1_race_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*PodiumReply); i {
 			case 0:
 				return &v.state
@@ -2040,7 +2216,7 @@ func file_race_v1_race_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_race_v1_race_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   22,
+			NumMessages:   24,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

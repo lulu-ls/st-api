@@ -36,13 +36,7 @@ config:
 .PHONY: api
 # generate api proto
 api:
-	protoc --proto_path=./api \
-	       --proto_path=./third_party \
- 	       --go_out=paths=source_relative:./api \
- 	       --go-http_out=paths=source_relative:./api \
- 	       --go-grpc_out=paths=source_relative:./api \
-	       --openapi_out=fq_schema_naming=true,default_response=false:. \
-	       $(API_PROTO_FILES)
+	kratos proto client ./api/race/v1/race.proto
 
 .PHONY: build
 # build
