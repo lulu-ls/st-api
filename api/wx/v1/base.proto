@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package api.wx.v1;
+
+option go_package = "github.com/lulu-ls/st-api/api/wx/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.wx.v1";
+
+service Base {
+	rpc GetAccessToken (GetAccessTokenRequest) returns (GetAccessTokenReply);
+}
+
+message GetAccessTokenRequest {
+	string wx_app_id = 1; // 微信 app id
+}
+message GetAccessTokenReply {
+	string access_token = 1; // 微信 access token
+}
+
