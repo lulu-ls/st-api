@@ -4,9 +4,9 @@ package api.race.v1;
 
 import "errors/errors.proto";
 
-option go_package = "github.com/lulu-ls/st-api/api/auth/v1;v1";
+option go_package = "github.com/lulu-ls/st-api/api/race/v1;v1";
 option java_multiple_files = true;
-option java_package = "api.auth.v1";
+option java_package = "api.race.v1";
 
 
 enum ErrorReason {
@@ -28,6 +28,6 @@ enum ErrorReason {
   RACE_IS_IN_GAME = 15 [(errors.code) = 498]; // 已在比赛中
   RACE_IS_SIGNUP = 16 [(errors.code) = 415]; // 已经报名其他比赛
 
-  RACE_AUTH_SERIES_USER = 17 [(errors.code) = 497]; // 是否有权限参与比才
+  RACE_AUTH_SERIES_USER = 17 [(errors.code) = 404]; // 是否有权限参与比才 497
 
 }

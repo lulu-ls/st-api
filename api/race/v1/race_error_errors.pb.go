@@ -141,16 +141,16 @@ func ErrorRaceIsSignup(format string, args ...interface{}) *errors.Error {
 	return errors.New(415, ErrorReason_RACE_IS_SIGNUP.String(), fmt.Sprintf(format, args...))
 }
 
-// 是否有权限参与比才
+// 是否有权限参与比才 497
 func IsRaceAuthSeriesUser(err error) bool {
 	if err == nil {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrorReason_RACE_AUTH_SERIES_USER.String() && e.Code == 497
+	return e.Reason == ErrorReason_RACE_AUTH_SERIES_USER.String() && e.Code == 404
 }
 
-// 是否有权限参与比才
+// 是否有权限参与比才 497
 func ErrorRaceAuthSeriesUser(format string, args ...interface{}) *errors.Error {
-	return errors.New(497, ErrorReason_RACE_AUTH_SERIES_USER.String(), fmt.Sprintf(format, args...))
+	return errors.New(404, ErrorReason_RACE_AUTH_SERIES_USER.String(), fmt.Sprintf(format, args...))
 }
