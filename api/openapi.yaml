@@ -482,7 +482,8 @@ components:
                 name:
                     type: string
                 homeShow:
-                    type: string
+                    type: integer
+                    format: int32
                 image:
                     type: string
         RaceTypeReply:

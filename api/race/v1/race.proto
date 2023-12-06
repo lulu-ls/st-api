@@ -109,7 +109,7 @@ message RaceTypeReply {
 message RaceTypeItem {
   int32 game_series_id = 1;
   string name = 2;
-  string home_show = 3;
+  int32 home_show = 3;
   string image = 4;
 }
 
