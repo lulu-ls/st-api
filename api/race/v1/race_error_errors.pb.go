@@ -147,10 +147,10 @@ func IsRaceAuthSeriesUser(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrorReason_RACE_AUTH_SERIES_USER.String() && e.Code == 400
+	return e.Reason == ErrorReason_RACE_AUTH_SERIES_USER.String() && e.Code == 497
 }
 
 // 是否有权限参与比才
 func ErrorRaceAuthSeriesUser(format string, args ...interface{}) *errors.Error {
-	return errors.New(400, ErrorReason_RACE_AUTH_SERIES_USER.String(), fmt.Sprintf(format, args...))
+	return errors.New(497, ErrorReason_RACE_AUTH_SERIES_USER.String(), fmt.Sprintf(format, args...))
 }

@@ -28,7 +28,6 @@ enum ErrorReason {
   RACE_IS_IN_GAME = 15 [(errors.code) = 498]; // 已在比赛中
   RACE_IS_SIGNUP = 16 [(errors.code) = 415]; // 已经报名其他比赛
 
-  RACE_AUTH_SERIES_USER = 17 [(errors.code) = 400]; // 是否有权限参与比才
-
+  RACE_AUTH_SERIES_USER = 17 [(errors.code) = 497]; // 是否有权限参与比才
 
 }
