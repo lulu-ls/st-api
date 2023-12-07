@@ -24,13 +24,24 @@ const OperationAuthGetInfo = "/api.auth.v1.Auth/GetInfo"
 const OperationAuthLogin = "/api.auth.v1.Auth/Login"
 const OperationAuthLoginForApp = "/api.auth.v1.Auth/LoginForApp"
 const OperationAuthLoginTest = "/api.auth.v1.Auth/LoginTest"
+const OperationAuthSendCode = "/api.auth.v1.Auth/SendCode"
+const OperationAuthVerifyCode = "/api.auth.v1.Auth/VerifyCode"
 
 type AuthHTTPServer interface {
+	// Decrypt 解密
 	Decrypt(context.Context, *DecryptRequest) (*DecryptReply, error)
+	// GetInfo 获取登录信息
 	GetInfo(context.Context, *GetInfoRequest) (*LoginReply, error)
+	// Login 登录
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
+	// LoginForApp app 登录
 	LoginForApp(context.Context, *LoginForAppRequest) (*LoginForAppReply, error)
+	// LoginTest 测试登录
 	LoginTest(context.Context, *LoginTestRequest) (*LoginReply, error)
+	// SendCode 注册短信
+	SendCode(context.Context, *SendCodeRequest) (*SendCodeReply, error)
+	// VerifyCode 验证短信
+	VerifyCode(context.Context, *VerifyCodeRequest) (*VerifyCodeReply, error)
 }
 
 func RegisterAuthHTTPServer(s *http.Server, srv AuthHTTPServer) {
@@ -40,6 +51,8 @@ func RegisterAuthHTTPServer(s *http.Server, srv AuthHTTPServer) {
 	r.POST("/st-games/v1/auth/login_test", _Auth_LoginTest0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/auth/decrypt", _Auth_Decrypt0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/auth/get_info", _Auth_GetInfo0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/auth/code/send", _Auth_SendCode0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/auth/code/verify", _Auth_VerifyCode0_HTTP_Handler(srv))
 }
 
 func _Auth_Login0_HTTP_Handler(srv AuthHTTPServer) func(ctx http.Context) error {
@@ -152,12 +165,58 @@ func _Auth_GetInfo0_HTTP_Handler(srv AuthHTTPServer) func(ctx http.Context) erro
 	}
 }
 
+func _Auth_SendCode0_HTTP_Handler(srv AuthHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in SendCodeRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationAuthSendCode)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.SendCode(ctx, req.(*SendCodeRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*SendCodeReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Auth_VerifyCode0_HTTP_Handler(srv AuthHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in VerifyCodeRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationAuthVerifyCode)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.VerifyCode(ctx, req.(*VerifyCodeRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*VerifyCodeReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type AuthHTTPClient interface {
 	Decrypt(ctx context.Context, req *DecryptRequest, opts ...http.CallOption) (rsp *DecryptReply, err error)
 	GetInfo(ctx context.Context, req *GetInfoRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
 	Login(ctx context.Context, req *LoginRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
 	LoginForApp(ctx context.Context, req *LoginForAppRequest, opts ...http.CallOption) (rsp *LoginForAppReply, err error)
 	LoginTest(ctx context.Context, req *LoginTestRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
+	SendCode(ctx context.Context, req *SendCodeRequest, opts ...http.CallOption) (rsp *SendCodeReply, err error)
+	VerifyCode(ctx context.Context, req *VerifyCodeRequest, opts ...http.CallOption) (rsp *VerifyCodeReply, err error)
 }
 
 type AuthHTTPClientImpl struct {
@@ -225,6 +284,32 @@ func (c *AuthHTTPClientImpl) LoginTest(ctx context.Context, in *LoginTestRequest
 	pattern := "/st-games/v1/auth/login_test"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationAuthLoginTest))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *AuthHTTPClientImpl) SendCode(ctx context.Context, in *SendCodeRequest, opts ...http.CallOption) (*SendCodeReply, error) {
+	var out SendCodeReply
+	pattern := "/st-games/v1/auth/code/send"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationAuthSendCode))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *AuthHTTPClientImpl) VerifyCode(ctx context.Context, in *VerifyCodeRequest, opts ...http.CallOption) (*VerifyCodeReply, error) {
+	var out VerifyCodeReply
+	pattern := "/st-games/v1/auth/code/verify"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationAuthVerifyCode))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

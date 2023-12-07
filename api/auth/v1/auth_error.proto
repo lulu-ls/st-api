@@ -24,4 +24,6 @@ enum ErrorReason {
 
   LOGIN_CODE_IS_INVALID = 11 [(errors.code) = 400];
   LOGIN_USER_NO_NOT_ENOUGH = 12 [(errors.code) = 402];
+
+  SMS_CODE_IS_INVALID = 13 [(errors.code) = 400]; // 验证码错误
 }

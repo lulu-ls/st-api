@@ -1584,3 +1584,454 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetInfoReplyValidationError{}
+
+// Validate checks the field values on SendCodeRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *SendCodeRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SendCodeRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SendCodeRequestMultiError, or nil if none found.
+func (m *SendCodeRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SendCodeRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
+
+	if utf8.RuneCountInString(m.GetPhone()) != 11 {
+		err := SendCodeRequestValidationError{
+			field:  "Phone",
+			reason: "value length must be 11 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+
+	}
+
+	// no validation rules for CodeType
+
+	if len(errors) > 0 {
+		return SendCodeRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// SendCodeRequestMultiError is an error wrapping multiple validation errors
+// returned by SendCodeRequest.ValidateAll() if the designated constraints
+// aren't met.
+type SendCodeRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SendCodeRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SendCodeRequestMultiError) AllErrors() []error { return m }
+
+// SendCodeRequestValidationError is the validation error returned by
+// SendCodeRequest.Validate if the designated constraints aren't met.
+type SendCodeRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SendCodeRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SendCodeRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SendCodeRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SendCodeRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SendCodeRequestValidationError) ErrorName() string { return "SendCodeRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SendCodeRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSendCodeRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SendCodeRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SendCodeRequestValidationError{}
+
+// Validate checks the field values on SendCodeReply with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *SendCodeReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SendCodeReply with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in SendCodeReplyMultiError, or
+// nil if none found.
+func (m *SendCodeReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SendCodeReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return SendCodeReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// SendCodeReplyMultiError is an error wrapping multiple validation errors
+// returned by SendCodeReply.ValidateAll() if the designated constraints
+// aren't met.
+type SendCodeReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SendCodeReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SendCodeReplyMultiError) AllErrors() []error { return m }
+
+// SendCodeReplyValidationError is the validation error returned by
+// SendCodeReply.Validate if the designated constraints aren't met.
+type SendCodeReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SendCodeReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SendCodeReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SendCodeReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SendCodeReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SendCodeReplyValidationError) ErrorName() string { return "SendCodeReplyValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SendCodeReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSendCodeReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SendCodeReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SendCodeReplyValidationError{}
+
+// Validate checks the field values on VerifyCodeRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *VerifyCodeRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on VerifyCodeRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// VerifyCodeRequestMultiError, or nil if none found.
+func (m *VerifyCodeRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *VerifyCodeRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
+
+	if utf8.RuneCountInString(m.GetCode()) < 4 {
+		err := VerifyCodeRequestValidationError{
+			field:  "Code",
+			reason: "value length must be at least 4 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetPhone()) != 11 {
+		err := VerifyCodeRequestValidationError{
+			field:  "Phone",
+			reason: "value length must be 11 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+
+	}
+
+	// no validation rules for CodeType
+
+	if len(errors) > 0 {
+		return VerifyCodeRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// VerifyCodeRequestMultiError is an error wrapping multiple validation errors
+// returned by VerifyCodeRequest.ValidateAll() if the designated constraints
+// aren't met.
+type VerifyCodeRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m VerifyCodeRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m VerifyCodeRequestMultiError) AllErrors() []error { return m }
+
+// VerifyCodeRequestValidationError is the validation error returned by
+// VerifyCodeRequest.Validate if the designated constraints aren't met.
+type VerifyCodeRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e VerifyCodeRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e VerifyCodeRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e VerifyCodeRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e VerifyCodeRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e VerifyCodeRequestValidationError) ErrorName() string {
+	return "VerifyCodeRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e VerifyCodeRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sVerifyCodeRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = VerifyCodeRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = VerifyCodeRequestValidationError{}
+
+// Validate checks the field values on VerifyCodeReply with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *VerifyCodeReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on VerifyCodeReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// VerifyCodeReplyMultiError, or nil if none found.
+func (m *VerifyCodeReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *VerifyCodeReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for AccessToken
+
+	if len(errors) > 0 {
+		return VerifyCodeReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// VerifyCodeReplyMultiError is an error wrapping multiple validation errors
+// returned by VerifyCodeReply.ValidateAll() if the designated constraints
+// aren't met.
+type VerifyCodeReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m VerifyCodeReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m VerifyCodeReplyMultiError) AllErrors() []error { return m }
+
+// VerifyCodeReplyValidationError is the validation error returned by
+// VerifyCodeReply.Validate if the designated constraints aren't met.
+type VerifyCodeReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e VerifyCodeReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e VerifyCodeReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e VerifyCodeReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e VerifyCodeReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e VerifyCodeReplyValidationError) ErrorName() string { return "VerifyCodeReplyValidationError" }
+
+// Error satisfies the builtin error interface
+func (e VerifyCodeReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sVerifyCodeReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = VerifyCodeReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = VerifyCodeReplyValidationError{}

@@ -10,6 +10,7 @@ option java_multiple_files = true;
 option java_package = "api.auth.v1";
 
 service Auth {
+	// 登录
 	rpc Login (LoginRequest) returns (LoginReply){
 		option (google.api.http) = {
 			post: "/st-games/v1/auth/login",
@@ -17,6 +18,7 @@ service Auth {
 		};
 	};
 
+	// app 登录
 	rpc LoginForApp (LoginForAppRequest) returns (LoginForAppReply){
 		option (google.api.http) = {
 			post: "/st-games/v1/auth/login/app",
@@ -24,24 +26,53 @@ service Auth {
 		};
 	};
 
+	// 测试登录
 	rpc LoginTest (LoginTestRequest) returns (LoginReply){
 		option (google.api.http) = {
 			post: "/st-games/v1/auth/login_test",
 			body: "*",
 		};
 	};
+
+	// 解密
 	rpc Decrypt (DecryptRequest) returns (DecryptReply){
 		option (google.api.http) = {
 			post: "/st-games/v1/auth/decrypt",
 			body: "*",
 		};
 	};
+
+	// 获取登录信息
 	rpc GetInfo (GetInfoRequest) returns (LoginReply){
 		option (google.api.http) = {
 			post: "/st-games/v1/auth/get_info",
 			body: "*",
 		};
 	};
+
+	// 注册短信
+	rpc SendCode (SendCodeRequest) returns (SendCodeReply){
+		option (google.api.http) = {
+			post: "/st-games/v1/auth/code/send",
+			body: "*",
+		};
+	};
+
+	// 验证短信
+	rpc VerifyCode (VerifyCodeRequest) returns (VerifyCodeReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/auth/code/verify",
+			body: "*",
+		};
+	};
+
+}
+
+enum VerifyCodeType {
+	_ = 0; // ignore
+	LOGIN = 1; // 登录
+	BIND = 2; // 绑定
+//	RESET_PASSWORD = 2; // 重置密码
 }
 
 
@@ -138,4 +169,25 @@ message GetInfoRequest {
 
 message GetInfoReply {
 
+}
+
+message SendCodeRequest {
+	int32 appId = 1; // app id
+	int32 channelId = 2; // 渠道 id
+	string phone = 3 [(validate.rules).string.len =  11]; // 手机号
+	VerifyCodeType code_type = 4; // 验证类型
+}
+message SendCodeReply{
+
+}
+
+message VerifyCodeRequest {
+	int32 appId = 1; // app id
+	int32 channelId = 2; // 渠道 id
+	string code = 3 [(validate.rules).string.min_len =  4]; // 验证码
+	string phone = 4 [(validate.rules).string.len =  11]; // 手机号
+	VerifyCodeType code_type = 5; // 验证类型
+}
+message VerifyCodeReply {
+	string access_token = 1; // token
 }

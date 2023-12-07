@@ -24,17 +24,28 @@ const (
 	Auth_LoginTest_FullMethodName   = "/api.auth.v1.Auth/LoginTest"
 	Auth_Decrypt_FullMethodName     = "/api.auth.v1.Auth/Decrypt"
 	Auth_GetInfo_FullMethodName     = "/api.auth.v1.Auth/GetInfo"
+	Auth_SendCode_FullMethodName    = "/api.auth.v1.Auth/SendCode"
+	Auth_VerifyCode_FullMethodName  = "/api.auth.v1.Auth/VerifyCode"
 )
 
 // AuthClient is the client API for Auth service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthClient interface {
+	// 登录
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginReply, error)
+	// app 登录
 	LoginForApp(ctx context.Context, in *LoginForAppRequest, opts ...grpc.CallOption) (*LoginForAppReply, error)
+	// 测试登录
 	LoginTest(ctx context.Context, in *LoginTestRequest, opts ...grpc.CallOption) (*LoginReply, error)
+	// 解密
 	Decrypt(ctx context.Context, in *DecryptRequest, opts ...grpc.CallOption) (*DecryptReply, error)
+	// 获取登录信息
 	GetInfo(ctx context.Context, in *GetInfoRequest, opts ...grpc.CallOption) (*LoginReply, error)
+	// 注册短信
+	SendCode(ctx context.Context, in *SendCodeRequest, opts ...grpc.CallOption) (*SendCodeReply, error)
+	// 验证短信
+	VerifyCode(ctx context.Context, in *VerifyCodeRequest, opts ...grpc.CallOption) (*VerifyCodeReply, error)
 }
 
 type authClient struct {
@@ -90,15 +101,42 @@ func (c *authClient) GetInfo(ctx context.Context, in *GetInfoRequest, opts ...gr
 	return out, nil
 }
 
+func (c *authClient) SendCode(ctx context.Context, in *SendCodeRequest, opts ...grpc.CallOption) (*SendCodeReply, error) {
+	out := new(SendCodeReply)
+	err := c.cc.Invoke(ctx, Auth_SendCode_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authClient) VerifyCode(ctx context.Context, in *VerifyCodeRequest, opts ...grpc.CallOption) (*VerifyCodeReply, error) {
+	out := new(VerifyCodeReply)
+	err := c.cc.Invoke(ctx, Auth_VerifyCode_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthServer is the server API for Auth service.
 // All implementations must embed UnimplementedAuthServer
 // for forward compatibility
 type AuthServer interface {
+	// 登录
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
+	// app 登录
 	LoginForApp(context.Context, *LoginForAppRequest) (*LoginForAppReply, error)
+	// 测试登录
 	LoginTest(context.Context, *LoginTestRequest) (*LoginReply, error)
+	// 解密
 	Decrypt(context.Context, *DecryptRequest) (*DecryptReply, error)
+	// 获取登录信息
 	GetInfo(context.Context, *GetInfoRequest) (*LoginReply, error)
+	// 注册短信
+	SendCode(context.Context, *SendCodeRequest) (*SendCodeReply, error)
+	// 验证短信
+	VerifyCode(context.Context, *VerifyCodeRequest) (*VerifyCodeReply, error)
 	mustEmbedUnimplementedAuthServer()
 }
 
@@ -120,6 +158,12 @@ func (UnimplementedAuthServer) Decrypt(context.Context, *DecryptRequest) (*Decry
 }
 func (UnimplementedAuthServer) GetInfo(context.Context, *GetInfoRequest) (*LoginReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetInfo not implemented")
+}
+func (UnimplementedAuthServer) SendCode(context.Context, *SendCodeRequest) (*SendCodeReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendCode not implemented")
+}
+func (UnimplementedAuthServer) VerifyCode(context.Context, *VerifyCodeRequest) (*VerifyCodeReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyCode not implemented")
 }
 func (UnimplementedAuthServer) mustEmbedUnimplementedAuthServer() {}
 
@@ -224,6 +268,42 @@ func _Auth_GetInfo_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Auth_SendCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServer).SendCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Auth_SendCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServer).SendCode(ctx, req.(*SendCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Auth_VerifyCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServer).VerifyCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Auth_VerifyCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServer).VerifyCode(ctx, req.(*VerifyCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Auth_ServiceDesc is the grpc.ServiceDesc for Auth service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -250,6 +330,14 @@ var Auth_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetInfo",
 			Handler:    _Auth_GetInfo_Handler,
+		},
+		{
+			MethodName: "SendCode",
+			Handler:    _Auth_SendCode_Handler,
+		},
+		{
+			MethodName: "VerifyCode",
+			Handler:    _Auth_VerifyCode_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

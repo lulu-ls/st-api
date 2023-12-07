@@ -98,3 +98,17 @@ func IsLoginUserNoNotEnough(err error) bool {
 func ErrorLoginUserNoNotEnough(format string, args ...interface{}) *errors.Error {
 	return errors.New(402, ErrorReason_LOGIN_USER_NO_NOT_ENOUGH.String(), fmt.Sprintf(format, args...))
 }
+
+// 验证码错误
+func IsSmsCodeIsInvalid(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_SMS_CODE_IS_INVALID.String() && e.Code == 400
+}
+
+// 验证码错误
+func ErrorSmsCodeIsInvalid(format string, args ...interface{}) *errors.Error {
+	return errors.New(400, ErrorReason_SMS_CODE_IS_INVALID.String(), fmt.Sprintf(format, args...))
+}
