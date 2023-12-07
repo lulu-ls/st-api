@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package api.sms.v1;
+
+option go_package = "github.com/lulu-ls/st-api/api/sms/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.sms.v1";
+
+service Sms {
+	rpc Send (SendRequest) returns (SendReply);
+	rpc SendBatch (SendBatchRequest) returns (SendBatchReply);
+}
+
+enum SmsType {
+	_ = 0;
+	ALI = 1; // 阿里短信平台
+}
+
+message SendRequest {
+	string sign_name = 1; // 签名
+	string phone = 2; // 电话
+	string template_code = 3; // 模板编号
+	string template_params = 4; // 模板参数
+	SmsType sms_type = 5; // 平台类型
+}
+message SendReply {}
+
+message SendBatchRequest {
+	repeated string sign_name = 1; // 签名
+	repeated string phone = 2; // 电话
+	string template_code = 3; // 模板编号
+	repeated string template_params = 4; // 模板参数
+	SmsType sms_type = 5; // 平台类型
+}
+message SendBatchReply {
+
+}
+
+message AliLoginParams {
+	string code = 1; // 验证码
+}
