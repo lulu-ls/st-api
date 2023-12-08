@@ -425,11 +425,11 @@ components:
                 channelId:
                     type: integer
                     format: int32
+                userId:
+                    type: string
                 code:
                     type: string
                 phone:
-                    type: string
-                accessToken:
                     type: string
         VerifyLoginCodeRequest:
             type: object

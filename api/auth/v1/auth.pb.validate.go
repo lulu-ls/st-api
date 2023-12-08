@@ -1958,6 +1958,8 @@ func (m *VerifyBindCodeRequest) validate(all bool) error {
 
 	// no validation rules for ChannelId
 
+	// no validation rules for UserId
+
 	if utf8.RuneCountInString(m.GetCode()) < 4 {
 		err := VerifyBindCodeRequestValidationError{
 			field:  "Code",
@@ -1980,8 +1982,6 @@ func (m *VerifyBindCodeRequest) validate(all bool) error {
 		errors = append(errors, err)
 
 	}
-
-	// no validation rules for AccessToken
 
 	if len(errors) > 0 {
 		return VerifyBindCodeRequestMultiError(errors)
