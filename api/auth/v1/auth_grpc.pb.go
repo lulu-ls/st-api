@@ -19,13 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Auth_Login_FullMethodName       = "/api.auth.v1.Auth/Login"
-	Auth_LoginForApp_FullMethodName = "/api.auth.v1.Auth/LoginForApp"
-	Auth_LoginTest_FullMethodName   = "/api.auth.v1.Auth/LoginTest"
-	Auth_Decrypt_FullMethodName     = "/api.auth.v1.Auth/Decrypt"
-	Auth_GetInfo_FullMethodName     = "/api.auth.v1.Auth/GetInfo"
-	Auth_SendCode_FullMethodName    = "/api.auth.v1.Auth/SendCode"
-	Auth_VerifyCode_FullMethodName  = "/api.auth.v1.Auth/VerifyCode"
+	Auth_Login_FullMethodName           = "/api.auth.v1.Auth/Login"
+	Auth_LoginForApp_FullMethodName     = "/api.auth.v1.Auth/LoginForApp"
+	Auth_LoginTest_FullMethodName       = "/api.auth.v1.Auth/LoginTest"
+	Auth_Decrypt_FullMethodName         = "/api.auth.v1.Auth/Decrypt"
+	Auth_GetInfo_FullMethodName         = "/api.auth.v1.Auth/GetInfo"
+	Auth_SendCode_FullMethodName        = "/api.auth.v1.Auth/SendCode"
+	Auth_VerifyLoginCode_FullMethodName = "/api.auth.v1.Auth/VerifyLoginCode"
+	Auth_VerifyBindCode_FullMethodName  = "/api.auth.v1.Auth/VerifyBindCode"
 )
 
 // AuthClient is the client API for Auth service.
@@ -44,8 +45,10 @@ type AuthClient interface {
 	GetInfo(ctx context.Context, in *GetInfoRequest, opts ...grpc.CallOption) (*LoginReply, error)
 	// 注册短信
 	SendCode(ctx context.Context, in *SendCodeRequest, opts ...grpc.CallOption) (*SendCodeReply, error)
-	// 验证短信
-	VerifyCode(ctx context.Context, in *VerifyCodeRequest, opts ...grpc.CallOption) (*VerifyCodeReply, error)
+	// 验证登录短信
+	VerifyLoginCode(ctx context.Context, in *VerifyLoginCodeRequest, opts ...grpc.CallOption) (*LoginReply, error)
+	// 验证绑定短信
+	VerifyBindCode(ctx context.Context, in *VerifyBindCodeRequest, opts ...grpc.CallOption) (*LoginReply, error)
 }
 
 type authClient struct {
@@ -110,9 +113,18 @@ func (c *authClient) SendCode(ctx context.Context, in *SendCodeRequest, opts ...
 	return out, nil
 }
 
-func (c *authClient) VerifyCode(ctx context.Context, in *VerifyCodeRequest, opts ...grpc.CallOption) (*VerifyCodeReply, error) {
-	out := new(VerifyCodeReply)
-	err := c.cc.Invoke(ctx, Auth_VerifyCode_FullMethodName, in, out, opts...)
+func (c *authClient) VerifyLoginCode(ctx context.Context, in *VerifyLoginCodeRequest, opts ...grpc.CallOption) (*LoginReply, error) {
+	out := new(LoginReply)
+	err := c.cc.Invoke(ctx, Auth_VerifyLoginCode_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authClient) VerifyBindCode(ctx context.Context, in *VerifyBindCodeRequest, opts ...grpc.CallOption) (*LoginReply, error) {
+	out := new(LoginReply)
+	err := c.cc.Invoke(ctx, Auth_VerifyBindCode_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -135,8 +147,10 @@ type AuthServer interface {
 	GetInfo(context.Context, *GetInfoRequest) (*LoginReply, error)
 	// 注册短信
 	SendCode(context.Context, *SendCodeRequest) (*SendCodeReply, error)
-	// 验证短信
-	VerifyCode(context.Context, *VerifyCodeRequest) (*VerifyCodeReply, error)
+	// 验证登录短信
+	VerifyLoginCode(context.Context, *VerifyLoginCodeRequest) (*LoginReply, error)
+	// 验证绑定短信
+	VerifyBindCode(context.Context, *VerifyBindCodeRequest) (*LoginReply, error)
 	mustEmbedUnimplementedAuthServer()
 }
 
@@ -162,8 +176,11 @@ func (UnimplementedAuthServer) GetInfo(context.Context, *GetInfoRequest) (*Login
 func (UnimplementedAuthServer) SendCode(context.Context, *SendCodeRequest) (*SendCodeReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendCode not implemented")
 }
-func (UnimplementedAuthServer) VerifyCode(context.Context, *VerifyCodeRequest) (*VerifyCodeReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method VerifyCode not implemented")
+func (UnimplementedAuthServer) VerifyLoginCode(context.Context, *VerifyLoginCodeRequest) (*LoginReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyLoginCode not implemented")
+}
+func (UnimplementedAuthServer) VerifyBindCode(context.Context, *VerifyBindCodeRequest) (*LoginReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyBindCode not implemented")
 }
 func (UnimplementedAuthServer) mustEmbedUnimplementedAuthServer() {}
 
@@ -286,20 +303,38 @@ func _Auth_SendCode_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_VerifyCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(VerifyCodeRequest)
+func _Auth_VerifyLoginCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyLoginCodeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AuthServer).VerifyCode(ctx, in)
+		return srv.(AuthServer).VerifyLoginCode(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Auth_VerifyCode_FullMethodName,
+		FullMethod: Auth_VerifyLoginCode_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServer).VerifyCode(ctx, req.(*VerifyCodeRequest))
+		return srv.(AuthServer).VerifyLoginCode(ctx, req.(*VerifyLoginCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Auth_VerifyBindCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyBindCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServer).VerifyBindCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Auth_VerifyBindCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServer).VerifyBindCode(ctx, req.(*VerifyBindCodeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -336,8 +371,12 @@ var Auth_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Auth_SendCode_Handler,
 		},
 		{
-			MethodName: "VerifyCode",
-			Handler:    _Auth_VerifyCode_Handler,
+			MethodName: "VerifyLoginCode",
+			Handler:    _Auth_VerifyLoginCode_Handler,
+		},
+		{
+			MethodName: "VerifyBindCode",
+			Handler:    _Auth_VerifyBindCode_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

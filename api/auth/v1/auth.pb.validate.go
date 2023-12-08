@@ -1803,22 +1803,22 @@ var _ interface {
 	ErrorName() string
 } = SendCodeReplyValidationError{}
 
-// Validate checks the field values on VerifyCodeRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *VerifyCodeRequest) Validate() error {
+// Validate checks the field values on VerifyLoginCodeRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *VerifyLoginCodeRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on VerifyCodeRequest with the rules
+// ValidateAll checks the field values on VerifyLoginCodeRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// VerifyCodeRequestMultiError, or nil if none found.
-func (m *VerifyCodeRequest) ValidateAll() error {
+// VerifyLoginCodeRequestMultiError, or nil if none found.
+func (m *VerifyLoginCodeRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *VerifyCodeRequest) validate(all bool) error {
+func (m *VerifyLoginCodeRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1830,7 +1830,7 @@ func (m *VerifyCodeRequest) validate(all bool) error {
 	// no validation rules for ChannelId
 
 	if utf8.RuneCountInString(m.GetCode()) < 4 {
-		err := VerifyCodeRequestValidationError{
+		err := VerifyLoginCodeRequestValidationError{
 			field:  "Code",
 			reason: "value length must be at least 4 runes",
 		}
@@ -1841,7 +1841,7 @@ func (m *VerifyCodeRequest) validate(all bool) error {
 	}
 
 	if utf8.RuneCountInString(m.GetPhone()) != 11 {
-		err := VerifyCodeRequestValidationError{
+		err := VerifyLoginCodeRequestValidationError{
 			field:  "Phone",
 			reason: "value length must be 11 runes",
 		}
@@ -1852,22 +1852,20 @@ func (m *VerifyCodeRequest) validate(all bool) error {
 
 	}
 
-	// no validation rules for CodeType
-
 	if len(errors) > 0 {
-		return VerifyCodeRequestMultiError(errors)
+		return VerifyLoginCodeRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// VerifyCodeRequestMultiError is an error wrapping multiple validation errors
-// returned by VerifyCodeRequest.ValidateAll() if the designated constraints
-// aren't met.
-type VerifyCodeRequestMultiError []error
+// VerifyLoginCodeRequestMultiError is an error wrapping multiple validation
+// errors returned by VerifyLoginCodeRequest.ValidateAll() if the designated
+// constraints aren't met.
+type VerifyLoginCodeRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m VerifyCodeRequestMultiError) Error() string {
+func (m VerifyLoginCodeRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1876,11 +1874,11 @@ func (m VerifyCodeRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m VerifyCodeRequestMultiError) AllErrors() []error { return m }
+func (m VerifyLoginCodeRequestMultiError) AllErrors() []error { return m }
 
-// VerifyCodeRequestValidationError is the validation error returned by
-// VerifyCodeRequest.Validate if the designated constraints aren't met.
-type VerifyCodeRequestValidationError struct {
+// VerifyLoginCodeRequestValidationError is the validation error returned by
+// VerifyLoginCodeRequest.Validate if the designated constraints aren't met.
+type VerifyLoginCodeRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1888,24 +1886,24 @@ type VerifyCodeRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e VerifyCodeRequestValidationError) Field() string { return e.field }
+func (e VerifyLoginCodeRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e VerifyCodeRequestValidationError) Reason() string { return e.reason }
+func (e VerifyLoginCodeRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e VerifyCodeRequestValidationError) Cause() error { return e.cause }
+func (e VerifyLoginCodeRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e VerifyCodeRequestValidationError) Key() bool { return e.key }
+func (e VerifyLoginCodeRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e VerifyCodeRequestValidationError) ErrorName() string {
-	return "VerifyCodeRequestValidationError"
+func (e VerifyLoginCodeRequestValidationError) ErrorName() string {
+	return "VerifyLoginCodeRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e VerifyCodeRequestValidationError) Error() string {
+func (e VerifyLoginCodeRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1917,14 +1915,14 @@ func (e VerifyCodeRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sVerifyCodeRequest.%s: %s%s",
+		"invalid %sVerifyLoginCodeRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = VerifyCodeRequestValidationError{}
+var _ error = VerifyLoginCodeRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -1932,46 +1930,73 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = VerifyCodeRequestValidationError{}
+} = VerifyLoginCodeRequestValidationError{}
 
-// Validate checks the field values on VerifyCodeReply with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *VerifyCodeReply) Validate() error {
+// Validate checks the field values on VerifyBindCodeRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *VerifyBindCodeRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on VerifyCodeReply with the rules
+// ValidateAll checks the field values on VerifyBindCodeRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// VerifyCodeReplyMultiError, or nil if none found.
-func (m *VerifyCodeReply) ValidateAll() error {
+// VerifyBindCodeRequestMultiError, or nil if none found.
+func (m *VerifyBindCodeRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *VerifyCodeReply) validate(all bool) error {
+func (m *VerifyBindCodeRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
+
+	if utf8.RuneCountInString(m.GetCode()) < 4 {
+		err := VerifyBindCodeRequestValidationError{
+			field:  "Code",
+			reason: "value length must be at least 4 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetPhone()) != 11 {
+		err := VerifyBindCodeRequestValidationError{
+			field:  "Phone",
+			reason: "value length must be 11 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+
+	}
+
 	// no validation rules for AccessToken
 
 	if len(errors) > 0 {
-		return VerifyCodeReplyMultiError(errors)
+		return VerifyBindCodeRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// VerifyCodeReplyMultiError is an error wrapping multiple validation errors
-// returned by VerifyCodeReply.ValidateAll() if the designated constraints
-// aren't met.
-type VerifyCodeReplyMultiError []error
+// VerifyBindCodeRequestMultiError is an error wrapping multiple validation
+// errors returned by VerifyBindCodeRequest.ValidateAll() if the designated
+// constraints aren't met.
+type VerifyBindCodeRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m VerifyCodeReplyMultiError) Error() string {
+func (m VerifyBindCodeRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1980,11 +2005,11 @@ func (m VerifyCodeReplyMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m VerifyCodeReplyMultiError) AllErrors() []error { return m }
+func (m VerifyBindCodeRequestMultiError) AllErrors() []error { return m }
 
-// VerifyCodeReplyValidationError is the validation error returned by
-// VerifyCodeReply.Validate if the designated constraints aren't met.
-type VerifyCodeReplyValidationError struct {
+// VerifyBindCodeRequestValidationError is the validation error returned by
+// VerifyBindCodeRequest.Validate if the designated constraints aren't met.
+type VerifyBindCodeRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1992,22 +2017,24 @@ type VerifyCodeReplyValidationError struct {
 }
 
 // Field function returns field value.
-func (e VerifyCodeReplyValidationError) Field() string { return e.field }
+func (e VerifyBindCodeRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e VerifyCodeReplyValidationError) Reason() string { return e.reason }
+func (e VerifyBindCodeRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e VerifyCodeReplyValidationError) Cause() error { return e.cause }
+func (e VerifyBindCodeRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e VerifyCodeReplyValidationError) Key() bool { return e.key }
+func (e VerifyBindCodeRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e VerifyCodeReplyValidationError) ErrorName() string { return "VerifyCodeReplyValidationError" }
+func (e VerifyBindCodeRequestValidationError) ErrorName() string {
+	return "VerifyBindCodeRequestValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e VerifyCodeReplyValidationError) Error() string {
+func (e VerifyBindCodeRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -2019,14 +2046,14 @@ func (e VerifyCodeReplyValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sVerifyCodeReply.%s: %s%s",
+		"invalid %sVerifyBindCodeRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = VerifyCodeReplyValidationError{}
+var _ error = VerifyBindCodeRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -2034,4 +2061,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = VerifyCodeReplyValidationError{}
+} = VerifyBindCodeRequestValidationError{}

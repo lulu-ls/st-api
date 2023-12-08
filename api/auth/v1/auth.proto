@@ -58,10 +58,18 @@ service Auth {
 		};
 	};
 
-	// 验证短信
-	rpc VerifyCode (VerifyCodeRequest) returns (VerifyCodeReply) {
+	// 验证登录短信
+	rpc VerifyLoginCode (VerifyLoginCodeRequest) returns (LoginReply) {
 		option (google.api.http) = {
-			post: "/st-games/v1/auth/code/verify",
+			post: "/st-games/v1/auth/code/login/verify",
+			body: "*",
+		};
+	};
+
+	// 验证绑定短信
+	rpc VerifyBindCode (VerifyBindCodeRequest) returns (LoginReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/auth/code/bind/verify",
 			body: "*",
 		};
 	};
@@ -181,13 +189,17 @@ message SendCodeReply{
 
 }
 
-message VerifyCodeRequest {
+message VerifyLoginCodeRequest {
 	int32 appId = 1; // app id
 	int32 channelId = 2; // 渠道 id
 	string code = 3 [(validate.rules).string.min_len =  4]; // 验证码
 	string phone = 4 [(validate.rules).string.len =  11]; // 手机号
-	VerifyCodeType code_type = 5; // 验证类型
 }
-message VerifyCodeReply {
-	string access_token = 1; // token
+
+message VerifyBindCodeRequest {
+	int32 appId = 1; // app id
+	int32 channelId = 2; // 渠道 id
+	string code = 3 [(validate.rules).string.min_len =  4]; // 验证码
+	string phone = 4 [(validate.rules).string.len =  11]; // 手机号
+	string access_token = 5; // access token
 }

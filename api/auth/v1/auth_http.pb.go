@@ -25,7 +25,8 @@ const OperationAuthLogin = "/api.auth.v1.Auth/Login"
 const OperationAuthLoginForApp = "/api.auth.v1.Auth/LoginForApp"
 const OperationAuthLoginTest = "/api.auth.v1.Auth/LoginTest"
 const OperationAuthSendCode = "/api.auth.v1.Auth/SendCode"
-const OperationAuthVerifyCode = "/api.auth.v1.Auth/VerifyCode"
+const OperationAuthVerifyBindCode = "/api.auth.v1.Auth/VerifyBindCode"
+const OperationAuthVerifyLoginCode = "/api.auth.v1.Auth/VerifyLoginCode"
 
 type AuthHTTPServer interface {
 	// Decrypt 解密
@@ -40,8 +41,10 @@ type AuthHTTPServer interface {
 	LoginTest(context.Context, *LoginTestRequest) (*LoginReply, error)
 	// SendCode 注册短信
 	SendCode(context.Context, *SendCodeRequest) (*SendCodeReply, error)
-	// VerifyCode 验证短信
-	VerifyCode(context.Context, *VerifyCodeRequest) (*VerifyCodeReply, error)
+	// VerifyBindCode 验证绑定短信
+	VerifyBindCode(context.Context, *VerifyBindCodeRequest) (*LoginReply, error)
+	// VerifyLoginCode 验证登录短信
+	VerifyLoginCode(context.Context, *VerifyLoginCodeRequest) (*LoginReply, error)
 }
 
 func RegisterAuthHTTPServer(s *http.Server, srv AuthHTTPServer) {
@@ -52,7 +55,8 @@ func RegisterAuthHTTPServer(s *http.Server, srv AuthHTTPServer) {
 	r.POST("/st-games/v1/auth/decrypt", _Auth_Decrypt0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/auth/get_info", _Auth_GetInfo0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/auth/code/send", _Auth_SendCode0_HTTP_Handler(srv))
-	r.POST("/st-games/v1/auth/code/verify", _Auth_VerifyCode0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/auth/code/login/verify", _Auth_VerifyLoginCode0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/auth/code/bind/verify", _Auth_VerifyBindCode0_HTTP_Handler(srv))
 }
 
 func _Auth_Login0_HTTP_Handler(srv AuthHTTPServer) func(ctx http.Context) error {
@@ -187,24 +191,46 @@ func _Auth_SendCode0_HTTP_Handler(srv AuthHTTPServer) func(ctx http.Context) err
 	}
 }
 
-func _Auth_VerifyCode0_HTTP_Handler(srv AuthHTTPServer) func(ctx http.Context) error {
+func _Auth_VerifyLoginCode0_HTTP_Handler(srv AuthHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in VerifyCodeRequest
+		var in VerifyLoginCodeRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationAuthVerifyCode)
+		http.SetOperation(ctx, OperationAuthVerifyLoginCode)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.VerifyCode(ctx, req.(*VerifyCodeRequest))
+			return srv.VerifyLoginCode(ctx, req.(*VerifyLoginCodeRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*VerifyCodeReply)
+		reply := out.(*LoginReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Auth_VerifyBindCode0_HTTP_Handler(srv AuthHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in VerifyBindCodeRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationAuthVerifyBindCode)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.VerifyBindCode(ctx, req.(*VerifyBindCodeRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*LoginReply)
 		return ctx.Result(200, reply)
 	}
 }
@@ -216,7 +242,8 @@ type AuthHTTPClient interface {
 	LoginForApp(ctx context.Context, req *LoginForAppRequest, opts ...http.CallOption) (rsp *LoginForAppReply, err error)
 	LoginTest(ctx context.Context, req *LoginTestRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
 	SendCode(ctx context.Context, req *SendCodeRequest, opts ...http.CallOption) (rsp *SendCodeReply, err error)
-	VerifyCode(ctx context.Context, req *VerifyCodeRequest, opts ...http.CallOption) (rsp *VerifyCodeReply, err error)
+	VerifyBindCode(ctx context.Context, req *VerifyBindCodeRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
+	VerifyLoginCode(ctx context.Context, req *VerifyLoginCodeRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
 }
 
 type AuthHTTPClientImpl struct {
@@ -305,11 +332,24 @@ func (c *AuthHTTPClientImpl) SendCode(ctx context.Context, in *SendCodeRequest, 
 	return &out, err
 }
 
-func (c *AuthHTTPClientImpl) VerifyCode(ctx context.Context, in *VerifyCodeRequest, opts ...http.CallOption) (*VerifyCodeReply, error) {
-	var out VerifyCodeReply
-	pattern := "/st-games/v1/auth/code/verify"
+func (c *AuthHTTPClientImpl) VerifyBindCode(ctx context.Context, in *VerifyBindCodeRequest, opts ...http.CallOption) (*LoginReply, error) {
+	var out LoginReply
+	pattern := "/st-games/v1/auth/code/bind/verify"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationAuthVerifyCode))
+	opts = append(opts, http.Operation(OperationAuthVerifyBindCode))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *AuthHTTPClientImpl) VerifyLoginCode(ctx context.Context, in *VerifyLoginCodeRequest, opts ...http.CallOption) (*LoginReply, error) {
+	var out LoginReply
+	pattern := "/st-games/v1/auth/code/login/verify"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationAuthVerifyLoginCode))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
