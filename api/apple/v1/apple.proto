@@ -3,6 +3,7 @@ syntax = "proto3";
 package api.apple.v1;
 
 import "google/api/annotations.proto";
+import "order/v1/order.proto";
 
 option go_package = "github.com/lulu-ls/st-api/api/apple/v1;v1";
 option java_multiple_files = true;
@@ -22,14 +23,50 @@ service Apple {
 			body: "*",
 		};
 	};
+
+	// 支付
+	rpc Pay (ApplePayBuyRequest) returns (order.v1.ConfirmPayReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/apple/pay",
+			body: "*",
+		};
+	};
 }
 
 message VerifyReceiptRequest {
-	int64 order_id = 1; // 订单号
-	string data = 2; // 数据
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	int32 purchase_id = 3; // 道具配置 id
+	int64 user_id = 5; // 用户 id
+	int64 order_id = 6; // order id
 }
-message VerifyReceiptReply {}
+message VerifyReceiptReply {
+	int32 env = 2; // 环境配置0：现网环境（也叫正式环境）1：沙箱环境
+	string platform = 5; // 平台
+	int64 out_trad_no = 7; // 订单号 order id
+	double order_amount = 8; // 订单金额
+	int32 quantity = 9; // 购买数量
+	string mode = 10; // game 购买游戏币
+	int64 order_id = 11; // 订单号
+	string title = 12; // 标题
+}
 
 message PayNoticeRequest {}
 message PayNoticeReply {}
+
+
+message ApplePayBuyRequest {
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	int32 purchase_id = 3; // 道具配置 id
+	int64 user_id = 5; // 用户 id
+	int64 order_id = 6; // order id
+}
+message ApplePayBuyReply {
+	int64 order_id = 2; // 订单号
+	double order_amount = 3; // 订单金额
+	int32 quantity = 4; // 购买数量
+	string title = 5; // 标题
+	string env = 6; // 环境
+}
 

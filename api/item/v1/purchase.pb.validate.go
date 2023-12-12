@@ -873,6 +873,228 @@ var _ interface {
 	ErrorName() string
 } = JSBuyReplyValidationError{}
 
+// Validate checks the field values on AppleBuyRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *AppleBuyRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AppleBuyRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// AppleBuyRequestMultiError, or nil if none found.
+func (m *AppleBuyRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AppleBuyRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
+
+	// no validation rules for PurchaseId
+
+	// no validation rules for UserId
+
+	// no validation rules for OrderId
+
+	if len(errors) > 0 {
+		return AppleBuyRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// AppleBuyRequestMultiError is an error wrapping multiple validation errors
+// returned by AppleBuyRequest.ValidateAll() if the designated constraints
+// aren't met.
+type AppleBuyRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AppleBuyRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AppleBuyRequestMultiError) AllErrors() []error { return m }
+
+// AppleBuyRequestValidationError is the validation error returned by
+// AppleBuyRequest.Validate if the designated constraints aren't met.
+type AppleBuyRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AppleBuyRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AppleBuyRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AppleBuyRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AppleBuyRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AppleBuyRequestValidationError) ErrorName() string { return "AppleBuyRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AppleBuyRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAppleBuyRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AppleBuyRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AppleBuyRequestValidationError{}
+
+// Validate checks the field values on AppleBuyReply with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *AppleBuyReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AppleBuyReply with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AppleBuyReplyMultiError, or
+// nil if none found.
+func (m *AppleBuyReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AppleBuyReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for IsPayed
+
+	// no validation rules for OrderId
+
+	// no validation rules for OrderAmount
+
+	// no validation rules for Quantity
+
+	// no validation rules for Title
+
+	// no validation rules for Env
+
+	if len(errors) > 0 {
+		return AppleBuyReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// AppleBuyReplyMultiError is an error wrapping multiple validation errors
+// returned by AppleBuyReply.ValidateAll() if the designated constraints
+// aren't met.
+type AppleBuyReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AppleBuyReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AppleBuyReplyMultiError) AllErrors() []error { return m }
+
+// AppleBuyReplyValidationError is the validation error returned by
+// AppleBuyReply.Validate if the designated constraints aren't met.
+type AppleBuyReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AppleBuyReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AppleBuyReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AppleBuyReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AppleBuyReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AppleBuyReplyValidationError) ErrorName() string { return "AppleBuyReplyValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AppleBuyReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAppleBuyReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AppleBuyReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AppleBuyReplyValidationError{}
+
 // Validate checks the field values on GetPurchaseRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.

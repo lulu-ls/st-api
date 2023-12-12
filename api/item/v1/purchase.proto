@@ -24,6 +24,12 @@ service Purchase {
 			body: "*",
 		};
 	};
+	rpc AppleBuy (AppleBuyRequest) returns (AppleBuyReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/item/purchase/buy/apple", // js 支付
+			body: "*",
+		};
+	};
 	rpc AppBuy (AppBuyRequest) returns (AppBuyReply) {
 		option (google.api.http) = {
 			post: "/st-games/v1/item/purchase/buy/app", // app 支付
@@ -102,6 +108,22 @@ message JSBuyReply {
 	string env = 6; // 环境
 }
 
+message AppleBuyRequest {
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	int32 purchase_id = 3; // 道具配置 id
+	int64 user_id = 5; // 用户 id
+	int64 order_id = 6; // order id
+	//	order.v1.OrderType order_type = 7; // 订单类型
+}
+message AppleBuyReply {
+	wx.v1.VirtualPayStatus is_payed = 1; // 是否支付成功, 0 否 1是
+	int64 order_id = 2; // 订单号
+	double order_amount = 3; // 订单金额
+	int32 quantity = 4; // 购买数量
+	string title = 5; // 标题
+	string env = 6; // 环境
+}
 message GetPurchaseRequest {
 	int32 purchase_id = 1;
 }
