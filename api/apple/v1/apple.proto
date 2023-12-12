@@ -3,6 +3,7 @@ syntax = "proto3";
 package api.apple.v1;
 
 import "google/api/annotations.proto";
+import "validate/validate.proto";
 import "order/v1/order.proto";
 
 option go_package = "github.com/lulu-ls/st-api/api/apple/v1;v1";
@@ -31,6 +32,9 @@ service Apple {
 			body: "*",
 		};
 	};
+
+	// 登录
+	rpc Login (LoginRequest) returns (LoginReply);
 }
 
 message VerifyReceiptRequest {
@@ -70,3 +74,12 @@ message ApplePayBuyReply {
 	string env = 6; // 环境
 }
 
+message LoginRequest {
+	string code = 3 [(validate.rules).string.min_len =  1]; // 验证码
+}
+message LoginReply {
+	string unique_id = 1; // 唯一 id
+	string email = 2; // 电子邮箱
+//	bool email_verified = 3; // 电子邮箱是否验证
+//	bool is_private_email = 4; // 是否是私有电子邮箱
+}

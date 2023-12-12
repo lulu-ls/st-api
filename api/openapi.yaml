@@ -3,8 +3,204 @@
 
 openapi: 3.0.3
 info:
-    title: ""
+    title: Apple API
     version: 0.0.1
-paths: {}
+paths:
+    /st-games/v1/apple/pay:
+        post:
+            tags:
+                - Apple
+            description: 支付
+            operationId: Apple_Pay
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ApplePayBuyRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ConfirmPayReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /st-games/v1/apple/pay/notice:
+        post:
+            tags:
+                - Apple
+            description: 支付通知
+            operationId: Apple_PayNotice
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/PayNoticeRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PayNoticeReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /st-games/v1/apple/verify_receipt:
+        post:
+            tags:
+                - Apple
+            operationId: Apple_VerifyReceipt
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/VerifyReceiptRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/VerifyReceiptReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
 components:
-    schemas: {}
+    schemas:
+        ApplePayBuyRequest:
+            type: object
+            properties:
+                appId:
+                    type: integer
+                    format: int32
+                channelId:
+                    type: integer
+                    format: int32
+                purchaseId:
+                    type: integer
+                    format: int32
+                userId:
+                    type: string
+                orderId:
+                    type: string
+        ConfirmPayReply:
+            type: object
+            properties:
+                resInfo:
+                    type: string
+                payInfo:
+                    $ref: '#/components/schemas/PayResultRequest'
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        PayNoticeReply:
+            type: object
+            properties: {}
+        PayNoticeRequest:
+            type: object
+            properties: {}
+        PayResultRequest:
+            type: object
+            properties:
+                orderStatus:
+                    type: integer
+                    format: enum
+                orderId:
+                    type: string
+                    description: TransactionType type = 2; // 交易类型
+                channelTransactionId:
+                    type: string
+                channelTxnInfo:
+                    type: string
+                channelTxnTime:
+                    type: string
+                channelTxnAmount:
+                    type: number
+                    format: double
+                channelDiscount:
+                    type: number
+                    format: double
+                channelSettleDate:
+                    type: string
+                channelSettleAmount:
+                    type: number
+                    format: double
+                orderRefundStatus:
+                    type: integer
+                    format: enum
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        VerifyReceiptReply:
+            type: object
+            properties:
+                env:
+                    type: integer
+                    format: int32
+                platform:
+                    type: string
+                outTradNo:
+                    type: string
+                orderAmount:
+                    type: number
+                    format: double
+                quantity:
+                    type: integer
+                    format: int32
+                mode:
+                    type: string
+                orderId:
+                    type: string
+                title:
+                    type: string
+        VerifyReceiptRequest:
+            type: object
+            properties:
+                appId:
+                    type: integer
+                    format: int32
+                channelId:
+                    type: integer
+                    format: int32
+                purchaseId:
+                    type: integer
+                    format: int32
+                userId:
+                    type: string
+                orderId:
+                    type: string
+tags:
+    - name: Apple
