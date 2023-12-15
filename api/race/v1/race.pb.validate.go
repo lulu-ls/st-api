@@ -2644,6 +2644,389 @@ var _ interface {
 	ErrorName() string
 } = RaceSignupCancelReplyValidationError{}
 
+// Validate checks the field values on RaceBatchSignupCancelRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RaceBatchSignupCancelRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RaceBatchSignupCancelRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// RaceBatchSignupCancelRequestMultiError, or nil if none found.
+func (m *RaceBatchSignupCancelRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RaceBatchSignupCancelRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(m.GetUserIds()) < 1 {
+		err := RaceBatchSignupCancelRequestValidationError{
+			field:  "UserIds",
+			reason: "value must contain at least 1 item(s)",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	for idx, item := range m.GetUserIds() {
+		_, _ = idx, item
+
+		if item <= 0 {
+			err := RaceBatchSignupCancelRequestValidationError{
+				field:  fmt.Sprintf("UserIds[%v]", idx),
+				reason: "value must be greater than 0",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+	}
+
+	if m.GetGameConfigId() <= 0 {
+		err := RaceBatchSignupCancelRequestValidationError{
+			field:  "GameConfigId",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return RaceBatchSignupCancelRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// RaceBatchSignupCancelRequestMultiError is an error wrapping multiple
+// validation errors returned by RaceBatchSignupCancelRequest.ValidateAll() if
+// the designated constraints aren't met.
+type RaceBatchSignupCancelRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RaceBatchSignupCancelRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RaceBatchSignupCancelRequestMultiError) AllErrors() []error { return m }
+
+// RaceBatchSignupCancelRequestValidationError is the validation error returned
+// by RaceBatchSignupCancelRequest.Validate if the designated constraints
+// aren't met.
+type RaceBatchSignupCancelRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RaceBatchSignupCancelRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RaceBatchSignupCancelRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RaceBatchSignupCancelRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RaceBatchSignupCancelRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RaceBatchSignupCancelRequestValidationError) ErrorName() string {
+	return "RaceBatchSignupCancelRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RaceBatchSignupCancelRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRaceBatchSignupCancelRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RaceBatchSignupCancelRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RaceBatchSignupCancelRequestValidationError{}
+
+// Validate checks the field values on RaceBatchSignupCancelReply with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RaceBatchSignupCancelReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RaceBatchSignupCancelReply with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// RaceBatchSignupCancelReplyMultiError, or nil if none found.
+func (m *RaceBatchSignupCancelReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RaceBatchSignupCancelReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetErrList() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RaceBatchSignupCancelReplyValidationError{
+						field:  fmt.Sprintf("ErrList[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RaceBatchSignupCancelReplyValidationError{
+						field:  fmt.Sprintf("ErrList[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return RaceBatchSignupCancelReplyValidationError{
+					field:  fmt.Sprintf("ErrList[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return RaceBatchSignupCancelReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// RaceBatchSignupCancelReplyMultiError is an error wrapping multiple
+// validation errors returned by RaceBatchSignupCancelReply.ValidateAll() if
+// the designated constraints aren't met.
+type RaceBatchSignupCancelReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RaceBatchSignupCancelReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RaceBatchSignupCancelReplyMultiError) AllErrors() []error { return m }
+
+// RaceBatchSignupCancelReplyValidationError is the validation error returned
+// by RaceBatchSignupCancelReply.Validate if the designated constraints aren't met.
+type RaceBatchSignupCancelReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RaceBatchSignupCancelReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RaceBatchSignupCancelReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RaceBatchSignupCancelReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RaceBatchSignupCancelReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RaceBatchSignupCancelReplyValidationError) ErrorName() string {
+	return "RaceBatchSignupCancelReplyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RaceBatchSignupCancelReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRaceBatchSignupCancelReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RaceBatchSignupCancelReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RaceBatchSignupCancelReplyValidationError{}
+
+// Validate checks the field values on RaceBatchSignupCancelItem with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RaceBatchSignupCancelItem) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RaceBatchSignupCancelItem with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// RaceBatchSignupCancelItemMultiError, or nil if none found.
+func (m *RaceBatchSignupCancelItem) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RaceBatchSignupCancelItem) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for UserId
+
+	// no validation rules for Err
+
+	if len(errors) > 0 {
+		return RaceBatchSignupCancelItemMultiError(errors)
+	}
+
+	return nil
+}
+
+// RaceBatchSignupCancelItemMultiError is an error wrapping multiple validation
+// errors returned by RaceBatchSignupCancelItem.ValidateAll() if the
+// designated constraints aren't met.
+type RaceBatchSignupCancelItemMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RaceBatchSignupCancelItemMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RaceBatchSignupCancelItemMultiError) AllErrors() []error { return m }
+
+// RaceBatchSignupCancelItemValidationError is the validation error returned by
+// RaceBatchSignupCancelItem.Validate if the designated constraints aren't met.
+type RaceBatchSignupCancelItemValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RaceBatchSignupCancelItemValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RaceBatchSignupCancelItemValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RaceBatchSignupCancelItemValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RaceBatchSignupCancelItemValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RaceBatchSignupCancelItemValidationError) ErrorName() string {
+	return "RaceBatchSignupCancelItemValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RaceBatchSignupCancelItemValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRaceBatchSignupCancelItem.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RaceBatchSignupCancelItemValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RaceBatchSignupCancelItemValidationError{}
+
 // Validate checks the field values on PodiumRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.

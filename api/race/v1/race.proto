@@ -67,6 +67,9 @@ service Race {
     };
   }
 
+  // 批量取消报名（服务端接口）
+  rpc RaceBatchSignupCancel(RaceBatchSignupCancelRequest) returns (RaceBatchSignupCancelReply);
+
   // 领奖台
   rpc Podium(PodiumRequest) returns (PodiumReply) {
     option (google.api.http) = {
@@ -209,6 +212,20 @@ message RaceSignupCancelRequest {
 message RaceSignupCancelReply {
   int32 game_config_id = 1; // 赛事配置 id
 }
+
+message RaceBatchSignupCancelRequest {
+  repeated int64 user_ids = 1 [(validate.rules).repeated = {min_items: 1, items: {int64: {gt: 0}}}]; // 用户 id
+  int32 game_config_id = 2 [(validate.rules).int32 = {gt: 0}]; // 赛事配置 id
+}
+message RaceBatchSignupCancelReply {
+//  int32 game_config_id = 1; // 赛事配置 id
+  repeated RaceBatchSignupCancelItem err_list = 1;
+}
+message RaceBatchSignupCancelItem {
+  int64 user_id = 1; // 用户 id
+  string err = 2; // 错误原因
+}
+
 
 message PodiumRequest {
   int32 game_config_id = 1; // 赛事配置 id

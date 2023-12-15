@@ -19,15 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Race_RaceType_FullMethodName           = "/api.race.v1.Race/RaceType"
-	Race_RaceList_FullMethodName           = "/api.race.v1.Race/RaceList"
-	Race_RaceDetail_FullMethodName         = "/api.race.v1.Race/RaceDetail"
-	Race_RaceReward_FullMethodName         = "/api.race.v1.Race/RaceReward"
-	Race_RaceRule_FullMethodName           = "/api.race.v1.Race/RaceRule"
-	Race_RaceSignup_FullMethodName         = "/api.race.v1.Race/RaceSignup"
-	Race_RaceSignupCancel_FullMethodName   = "/api.race.v1.Race/RaceSignupCancel"
-	Race_Podium_FullMethodName             = "/api.race.v1.Race/Podium"
-	Race_GameSeriesBindUser_FullMethodName = "/api.race.v1.Race/GameSeriesBindUser"
+	Race_RaceType_FullMethodName              = "/api.race.v1.Race/RaceType"
+	Race_RaceList_FullMethodName              = "/api.race.v1.Race/RaceList"
+	Race_RaceDetail_FullMethodName            = "/api.race.v1.Race/RaceDetail"
+	Race_RaceReward_FullMethodName            = "/api.race.v1.Race/RaceReward"
+	Race_RaceRule_FullMethodName              = "/api.race.v1.Race/RaceRule"
+	Race_RaceSignup_FullMethodName            = "/api.race.v1.Race/RaceSignup"
+	Race_RaceSignupCancel_FullMethodName      = "/api.race.v1.Race/RaceSignupCancel"
+	Race_RaceBatchSignupCancel_FullMethodName = "/api.race.v1.Race/RaceBatchSignupCancel"
+	Race_Podium_FullMethodName                = "/api.race.v1.Race/Podium"
+	Race_GameSeriesBindUser_FullMethodName    = "/api.race.v1.Race/GameSeriesBindUser"
 )
 
 // RaceClient is the client API for Race service.
@@ -48,6 +49,8 @@ type RaceClient interface {
 	RaceSignup(ctx context.Context, in *RaceSignupRequest, opts ...grpc.CallOption) (*RaceSignupReply, error)
 	// 取消报名
 	RaceSignupCancel(ctx context.Context, in *RaceSignupCancelRequest, opts ...grpc.CallOption) (*RaceSignupCancelReply, error)
+	// 批量取消报名（服务端接口）
+	RaceBatchSignupCancel(ctx context.Context, in *RaceBatchSignupCancelRequest, opts ...grpc.CallOption) (*RaceBatchSignupCancelReply, error)
 	// 领奖台
 	Podium(ctx context.Context, in *PodiumRequest, opts ...grpc.CallOption) (*PodiumReply, error)
 	// 用户绑定赛事系列
@@ -125,6 +128,15 @@ func (c *raceClient) RaceSignupCancel(ctx context.Context, in *RaceSignupCancelR
 	return out, nil
 }
 
+func (c *raceClient) RaceBatchSignupCancel(ctx context.Context, in *RaceBatchSignupCancelRequest, opts ...grpc.CallOption) (*RaceBatchSignupCancelReply, error) {
+	out := new(RaceBatchSignupCancelReply)
+	err := c.cc.Invoke(ctx, Race_RaceBatchSignupCancel_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *raceClient) Podium(ctx context.Context, in *PodiumRequest, opts ...grpc.CallOption) (*PodiumReply, error) {
 	out := new(PodiumReply)
 	err := c.cc.Invoke(ctx, Race_Podium_FullMethodName, in, out, opts...)
@@ -161,6 +173,8 @@ type RaceServer interface {
 	RaceSignup(context.Context, *RaceSignupRequest) (*RaceSignupReply, error)
 	// 取消报名
 	RaceSignupCancel(context.Context, *RaceSignupCancelRequest) (*RaceSignupCancelReply, error)
+	// 批量取消报名（服务端接口）
+	RaceBatchSignupCancel(context.Context, *RaceBatchSignupCancelRequest) (*RaceBatchSignupCancelReply, error)
 	// 领奖台
 	Podium(context.Context, *PodiumRequest) (*PodiumReply, error)
 	// 用户绑定赛事系列
@@ -192,6 +206,9 @@ func (UnimplementedRaceServer) RaceSignup(context.Context, *RaceSignupRequest) (
 }
 func (UnimplementedRaceServer) RaceSignupCancel(context.Context, *RaceSignupCancelRequest) (*RaceSignupCancelReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RaceSignupCancel not implemented")
+}
+func (UnimplementedRaceServer) RaceBatchSignupCancel(context.Context, *RaceBatchSignupCancelRequest) (*RaceBatchSignupCancelReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RaceBatchSignupCancel not implemented")
 }
 func (UnimplementedRaceServer) Podium(context.Context, *PodiumRequest) (*PodiumReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Podium not implemented")
@@ -338,6 +355,24 @@ func _Race_RaceSignupCancel_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Race_RaceBatchSignupCancel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RaceBatchSignupCancelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RaceServer).RaceBatchSignupCancel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Race_RaceBatchSignupCancel_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RaceServer).RaceBatchSignupCancel(ctx, req.(*RaceBatchSignupCancelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Race_Podium_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PodiumRequest)
 	if err := dec(in); err != nil {
@@ -408,6 +443,10 @@ var Race_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RaceSignupCancel",
 			Handler:    _Race_RaceSignupCancel_Handler,
+		},
+		{
+			MethodName: "RaceBatchSignupCancel",
+			Handler:    _Race_RaceBatchSignupCancel_Handler,
 		},
 		{
 			MethodName: "Podium",
