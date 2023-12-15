@@ -2564,6 +2564,8 @@ func (m *RaceSignupCancelReply) validate(all bool) error {
 
 	// no validation rules for GameConfigId
 
+	// no validation rules for Msg
+
 	if len(errors) > 0 {
 		return RaceSignupCancelReplyMultiError(errors)
 	}

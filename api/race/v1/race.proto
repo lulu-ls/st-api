@@ -211,6 +211,7 @@ message RaceSignupCancelRequest {
 }
 message RaceSignupCancelReply {
   int32 game_config_id = 1; // 赛事配置 id
+  string msg = 2; // 提示
 }
 
 message RaceBatchSignupCancelRequest {
