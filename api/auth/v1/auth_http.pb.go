@@ -22,6 +22,7 @@ const _ = http.SupportPackageIsVersion1
 const OperationAuthDecrypt = "/api.auth.v1.Auth/Decrypt"
 const OperationAuthGetInfo = "/api.auth.v1.Auth/GetInfo"
 const OperationAuthLogin = "/api.auth.v1.Auth/Login"
+const OperationAuthLoginByApple = "/api.auth.v1.Auth/LoginByApple"
 const OperationAuthLoginForApp = "/api.auth.v1.Auth/LoginForApp"
 const OperationAuthLoginTest = "/api.auth.v1.Auth/LoginTest"
 const OperationAuthSendCode = "/api.auth.v1.Auth/SendCode"
@@ -35,6 +36,8 @@ type AuthHTTPServer interface {
 	GetInfo(context.Context, *GetInfoRequest) (*LoginReply, error)
 	// Login 登录
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
+	// LoginByApple 苹果登录
+	LoginByApple(context.Context, *LoginByAppleRequest) (*LoginReply, error)
 	// LoginForApp app 登录
 	LoginForApp(context.Context, *LoginForAppRequest) (*LoginForAppReply, error)
 	// LoginTest 测试登录
@@ -57,6 +60,7 @@ func RegisterAuthHTTPServer(s *http.Server, srv AuthHTTPServer) {
 	r.POST("/st-games/v1/auth/code/send", _Auth_SendCode0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/auth/code/login/verify", _Auth_VerifyLoginCode0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/auth/code/bind/verify", _Auth_VerifyBindCode0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/auth/login/apple", _Auth_LoginByApple0_HTTP_Handler(srv))
 }
 
 func _Auth_Login0_HTTP_Handler(srv AuthHTTPServer) func(ctx http.Context) error {
@@ -235,10 +239,33 @@ func _Auth_VerifyBindCode0_HTTP_Handler(srv AuthHTTPServer) func(ctx http.Contex
 	}
 }
 
+func _Auth_LoginByApple0_HTTP_Handler(srv AuthHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in LoginByAppleRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationAuthLoginByApple)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.LoginByApple(ctx, req.(*LoginByAppleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*LoginReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type AuthHTTPClient interface {
 	Decrypt(ctx context.Context, req *DecryptRequest, opts ...http.CallOption) (rsp *DecryptReply, err error)
 	GetInfo(ctx context.Context, req *GetInfoRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
 	Login(ctx context.Context, req *LoginRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
+	LoginByApple(ctx context.Context, req *LoginByAppleRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
 	LoginForApp(ctx context.Context, req *LoginForAppRequest, opts ...http.CallOption) (rsp *LoginForAppReply, err error)
 	LoginTest(ctx context.Context, req *LoginTestRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
 	SendCode(ctx context.Context, req *SendCodeRequest, opts ...http.CallOption) (rsp *SendCodeReply, err error)
@@ -285,6 +312,19 @@ func (c *AuthHTTPClientImpl) Login(ctx context.Context, in *LoginRequest, opts .
 	pattern := "/st-games/v1/auth/login"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationAuthLogin))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *AuthHTTPClientImpl) LoginByApple(ctx context.Context, in *LoginByAppleRequest, opts ...http.CallOption) (*LoginReply, error) {
+	var out LoginReply
+	pattern := "/st-games/v1/auth/login/apple"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationAuthLoginByApple))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
