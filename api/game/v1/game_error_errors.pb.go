@@ -76,3 +76,17 @@ func IsGameTaskConfigError(err error) bool {
 func ErrorGameTaskConfigError(format string, args ...interface{}) *errors.Error {
 	return errors.New(410, ErrorReason_GAME_TASK_CONFIG_ERROR.String(), fmt.Sprintf(format, args...))
 }
+
+// 检查用户报名错误
+func IsGameCheckSignupError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_GAME_CHECK_SIGNUP_ERROR.String() && e.Code == 410
+}
+
+// 检查用户报名错误
+func ErrorGameCheckSignupError(format string, args ...interface{}) *errors.Error {
+	return errors.New(410, ErrorReason_GAME_CHECK_SIGNUP_ERROR.String(), fmt.Sprintf(format, args...))
+}

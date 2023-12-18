@@ -20,5 +20,5 @@ enum ErrorReason {
 
   GAME_REWARD_FAILED = 10 [(errors.code) = 410]; // 兑换奖励失败
   GAME_TASK_CONFIG_ERROR = 11 [(errors.code) = 410]; // 奖励配置周期错误
-
+  GAME_CHECK_SIGNUP_ERROR = 12 [(errors.code) = 410]; // 检查用户报名错误
 }

@@ -65,6 +65,14 @@ service Game {
 			body: "*",
 		};
 	};
+
+	// 检查报名
+	rpc CheckSignup (CheckSignupRequest) returns (CheckSignupReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/game/check/signup",
+			body: "*",
+		};
+	};
 }
 
 // 公告类别
@@ -230,4 +238,12 @@ message GetAppConfigItem {
 	string key = 2; // 键
 	string value = 3; // 值
 //	int32 action = 4; // 动作
+}
+
+message CheckSignupRequest {
+	int64 user_id = 3; // 用户 id
+	int32 game_config_id = 4; // 游戏配置 id
+}
+message CheckSignupReply {
+
 }

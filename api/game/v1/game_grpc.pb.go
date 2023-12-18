@@ -26,6 +26,7 @@ const (
 	Game_GetGameNotify_FullMethodName    = "/api.game.v1.Game/GetGameNotify"
 	Game_ReadGameNotify_FullMethodName   = "/api.game.v1.Game/ReadGameNotify"
 	Game_GetAppConfig_FullMethodName     = "/api.game.v1.Game/GetAppConfig"
+	Game_CheckSignup_FullMethodName      = "/api.game.v1.Game/CheckSignup"
 )
 
 // GameClient is the client API for Game service.
@@ -46,6 +47,8 @@ type GameClient interface {
 	ReadGameNotify(ctx context.Context, in *ReadGameNotifyRequest, opts ...grpc.CallOption) (*ReadGameNotifyReply, error)
 	// 获取 app 功能配置
 	GetAppConfig(ctx context.Context, in *GetAppConfigRequest, opts ...grpc.CallOption) (*GetAppConfigReply, error)
+	// 检查报名
+	CheckSignup(ctx context.Context, in *CheckSignupRequest, opts ...grpc.CallOption) (*CheckSignupReply, error)
 }
 
 type gameClient struct {
@@ -119,6 +122,15 @@ func (c *gameClient) GetAppConfig(ctx context.Context, in *GetAppConfigRequest, 
 	return out, nil
 }
 
+func (c *gameClient) CheckSignup(ctx context.Context, in *CheckSignupRequest, opts ...grpc.CallOption) (*CheckSignupReply, error) {
+	out := new(CheckSignupReply)
+	err := c.cc.Invoke(ctx, Game_CheckSignup_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GameServer is the server API for Game service.
 // All implementations must embed UnimplementedGameServer
 // for forward compatibility
@@ -137,6 +149,8 @@ type GameServer interface {
 	ReadGameNotify(context.Context, *ReadGameNotifyRequest) (*ReadGameNotifyReply, error)
 	// 获取 app 功能配置
 	GetAppConfig(context.Context, *GetAppConfigRequest) (*GetAppConfigReply, error)
+	// 检查报名
+	CheckSignup(context.Context, *CheckSignupRequest) (*CheckSignupReply, error)
 	mustEmbedUnimplementedGameServer()
 }
 
@@ -164,6 +178,9 @@ func (UnimplementedGameServer) ReadGameNotify(context.Context, *ReadGameNotifyRe
 }
 func (UnimplementedGameServer) GetAppConfig(context.Context, *GetAppConfigRequest) (*GetAppConfigReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAppConfig not implemented")
+}
+func (UnimplementedGameServer) CheckSignup(context.Context, *CheckSignupRequest) (*CheckSignupReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckSignup not implemented")
 }
 func (UnimplementedGameServer) mustEmbedUnimplementedGameServer() {}
 
@@ -304,6 +321,24 @@ func _Game_GetAppConfig_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Game_CheckSignup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckSignupRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameServer).CheckSignup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Game_CheckSignup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameServer).CheckSignup(ctx, req.(*CheckSignupRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Game_ServiceDesc is the grpc.ServiceDesc for Game service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -338,6 +373,10 @@ var Game_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAppConfig",
 			Handler:    _Game_GetAppConfig_Handler,
+		},
+		{
+			MethodName: "CheckSignup",
+			Handler:    _Game_CheckSignup_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

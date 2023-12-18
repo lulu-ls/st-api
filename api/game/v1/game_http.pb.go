@@ -20,6 +20,7 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationGameAnnouncementList = "/api.game.v1.Game/AnnouncementList"
+const OperationGameCheckSignup = "/api.game.v1.Game/CheckSignup"
 const OperationGameGameInfo = "/api.game.v1.Game/GameInfo"
 const OperationGameGetAppConfig = "/api.game.v1.Game/GetAppConfig"
 const OperationGameGetGameNotify = "/api.game.v1.Game/GetGameNotify"
@@ -30,6 +31,8 @@ const OperationGameTaskReward = "/api.game.v1.Game/TaskReward"
 type GameHTTPServer interface {
 	// AnnouncementList 公告列表
 	AnnouncementList(context.Context, *AnnouncementListRequest) (*AnnouncementListReply, error)
+	// CheckSignup 检查报名
+	CheckSignup(context.Context, *CheckSignupRequest) (*CheckSignupReply, error)
 	// GameInfo 获取房间信息
 	GameInfo(context.Context, *GameInfoRequest) (*GameInfoReply, error)
 	// GetAppConfig 获取 app 功能配置
@@ -53,6 +56,7 @@ func RegisterGameHTTPServer(s *http.Server, srv GameHTTPServer) {
 	r.POST("/st-games/v1/game/notify/get", _Game_GetGameNotify0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/notify/read", _Game_ReadGameNotify0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/dict/list", _Game_GetAppConfig0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/game/check/signup", _Game_CheckSignup0_HTTP_Handler(srv))
 }
 
 func _Game_AnnouncementList0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) error {
@@ -209,8 +213,31 @@ func _Game_GetAppConfig0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context)
 	}
 }
 
+func _Game_CheckSignup0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CheckSignupRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationGameCheckSignup)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CheckSignup(ctx, req.(*CheckSignupRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CheckSignupReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type GameHTTPClient interface {
 	AnnouncementList(ctx context.Context, req *AnnouncementListRequest, opts ...http.CallOption) (rsp *AnnouncementListReply, err error)
+	CheckSignup(ctx context.Context, req *CheckSignupRequest, opts ...http.CallOption) (rsp *CheckSignupReply, err error)
 	GameInfo(ctx context.Context, req *GameInfoRequest, opts ...http.CallOption) (rsp *GameInfoReply, err error)
 	GetAppConfig(ctx context.Context, req *GetAppConfigRequest, opts ...http.CallOption) (rsp *GetAppConfigReply, err error)
 	GetGameNotify(ctx context.Context, req *GetGameNotifyRequest, opts ...http.CallOption) (rsp *GetGameNotifyReply, err error)
@@ -232,6 +259,19 @@ func (c *GameHTTPClientImpl) AnnouncementList(ctx context.Context, in *Announcem
 	pattern := "/st-games/v1/game/announcement/list"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationGameAnnouncementList))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *GameHTTPClientImpl) CheckSignup(ctx context.Context, in *CheckSignupRequest, opts ...http.CallOption) (*CheckSignupReply, error) {
+	var out CheckSignupReply
+	pattern := "/st-games/v1/game/check/signup"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationGameCheckSignup))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
