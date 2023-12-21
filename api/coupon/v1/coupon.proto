@@ -1,0 +1,131 @@
+syntax = "proto3";
+
+package api.coupon.v1;
+
+import "validate/validate.proto";
+import "common/v1/common.proto";
+
+option go_package = "github.com/lulu-ls/st-api/api/coupon/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.coupon.v1";
+
+service Coupon {
+	// 创建优惠券
+	rpc Create (CreateRequest) returns (CreateReply);
+	// 核销优惠券
+	rpc Verification (VerificationRequest) returns (VerificationReply);
+	// 作废优惠券
+	rpc Cancelled (CancelledRequest) returns (CancelledReply);
+	// 获取优惠券详情
+	rpc Detail (DetailRequest) returns (DetailReply);
+	// 获取优惠券列表
+	rpc HistoryList (HistoryListRequest) returns (HistoryListReply);
+}
+
+// 券码状态 0作废 1未核销 2已核销 3已过期
+enum VoucherStatus {
+	CANCELLED = 0;
+	UNUSED = 1;
+	USED = 2;
+	EXPIRED = 3;
+}
+
+// 券类型 1兑换券 2现金券
+enum VoucherType {
+	_ = 0;
+	EXCHANGE = 1; // 兑换券
+	CASH = 2; // 现金券
+}
+
+// 验证类型 有效期类别 0永久 1起止日期 2固定天数 3固定周数 4固定月数 5当天有效 6当周有效 7当月有效 8当年有效
+enum ValidityType {
+	EVER         = 0;
+	INPUT        = 1;
+	FIXED_DAYS    = 2;
+	FIXED_WEEKS   = 3;
+	FIXED_MONTHS  = 4;
+	CURRENT_DATE  = 5;
+	CURRENT_WEEK  = 6;
+	CURRENT_MONTH = 7;
+	CURRENT_YEAR  = 8;
+}
+
+// 1:消费 2:消费撤销
+enum HistoryType {
+	_1 = 0;
+	CONSUME = 1;
+	CONSUME_CANCEL = 2;
+}
+
+message CreateRequest {
+	int64 user_id = 1 [(validate.rules).int64.gt =  0]; // 用户 id
+	int32 item_id = 2 [(validate.rules).int32.gt =  0]; // 道具 id
+//	int32 merchant_id = 3 [(validate.rules).int32.gt =  0]; // 商户 id
+}
+message CreateReply {
+	int64 voucher_id = 1; // 优惠券 id
+}
+
+message DetailRequest {
+	int64 voucher_id = 1 [(validate.rules).int64.gt =  0]; // 优惠券 id
+}
+message DetailReply {
+	int64 voucher_id = 1; // 优惠券 id
+	int32 merchant_id = 2; // 商户 id
+	string merchant_name = 3; // 商户m名称
+	string code = 4; // 券码
+	double amount = 5; // 面值
+	int64 start_time = 6; // 开始时间
+	int64 end_time = 7; // 结束时间
+	int32 status = 8; // 状态
+	int64 consume_at = 9; // 核销时间
+	int64 user_id = 10; // 用户 id
+	string user_nickname = 11; // 用户 id
+	string name = 12; // 券名称
+	string title = 13; // 券标题
+	string image = 14; // 券图片
+	string instruction = 15; // 券介绍
+}
+
+message HistoryListRequest {
+	common.v1.Paginate page = 1; // 分页
+	int64 user_id = 2; // 用户 id
+	int32 merchant_id = 3 [(validate.rules).int32.gt =  0]; // 商户 id
+	int32 store_id = 4 [(validate.rules).int32.gt =  0]; // 门店 id
+}
+message HistoryListReply {
+	repeated HistoryListItem list = 1; // 列表
+	int32 total = 2; // 条数
+}
+message HistoryListItem {
+	int64 id = 1; // id
+	HistoryType type = 2; // 1:消费 2:消费撤销
+	string code = 3; // 券码
+	int64 voucher_id = 4; // 券码 id
+	int32 voucher_config_id = 5; // 券码配置 id
+	string message = 6; // 消息
+	int32 merchant_id = 7; // 商户 id
+	string merchant_name = 8; // 商户名称
+	int32 store_id = 9; // 门店 id
+	string store_name = 10; // 门店名称
+	int32 employee_id = 11; // 雇员 id
+	string employee_name = 12; // 雇员名称
+	string name = 13; // 名称
+	string title = 14; // 标题
+	string image = 15; // 图片
+	string instruction = 16; // 介绍
+}
+
+message VerificationRequest {
+	int64 voucher_id = 1; // 优惠券 id  [(validate.rules).int64.gt =  0]
+//	int32 merchant_id = 2 [(validate.rules).int32.gt =  0]; // 商户 id
+	int32 store_id = 3 [(validate.rules).int32.gt =  0]; // 门店 id
+	int32 employee_id = 4 [(validate.rules).int32.gt =  0]; // 店员 id
+	string code = 5 ; // 优惠券 id [(validate.rules).int64.gt =  0]
+}
+message VerificationReply {}
+
+message CancelledRequest {
+	int64 id = 1; // 核销记录 id
+}
+message CancelledReply {}

@@ -154,3 +154,17 @@ func IsRaceAuthSeriesUser(err error) bool {
 func ErrorRaceAuthSeriesUser(format string, args ...interface{}) *errors.Error {
 	return errors.New(404, ErrorReason_RACE_AUTH_SERIES_USER.String(), fmt.Sprintf(format, args...))
 }
+
+// 服务器维护中
+func IsRaceServerError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_RACE_SERVER_ERROR.String() && e.Code == 404
+}
+
+// 服务器维护中
+func ErrorRaceServerError(format string, args ...interface{}) *errors.Error {
+	return errors.New(404, ErrorReason_RACE_SERVER_ERROR.String(), fmt.Sprintf(format, args...))
+}

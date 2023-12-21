@@ -7,6 +7,9 @@ auth:
 	cd api && kratos proto client ./auth/v1/auth_error.proto
 bag:
 	cd api && kratos proto client ./bag/v1/bag.proto
+coupon:
+	cd api && kratos proto client ./coupon/v1/coupon.proto
+	cd api && kratos proto client ./coupon/v1/coupon_error.proto
 free:
 	cd api && kratos proto client ./free/v1/free.proto
 	cd api && kratos proto client ./free/v1/free_error.proto

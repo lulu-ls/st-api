@@ -29,5 +29,6 @@ enum ErrorReason {
   RACE_IS_SIGNUP = 16 [(errors.code) = 415]; // 已经报名其他比赛
 
   RACE_AUTH_SERIES_USER = 17 [(errors.code) = 404]; // 是否有权限参与比才 497
+  RACE_SERVER_ERROR = 18 [(errors.code) = 404]; // 服务器维护中
 
 }
