@@ -49,7 +49,7 @@ message ItemListReply {
 message ListItem {
 	int32 item_id = 1; // 道具 id
 	int32 item_category_id = 2; // 分类
-	int32 item_func_id = 3; // 1 虚拟兑换 2 实物兑换
+	int32 item_func_id = 3; // 1 虚拟兑换 2 实物兑换 5 兑换券
 	string name = 4; // 名称
 	string title = 5; // 标题
 	string image = 6; // 道具图片
@@ -65,6 +65,12 @@ message ListItem {
 	string information = 16; // 介绍
 	bool is_phone_bill = 17; // 是否是话费
 	int32 ware_type = 18; // 商品类型
+	int64 voucher_id = 19; // 券 id
+	string voucher_code = 20; // 券码
+	string voucher_name = 21; // 券名称
+	string voucher_title = 22; // 券标题
+	int64 voucher_start = 23; // 开始时间
+	int64 voucher_end = 24; // 结束时间
 	//	int32 loot_pool_id = 8;
 }
 

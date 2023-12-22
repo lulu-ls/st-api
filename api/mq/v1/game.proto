@@ -74,6 +74,7 @@ message GetItemRequest {
 	int32 app_id = 4; // app id
 	int32 item_id= 5; // 道具类型
 	int32 quantity = 6; // 获得道具数量
+	int64 seq_id =7; // 唯一流水号
 }
 
 message RaceSignUpRequest {

@@ -87,6 +87,7 @@ message DetailReply {
 	string title = 13; // 券标题
 	string image = 14; // 券图片
 	string instruction = 15; // 券介绍
+	int32 item_id = 16; // 道具 id
 }
 
 message HistoryListRequest {
@@ -136,6 +137,8 @@ message ListRequest {
 	common.v1.Paginate page = 1; // 分页
 	int64 user_id = 2 [(validate.rules).int64.gt =  0]; // 用户 id
 	int32 merchant_id = 3; // 商户 id
+	repeated int32 item_id = 4; // 道具 id
+	VoucherStatus status = 5; // 券状态
 }
 message ListReply {
 	repeated DetailReply list = 1; // 列表

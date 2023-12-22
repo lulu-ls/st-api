@@ -362,6 +362,18 @@ func (m *ListItem) validate(all bool) error {
 
 	// no validation rules for WareType
 
+	// no validation rules for VoucherId
+
+	// no validation rules for VoucherCode
+
+	// no validation rules for VoucherName
+
+	// no validation rules for VoucherTitle
+
+	// no validation rules for VoucherStart
+
+	// no validation rules for VoucherEnd
+
 	if len(errors) > 0 {
 		return ListItemMultiError(errors)
 	}

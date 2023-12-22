@@ -421,6 +421,8 @@ func (m *DetailReply) validate(all bool) error {
 
 	// no validation rules for Instruction
 
+	// no validation rules for ItemId
+
 	if len(errors) > 0 {
 		return DetailReplyMultiError(errors)
 	}
@@ -1416,6 +1418,8 @@ func (m *ListRequest) validate(all bool) error {
 	}
 
 	// no validation rules for MerchantId
+
+	// no validation rules for Status
 
 	if len(errors) > 0 {
 		return ListRequestMultiError(errors)
