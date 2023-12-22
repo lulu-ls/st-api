@@ -55,6 +55,10 @@ message ListItem {
 	string image = 6; // 道具图片
 	int32 max_stack = 7; // 最大叠加
 	int32 total = 8; // 道具数量
+	Exchange ware = 10; // 商品
+	Voucher voucher = 11; // 优惠券
+}
+message Exchange {
 	int32 item_exchange_ware_id = 9; // 兑换配置 id
 	int32 item_quantity = 10; // 兑换所需数量
 	int32 ware_id = 11; // 商品 id
@@ -65,13 +69,15 @@ message ListItem {
 	string information = 16; // 介绍
 	bool is_phone_bill = 17; // 是否是话费
 	int32 ware_type = 18; // 商品类型
-	int64 voucher_id = 19; // 券 id
-	string voucher_code = 20; // 券码
-	string voucher_name = 21; // 券名称
-	string voucher_title = 22; // 券标题
-	int64 voucher_start = 23; // 开始时间
-	int64 voucher_end = 24; // 结束时间
-	//	int32 loot_pool_id = 8;
+}
+message Voucher {
+	int64 voucher_id = 1; // 券 id
+	string code = 2; // 券码
+	string name = 3; // 券名称
+	string title = 4; // 券标题
+	int64 start = 5; // 开始时间
+	int64 end = 6; // 结束时间
+	string instruction = 7; // 描述
 }
 
 message ListEmojiRequest {

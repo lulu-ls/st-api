@@ -342,37 +342,63 @@ func (m *ListItem) validate(all bool) error {
 
 	// no validation rules for Total
 
-	// no validation rules for ItemExchangeWareId
+	if all {
+		switch v := interface{}(m.GetWare()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ListItemValidationError{
+					field:  "Ware",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ListItemValidationError{
+					field:  "Ware",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetWare()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ListItemValidationError{
+				field:  "Ware",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
-	// no validation rules for ItemQuantity
-
-	// no validation rules for WareId
-
-	// no validation rules for WareCategoryId
-
-	// no validation rules for WareName
-
-	// no validation rules for WareImage
-
-	// no validation rules for WareExternalUrl
-
-	// no validation rules for Information
-
-	// no validation rules for IsPhoneBill
-
-	// no validation rules for WareType
-
-	// no validation rules for VoucherId
-
-	// no validation rules for VoucherCode
-
-	// no validation rules for VoucherName
-
-	// no validation rules for VoucherTitle
-
-	// no validation rules for VoucherStart
-
-	// no validation rules for VoucherEnd
+	if all {
+		switch v := interface{}(m.GetVoucher()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ListItemValidationError{
+					field:  "Voucher",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ListItemValidationError{
+					field:  "Voucher",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetVoucher()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ListItemValidationError{
+				field:  "Voucher",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return ListItemMultiError(errors)
@@ -450,6 +476,237 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ListItemValidationError{}
+
+// Validate checks the field values on Exchange with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Exchange) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Exchange with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in ExchangeMultiError, or nil
+// if none found.
+func (m *Exchange) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Exchange) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ItemExchangeWareId
+
+	// no validation rules for ItemQuantity
+
+	// no validation rules for WareId
+
+	// no validation rules for WareCategoryId
+
+	// no validation rules for WareName
+
+	// no validation rules for WareImage
+
+	// no validation rules for WareExternalUrl
+
+	// no validation rules for Information
+
+	// no validation rules for IsPhoneBill
+
+	// no validation rules for WareType
+
+	if len(errors) > 0 {
+		return ExchangeMultiError(errors)
+	}
+
+	return nil
+}
+
+// ExchangeMultiError is an error wrapping multiple validation errors returned
+// by Exchange.ValidateAll() if the designated constraints aren't met.
+type ExchangeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ExchangeMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ExchangeMultiError) AllErrors() []error { return m }
+
+// ExchangeValidationError is the validation error returned by
+// Exchange.Validate if the designated constraints aren't met.
+type ExchangeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ExchangeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ExchangeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ExchangeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ExchangeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ExchangeValidationError) ErrorName() string { return "ExchangeValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ExchangeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sExchange.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ExchangeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ExchangeValidationError{}
+
+// Validate checks the field values on Voucher with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Voucher) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Voucher with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in VoucherMultiError, or nil if none found.
+func (m *Voucher) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Voucher) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for VoucherId
+
+	// no validation rules for Code
+
+	// no validation rules for Name
+
+	// no validation rules for Title
+
+	// no validation rules for Start
+
+	// no validation rules for End
+
+	// no validation rules for Instruction
+
+	if len(errors) > 0 {
+		return VoucherMultiError(errors)
+	}
+
+	return nil
+}
+
+// VoucherMultiError is an error wrapping multiple validation errors returned
+// by Voucher.ValidateAll() if the designated constraints aren't met.
+type VoucherMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m VoucherMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m VoucherMultiError) AllErrors() []error { return m }
+
+// VoucherValidationError is the validation error returned by Voucher.Validate
+// if the designated constraints aren't met.
+type VoucherValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e VoucherValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e VoucherValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e VoucherValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e VoucherValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e VoucherValidationError) ErrorName() string { return "VoucherValidationError" }
+
+// Error satisfies the builtin error interface
+func (e VoucherValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sVoucher.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = VoucherValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = VoucherValidationError{}
 
 // Validate checks the field values on ListEmojiRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
