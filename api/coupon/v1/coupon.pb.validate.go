@@ -280,16 +280,9 @@ func (m *DetailRequest) validate(all bool) error {
 
 	var errors []error
 
-	if m.GetVoucherId() <= 0 {
-		err := DetailRequestValidationError{
-			field:  "VoucherId",
-			reason: "value must be greater than 0",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for VoucherId
+
+	// no validation rules for Code
 
 	if len(errors) > 0 {
 		return DetailRequestMultiError(errors)

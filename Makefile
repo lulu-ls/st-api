@@ -35,6 +35,8 @@ race:
 sms:
 	cd api && kratos proto client ./sms/v1/sms.proto
 	cd api && kratos proto client ./sms/v1/sms_error.proto
+ticket:
+	cd api && kratos proto client ./ticket/v1/ticket.proto
 user:
 	cd api && kratos proto client ./user/v1/user.proto
 ware:

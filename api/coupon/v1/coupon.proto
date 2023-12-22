@@ -4,6 +4,7 @@ package api.coupon.v1;
 
 import "validate/validate.proto";
 import "common/v1/common.proto";
+import "google/api/annotations.proto";
 
 option go_package = "github.com/lulu-ls/st-api/api/coupon/v1;v1";
 option java_multiple_files = true;
@@ -13,13 +14,28 @@ service Coupon {
 	// 创建优惠券
 	rpc Create (CreateRequest) returns (CreateReply);
 	// 核销优惠券
-	rpc Verification (VerificationRequest) returns (VerificationReply);
+	rpc Verification (VerificationRequest) returns (VerificationReply) {
+		option (google.api.http) = {
+			post: "/st-ticket/v1/coupon/verification",
+			body: "*",
+		};
+	};
 	// 作废优惠券
 	rpc Cancelled (CancelledRequest) returns (CancelledReply);
 	// 获取优惠券详情
-	rpc Detail (DetailRequest) returns (DetailReply);
+	rpc Detail (DetailRequest) returns (DetailReply) {
+		option (google.api.http) = {
+			post: "/st-ticket/v1/coupon/detail",
+			body: "*",
+		};
+	};
 	// 获取优惠券核销记录列表
-	rpc HistoryList (HistoryListRequest) returns (HistoryListReply);
+	rpc HistoryList (HistoryListRequest) returns (HistoryListReply) {
+		option (google.api.http) = {
+			post: "/st-ticket/v1/coupon/history/list",
+			body: "*",
+		};
+	};
 	// 获取某个用户的优惠券
 	rpc List (ListRequest) returns (ListReply);
 }
@@ -69,7 +85,8 @@ message CreateReply {
 }
 
 message DetailRequest {
-	int64 voucher_id = 1 [(validate.rules).int64.gt =  0]; // 优惠券 id
+	int64 voucher_id = 1; // 优惠券 id  [(validate.rules).int64.gt =  0]
+	string code = 2; // 优惠券 id [(validate.rules).int64.gt =  0]
 }
 message DetailReply {
 	int64 voucher_id = 1; // 优惠券 id
@@ -95,10 +112,14 @@ message HistoryListRequest {
 	int64 user_id = 2; // 用户 id
 	int32 merchant_id = 3 [(validate.rules).int32.gt =  0]; // 商户 id
 	int32 store_id = 4 [(validate.rules).int32.gt =  0]; // 门店 id
+	int64 start_time = 5; // 开始时间
+	int64 end_time = 6; // 结束时间
 }
 message HistoryListReply {
 	repeated HistoryListItem list = 1; // 列表
 	int32 total = 2; // 条数
+	int32 quantity = 3; // 核销数量
+	double amount = 4; // 核销价值
 }
 message HistoryListItem {
 	int64 id = 1; // id
@@ -124,7 +145,7 @@ message VerificationRequest {
 //	int32 merchant_id = 2 [(validate.rules).int32.gt =  0]; // 商户 id
 	int32 store_id = 3 [(validate.rules).int32.gt =  0]; // 门店 id
 	int32 employee_id = 4 [(validate.rules).int32.gt =  0]; // 店员 id
-	string code = 5 ; // 优惠券 id [(validate.rules).int64.gt =  0]
+	string code = 5; // 优惠券 id [(validate.rules).int64.gt =  0]
 }
 message VerificationReply {}
 
