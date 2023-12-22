@@ -18,8 +18,10 @@ service Coupon {
 	rpc Cancelled (CancelledRequest) returns (CancelledReply);
 	// 获取优惠券详情
 	rpc Detail (DetailRequest) returns (DetailReply);
-	// 获取优惠券列表
+	// 获取优惠券核销记录列表
 	rpc HistoryList (HistoryListRequest) returns (HistoryListReply);
+	// 获取某个用户的优惠券
+	rpc List (ListRequest) returns (ListReply);
 }
 
 // 券码状态 0作废 1未核销 2已核销 3已过期
@@ -129,3 +131,13 @@ message CancelledRequest {
 	int64 id = 1; // 核销记录 id
 }
 message CancelledReply {}
+
+message ListRequest {
+	common.v1.Paginate page = 1; // 分页
+	int64 user_id = 2 [(validate.rules).int64.gt =  0]; // 用户 id
+	int32 merchant_id = 3; // 商户 id
+}
+message ListReply {
+	repeated DetailReply list = 1; // 列表
+	int32 total = 2; // 数量
+}

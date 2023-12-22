@@ -24,6 +24,7 @@ const (
 	Coupon_Cancelled_FullMethodName    = "/api.coupon.v1.Coupon/Cancelled"
 	Coupon_Detail_FullMethodName       = "/api.coupon.v1.Coupon/Detail"
 	Coupon_HistoryList_FullMethodName  = "/api.coupon.v1.Coupon/HistoryList"
+	Coupon_List_FullMethodName         = "/api.coupon.v1.Coupon/List"
 )
 
 // CouponClient is the client API for Coupon service.
@@ -38,8 +39,10 @@ type CouponClient interface {
 	Cancelled(ctx context.Context, in *CancelledRequest, opts ...grpc.CallOption) (*CancelledReply, error)
 	// 获取优惠券详情
 	Detail(ctx context.Context, in *DetailRequest, opts ...grpc.CallOption) (*DetailReply, error)
-	// 获取优惠券列表
+	// 获取优惠券核销记录列表
 	HistoryList(ctx context.Context, in *HistoryListRequest, opts ...grpc.CallOption) (*HistoryListReply, error)
+	// 获取某个用户的优惠券
+	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListReply, error)
 }
 
 type couponClient struct {
@@ -95,6 +98,15 @@ func (c *couponClient) HistoryList(ctx context.Context, in *HistoryListRequest, 
 	return out, nil
 }
 
+func (c *couponClient) List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListReply, error) {
+	out := new(ListReply)
+	err := c.cc.Invoke(ctx, Coupon_List_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CouponServer is the server API for Coupon service.
 // All implementations must embed UnimplementedCouponServer
 // for forward compatibility
@@ -107,8 +119,10 @@ type CouponServer interface {
 	Cancelled(context.Context, *CancelledRequest) (*CancelledReply, error)
 	// 获取优惠券详情
 	Detail(context.Context, *DetailRequest) (*DetailReply, error)
-	// 获取优惠券列表
+	// 获取优惠券核销记录列表
 	HistoryList(context.Context, *HistoryListRequest) (*HistoryListReply, error)
+	// 获取某个用户的优惠券
+	List(context.Context, *ListRequest) (*ListReply, error)
 	mustEmbedUnimplementedCouponServer()
 }
 
@@ -130,6 +144,9 @@ func (UnimplementedCouponServer) Detail(context.Context, *DetailRequest) (*Detai
 }
 func (UnimplementedCouponServer) HistoryList(context.Context, *HistoryListRequest) (*HistoryListReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method HistoryList not implemented")
+}
+func (UnimplementedCouponServer) List(context.Context, *ListRequest) (*ListReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
 func (UnimplementedCouponServer) mustEmbedUnimplementedCouponServer() {}
 
@@ -234,6 +251,24 @@ func _Coupon_HistoryList_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Coupon_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponServer).List(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Coupon_List_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponServer).List(ctx, req.(*ListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Coupon_ServiceDesc is the grpc.ServiceDesc for Coupon service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -260,6 +295,10 @@ var Coupon_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "HistoryList",
 			Handler:    _Coupon_HistoryList_Handler,
+		},
+		{
+			MethodName: "List",
+			Handler:    _Coupon_List_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
