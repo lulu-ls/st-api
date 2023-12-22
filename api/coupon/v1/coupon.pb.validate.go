@@ -568,6 +568,10 @@ func (m *HistoryListRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	// no validation rules for StartTime
+
+	// no validation rules for EndTime
+
 	if len(errors) > 0 {
 		return HistoryListRequestMultiError(errors)
 	}
@@ -705,6 +709,10 @@ func (m *HistoryListReply) validate(all bool) error {
 	}
 
 	// no validation rules for Total
+
+	// no validation rules for Quantity
+
+	// no validation rules for Amount
 
 	if len(errors) > 0 {
 		return HistoryListReplyMultiError(errors)

@@ -112,8 +112,8 @@ message HistoryListRequest {
 	int64 user_id = 2; // 用户 id
 	int32 merchant_id = 3 [(validate.rules).int32.gt =  0]; // 商户 id
 	int32 store_id = 4 [(validate.rules).int32.gt =  0]; // 门店 id
-	int64 start_time = 5; // 开始时间
-	int64 end_time = 6; // 结束时间
+	string start_time = 5; // 开始时间
+	string end_time = 6; // 结束时间
 }
 message HistoryListReply {
 	repeated HistoryListItem list = 1; // 列表
