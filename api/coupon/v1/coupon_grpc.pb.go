@@ -35,7 +35,7 @@ type CouponClient interface {
 	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateReply, error)
 	// 核销优惠券
 	Verification(ctx context.Context, in *VerificationRequest, opts ...grpc.CallOption) (*VerificationReply, error)
-	// 作废优惠券
+	// 优惠券消费撤销
 	Cancelled(ctx context.Context, in *CancelledRequest, opts ...grpc.CallOption) (*CancelledReply, error)
 	// 获取优惠券详情
 	Detail(ctx context.Context, in *DetailRequest, opts ...grpc.CallOption) (*DetailReply, error)
@@ -115,7 +115,7 @@ type CouponServer interface {
 	Create(context.Context, *CreateRequest) (*CreateReply, error)
 	// 核销优惠券
 	Verification(context.Context, *VerificationRequest) (*VerificationReply, error)
-	// 作废优惠券
+	// 优惠券消费撤销
 	Cancelled(context.Context, *CancelledRequest) (*CancelledReply, error)
 	// 获取优惠券详情
 	Detail(context.Context, *DetailRequest) (*DetailReply, error)

@@ -22,4 +22,5 @@ enum ErrorReason {
   AUTH_CHANNEL_APPID_IS_REQUIRED = 10 [(errors.code) = 400];
 
   WX_PAY_FAILED = 11 [(errors.code) = 410];
+  WX_ACCESS_TOKEN_GET_FAILED= 12 [(errors.code) = 410];
 }

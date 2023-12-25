@@ -28,6 +28,7 @@ const (
 	Auth_VerifyLoginCode_FullMethodName = "/api.auth.v1.Auth/VerifyLoginCode"
 	Auth_VerifyBindCode_FullMethodName  = "/api.auth.v1.Auth/VerifyBindCode"
 	Auth_LoginByApple_FullMethodName    = "/api.auth.v1.Auth/LoginByApple"
+	Auth_LoginByPhone_FullMethodName    = "/api.auth.v1.Auth/LoginByPhone"
 )
 
 // AuthClient is the client API for Auth service.
@@ -52,6 +53,8 @@ type AuthClient interface {
 	VerifyBindCode(ctx context.Context, in *VerifyBindCodeRequest, opts ...grpc.CallOption) (*LoginReply, error)
 	// 苹果登录
 	LoginByApple(ctx context.Context, in *LoginByAppleRequest, opts ...grpc.CallOption) (*LoginReply, error)
+	// 微信手机号登录
+	LoginByPhone(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginByPhoneReply, error)
 }
 
 type authClient struct {
@@ -143,6 +146,15 @@ func (c *authClient) LoginByApple(ctx context.Context, in *LoginByAppleRequest, 
 	return out, nil
 }
 
+func (c *authClient) LoginByPhone(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginByPhoneReply, error) {
+	out := new(LoginByPhoneReply)
+	err := c.cc.Invoke(ctx, Auth_LoginByPhone_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthServer is the server API for Auth service.
 // All implementations must embed UnimplementedAuthServer
 // for forward compatibility
@@ -165,6 +177,8 @@ type AuthServer interface {
 	VerifyBindCode(context.Context, *VerifyBindCodeRequest) (*LoginReply, error)
 	// 苹果登录
 	LoginByApple(context.Context, *LoginByAppleRequest) (*LoginReply, error)
+	// 微信手机号登录
+	LoginByPhone(context.Context, *LoginRequest) (*LoginByPhoneReply, error)
 	mustEmbedUnimplementedAuthServer()
 }
 
@@ -198,6 +212,9 @@ func (UnimplementedAuthServer) VerifyBindCode(context.Context, *VerifyBindCodeRe
 }
 func (UnimplementedAuthServer) LoginByApple(context.Context, *LoginByAppleRequest) (*LoginReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LoginByApple not implemented")
+}
+func (UnimplementedAuthServer) LoginByPhone(context.Context, *LoginRequest) (*LoginByPhoneReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LoginByPhone not implemented")
 }
 func (UnimplementedAuthServer) mustEmbedUnimplementedAuthServer() {}
 
@@ -374,6 +391,24 @@ func _Auth_LoginByApple_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Auth_LoginByPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServer).LoginByPhone(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Auth_LoginByPhone_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServer).LoginByPhone(ctx, req.(*LoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Auth_ServiceDesc is the grpc.ServiceDesc for Auth service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -416,6 +451,10 @@ var Auth_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LoginByApple",
 			Handler:    _Auth_LoginByApple_Handler,
+		},
+		{
+			MethodName: "LoginByPhone",
+			Handler:    _Auth_LoginByPhone_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

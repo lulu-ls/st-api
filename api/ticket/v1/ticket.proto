@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package api.ticket.v1;
+
+import "validate/validate.proto";
+import "google/api/annotations.proto";
+
+option go_package = "github.com/lulu-ls/st-api/api/ticket/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.ticket.v1";
+
+service Ticket {
+	// 登录
+	rpc Login (LoginRequest) returns (LoginReply) {
+		option (google.api.http) = {
+			post: "/st-game/v1/ticket/login",
+			body: "*",
+		};
+	};
+	// 首页分析数据
+	rpc Statistics (StatisticsRequest) returns (StatisticsReply) {
+		option (google.api.http) = {
+			post: "/st-game/v1/ticket/statistics",
+			body: "*",
+		};
+	};
+}
+
+message LoginRequest {
+	string code = 1 [(validate.rules).string.min_len =  1]; // 微信 code 码， 可获取手机号
+}
+message LoginReply {
+	string access_token = 1; // token
+	int32 merchant_id = 2; // 商户 id
+	string merchant_name = 3; // 商户名称
+	int32 store_id = 4; // 门店 id
+	string store_name = 5; // 门店名称
+	bool has_stores = 6; // 是否有多个门店
+	repeated Store stores = 7; // 门店列表
+}
+message Store {
+	int32 store_id = 4; // 门店 id
+	string store_name = 5; // 门店名称
+}
+
+message StatisticsRequest {
+	int64 employee_id = 1; // 用户 id
+	int32 store_id = 4; // 门店 id
+}
+message StatisticsReply {
+	int32 quantity = 1; // 核销数量
+	double amount = 2; // 核销价值
+}
+

@@ -16,23 +16,23 @@ service Coupon {
 	// 核销优惠券
 	rpc Verification (VerificationRequest) returns (VerificationReply) {
 		option (google.api.http) = {
-			post: "/st-ticket/v1/coupon/verification",
+			post: "/st-game/v1/coupon/verification",
 			body: "*",
 		};
 	};
-	// 作废优惠券
+	// 优惠券消费撤销
 	rpc Cancelled (CancelledRequest) returns (CancelledReply);
 	// 获取优惠券详情
 	rpc Detail (DetailRequest) returns (DetailReply) {
 		option (google.api.http) = {
-			post: "/st-ticket/v1/coupon/detail",
+			post: "/st-game/v1/coupon/detail",
 			body: "*",
 		};
 	};
 	// 获取优惠券核销记录列表
 	rpc HistoryList (HistoryListRequest) returns (HistoryListReply) {
 		option (google.api.http) = {
-			post: "/st-ticket/v1/coupon/history/list",
+			post: "/st-game/v1/coupon/history/list",
 			body: "*",
 		};
 	};
@@ -99,7 +99,7 @@ message DetailReply {
 	int32 status = 8; // 状态
 	int64 consume_at = 9; // 核销时间
 	int64 user_id = 10; // 用户 id
-	string user_nickname = 11; // 用户 id
+	string user_nickname = 11; // 用户 id`
 	string name = 12; // 券名称
 	string title = 13; // 券标题
 	string image = 14; // 券图片
@@ -110,7 +110,7 @@ message DetailReply {
 message HistoryListRequest {
 	common.v1.Paginate page = 1; // 分页
 	int64 user_id = 2; // 用户 id
-	int32 merchant_id = 3 [(validate.rules).int32.gt =  0]; // 商户 id
+	int32 merchant_id = 3; // 商户 id [(validate.rules).int32.gt =  0]
 	int32 store_id = 4 [(validate.rules).int32.gt =  0]; // 门店 id
 	string start_time = 5; // 开始时间
 	string end_time = 6; // 结束时间
@@ -123,7 +123,8 @@ message HistoryListReply {
 }
 message HistoryListItem {
 	int64 id = 1; // id
-	HistoryType type = 2; // 1:消费 2:消费撤销
+//	HistoryType type = 2; // 1:消费 2:消费撤销
+	int32 type = 2; // 1:消费 2:消费撤销
 	string code = 3; // 券码
 	int64 voucher_id = 4; // 券码 id
 	int32 voucher_config_id = 5; // 券码配置 id
@@ -144,7 +145,7 @@ message VerificationRequest {
 	int64 voucher_id = 1; // 优惠券 id  [(validate.rules).int64.gt =  0]
 //	int32 merchant_id = 2 [(validate.rules).int32.gt =  0]; // 商户 id
 	int32 store_id = 3 [(validate.rules).int32.gt =  0]; // 门店 id
-	int32 employee_id = 4 [(validate.rules).int32.gt =  0]; // 店员 id
+	int64 employee_id = 4; // 店员 id [(validate.rules).int64.gt =  0]
 	string code = 5; // 优惠券 id [(validate.rules).int64.gt =  0]
 }
 message VerificationReply {}

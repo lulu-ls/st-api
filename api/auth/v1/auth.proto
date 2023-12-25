@@ -82,6 +82,9 @@ service Auth {
 		};
 	};
 
+	// 微信手机号登录
+	rpc LoginByPhone(LoginRequest) returns (LoginByPhoneReply);
+
 }
 
 enum VerifyCodeType {
@@ -217,4 +220,9 @@ message LoginByAppleRequest {
 	int32 channelId = 2; // 渠道 id
 	string code = 3 [(validate.rules).string.min_len =  1]; // 验证码
 	string open_id = 4; // 用户唯一 id
+}
+
+message LoginByPhoneReply{
+	string phone = 1; // 没有区号的手机号
+	string code = 2; // 区号
 }
