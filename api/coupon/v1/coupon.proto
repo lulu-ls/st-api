@@ -139,6 +139,12 @@ message HistoryListItem {
 	string title = 14; // 标题
 	string image = 15; // 图片
 	string instruction = 16; // 介绍
+	int32 status = 17; // 状态
+	int64 consume_at = 18; // 核销时间
+	int64 start_time = 19; // 开始时间
+	int64 end_time = 20; // 结束时间
+	string user_nickname = 21; // 用户昵称
+	string user_avatar = 22; // 用户头像
 }
 
 message VerificationRequest {

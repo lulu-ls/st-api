@@ -837,6 +837,18 @@ func (m *HistoryListItem) validate(all bool) error {
 
 	// no validation rules for Instruction
 
+	// no validation rules for Status
+
+	// no validation rules for ConsumeAt
+
+	// no validation rules for StartTime
+
+	// no validation rules for EndTime
+
+	// no validation rules for UserNickname
+
+	// no validation rules for UserAvatar
+
 	if len(errors) > 0 {
 		return HistoryListItemMultiError(errors)
 	}
