@@ -29,6 +29,7 @@ const (
 	Race_RaceBatchSignupCancel_FullMethodName = "/api.race.v1.Race/RaceBatchSignupCancel"
 	Race_Podium_FullMethodName                = "/api.race.v1.Race/Podium"
 	Race_GameSeriesBindUser_FullMethodName    = "/api.race.v1.Race/GameSeriesBindUser"
+	Race_GameRaceCheck_FullMethodName         = "/api.race.v1.Race/GameRaceCheck"
 )
 
 // RaceClient is the client API for Race service.
@@ -55,6 +56,8 @@ type RaceClient interface {
 	Podium(ctx context.Context, in *PodiumRequest, opts ...grpc.CallOption) (*PodiumReply, error)
 	// 用户绑定赛事系列
 	GameSeriesBindUser(ctx context.Context, in *GameSeriesBindUserRequest, opts ...grpc.CallOption) (*GameSeriesBindUserReply, error)
+	// 人满赛检查是否符合开赛条件
+	GameRaceCheck(ctx context.Context, in *GameRaceCheckRequest, opts ...grpc.CallOption) (*GameRaceCheckReply, error)
 }
 
 type raceClient struct {
@@ -155,6 +158,15 @@ func (c *raceClient) GameSeriesBindUser(ctx context.Context, in *GameSeriesBindU
 	return out, nil
 }
 
+func (c *raceClient) GameRaceCheck(ctx context.Context, in *GameRaceCheckRequest, opts ...grpc.CallOption) (*GameRaceCheckReply, error) {
+	out := new(GameRaceCheckReply)
+	err := c.cc.Invoke(ctx, Race_GameRaceCheck_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RaceServer is the server API for Race service.
 // All implementations must embed UnimplementedRaceServer
 // for forward compatibility
@@ -179,6 +191,8 @@ type RaceServer interface {
 	Podium(context.Context, *PodiumRequest) (*PodiumReply, error)
 	// 用户绑定赛事系列
 	GameSeriesBindUser(context.Context, *GameSeriesBindUserRequest) (*GameSeriesBindUserReply, error)
+	// 人满赛检查是否符合开赛条件
+	GameRaceCheck(context.Context, *GameRaceCheckRequest) (*GameRaceCheckReply, error)
 	mustEmbedUnimplementedRaceServer()
 }
 
@@ -215,6 +229,9 @@ func (UnimplementedRaceServer) Podium(context.Context, *PodiumRequest) (*PodiumR
 }
 func (UnimplementedRaceServer) GameSeriesBindUser(context.Context, *GameSeriesBindUserRequest) (*GameSeriesBindUserReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GameSeriesBindUser not implemented")
+}
+func (UnimplementedRaceServer) GameRaceCheck(context.Context, *GameRaceCheckRequest) (*GameRaceCheckReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GameRaceCheck not implemented")
 }
 func (UnimplementedRaceServer) mustEmbedUnimplementedRaceServer() {}
 
@@ -409,6 +426,24 @@ func _Race_GameSeriesBindUser_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Race_GameRaceCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GameRaceCheckRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RaceServer).GameRaceCheck(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Race_GameRaceCheck_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RaceServer).GameRaceCheck(ctx, req.(*GameRaceCheckRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Race_ServiceDesc is the grpc.ServiceDesc for Race service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -455,6 +490,10 @@ var Race_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GameSeriesBindUser",
 			Handler:    _Race_GameSeriesBindUser_Handler,
+		},
+		{
+			MethodName: "GameRaceCheck",
+			Handler:    _Race_GameRaceCheck_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

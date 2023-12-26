@@ -3237,3 +3237,209 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = PodiumReplyValidationError{}
+
+// Validate checks the field values on GameRaceCheckRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GameRaceCheckRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GameRaceCheckRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GameRaceCheckRequestMultiError, or nil if none found.
+func (m *GameRaceCheckRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GameRaceCheckRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for GameConfigId
+
+	if len(errors) > 0 {
+		return GameRaceCheckRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GameRaceCheckRequestMultiError is an error wrapping multiple validation
+// errors returned by GameRaceCheckRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GameRaceCheckRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GameRaceCheckRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GameRaceCheckRequestMultiError) AllErrors() []error { return m }
+
+// GameRaceCheckRequestValidationError is the validation error returned by
+// GameRaceCheckRequest.Validate if the designated constraints aren't met.
+type GameRaceCheckRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GameRaceCheckRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GameRaceCheckRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GameRaceCheckRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GameRaceCheckRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GameRaceCheckRequestValidationError) ErrorName() string {
+	return "GameRaceCheckRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GameRaceCheckRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGameRaceCheckRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GameRaceCheckRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GameRaceCheckRequestValidationError{}
+
+// Validate checks the field values on GameRaceCheckReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GameRaceCheckReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GameRaceCheckReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GameRaceCheckReplyMultiError, or nil if none found.
+func (m *GameRaceCheckReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GameRaceCheckReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return GameRaceCheckReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// GameRaceCheckReplyMultiError is an error wrapping multiple validation errors
+// returned by GameRaceCheckReply.ValidateAll() if the designated constraints
+// aren't met.
+type GameRaceCheckReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GameRaceCheckReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GameRaceCheckReplyMultiError) AllErrors() []error { return m }
+
+// GameRaceCheckReplyValidationError is the validation error returned by
+// GameRaceCheckReply.Validate if the designated constraints aren't met.
+type GameRaceCheckReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GameRaceCheckReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GameRaceCheckReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GameRaceCheckReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GameRaceCheckReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GameRaceCheckReplyValidationError) ErrorName() string {
+	return "GameRaceCheckReplyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GameRaceCheckReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGameRaceCheckReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GameRaceCheckReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GameRaceCheckReplyValidationError{}

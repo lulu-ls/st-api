@@ -86,6 +86,9 @@ service Race {
     };
   }
 
+  // 人满赛检查是否符合开赛条件
+  rpc GameRaceCheck(GameRaceCheckRequest) returns (GameRaceCheckReply);
+
 }
 // 报名状态 0 未报名 1 已报名
 enum SignupStatus {
@@ -236,4 +239,11 @@ message PodiumReply {
   string image = 2; // 奖励图片
   int32 quantity = 3; // 数量
   string title = 4; // 标题
+}
+
+message GameRaceCheckRequest {
+  int32 game_config_id = 2; // 赛事配置 id
+}
+message GameRaceCheckReply {
+
 }

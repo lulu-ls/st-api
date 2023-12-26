@@ -168,3 +168,17 @@ func IsRaceServerError(err error) bool {
 func ErrorRaceServerError(format string, args ...interface{}) *errors.Error {
 	return errors.New(404, ErrorReason_RACE_SERVER_ERROR.String(), fmt.Sprintf(format, args...))
 }
+
+// 比赛可用时间已过
+func IsRaceSignupFailTime(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_RACE_SIGNUP_FAIL_TIME.String() && e.Code == 415
+}
+
+// 比赛可用时间已过
+func ErrorRaceSignupFailTime(format string, args ...interface{}) *errors.Error {
+	return errors.New(415, ErrorReason_RACE_SIGNUP_FAIL_TIME.String(), fmt.Sprintf(format, args...))
+}

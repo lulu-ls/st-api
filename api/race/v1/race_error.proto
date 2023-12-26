@@ -30,5 +30,5 @@ enum ErrorReason {
 
   RACE_AUTH_SERIES_USER = 17 [(errors.code) = 404]; // 是否有权限参与比才 497
   RACE_SERVER_ERROR = 18 [(errors.code) = 404]; // 服务器维护中
-
+  RACE_SIGNUP_FAIL_TIME = 19 [(errors.code) = 415]; // 比赛可用时间已过
 }
