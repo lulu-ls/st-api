@@ -548,16 +548,7 @@ func (m *HistoryListRequest) validate(all bool) error {
 
 	// no validation rules for MerchantId
 
-	if m.GetStoreId() <= 0 {
-		err := HistoryListRequestValidationError{
-			field:  "StoreId",
-			reason: "value must be greater than 0",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for StoreId
 
 	// no validation rules for StartTime
 
@@ -951,16 +942,7 @@ func (m *VerificationRequest) validate(all bool) error {
 
 	// no validation rules for VoucherId
 
-	if m.GetStoreId() <= 0 {
-		err := VerificationRequestValidationError{
-			field:  "StoreId",
-			reason: "value must be greater than 0",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for StoreId
 
 	// no validation rules for EmployeeId
 

@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	Ticket_Login_FullMethodName      = "/api.ticket.v1.Ticket/Login"
+	Ticket_LoginTest_FullMethodName  = "/api.ticket.v1.Ticket/LoginTest"
 	Ticket_Statistics_FullMethodName = "/api.ticket.v1.Ticket/Statistics"
 )
 
@@ -29,6 +30,8 @@ const (
 type TicketClient interface {
 	// 登录
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginReply, error)
+	// 登录
+	LoginTest(ctx context.Context, in *LoginTestRequest, opts ...grpc.CallOption) (*LoginReply, error)
 	// 首页分析数据
 	Statistics(ctx context.Context, in *StatisticsRequest, opts ...grpc.CallOption) (*StatisticsReply, error)
 }
@@ -50,6 +53,15 @@ func (c *ticketClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc
 	return out, nil
 }
 
+func (c *ticketClient) LoginTest(ctx context.Context, in *LoginTestRequest, opts ...grpc.CallOption) (*LoginReply, error) {
+	out := new(LoginReply)
+	err := c.cc.Invoke(ctx, Ticket_LoginTest_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *ticketClient) Statistics(ctx context.Context, in *StatisticsRequest, opts ...grpc.CallOption) (*StatisticsReply, error) {
 	out := new(StatisticsReply)
 	err := c.cc.Invoke(ctx, Ticket_Statistics_FullMethodName, in, out, opts...)
@@ -65,6 +77,8 @@ func (c *ticketClient) Statistics(ctx context.Context, in *StatisticsRequest, op
 type TicketServer interface {
 	// 登录
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
+	// 登录
+	LoginTest(context.Context, *LoginTestRequest) (*LoginReply, error)
 	// 首页分析数据
 	Statistics(context.Context, *StatisticsRequest) (*StatisticsReply, error)
 	mustEmbedUnimplementedTicketServer()
@@ -76,6 +90,9 @@ type UnimplementedTicketServer struct {
 
 func (UnimplementedTicketServer) Login(context.Context, *LoginRequest) (*LoginReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (UnimplementedTicketServer) LoginTest(context.Context, *LoginTestRequest) (*LoginReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LoginTest not implemented")
 }
 func (UnimplementedTicketServer) Statistics(context.Context, *StatisticsRequest) (*StatisticsReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Statistics not implemented")
@@ -111,6 +128,24 @@ func _Ticket_Login_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Ticket_LoginTest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginTestRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TicketServer).LoginTest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Ticket_LoginTest_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TicketServer).LoginTest(ctx, req.(*LoginTestRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Ticket_Statistics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StatisticsRequest)
 	if err := dec(in); err != nil {
@@ -139,6 +174,10 @@ var Ticket_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Login",
 			Handler:    _Ticket_Login_Handler,
+		},
+		{
+			MethodName: "LoginTest",
+			Handler:    _Ticket_LoginTest_Handler,
 		},
 		{
 			MethodName: "Statistics",

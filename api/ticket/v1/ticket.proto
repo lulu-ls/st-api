@@ -17,6 +17,13 @@ service Ticket {
 			body: "*",
 		};
 	};
+	// 登录
+	rpc LoginTest (LoginTestRequest) returns (LoginReply) {
+		option (google.api.http) = {
+			post: "/st-game/v1/ticket/login_test",
+			body: "*",
+		};
+	};
 	// 首页分析数据
 	rpc Statistics (StatisticsRequest) returns (StatisticsReply) {
 		option (google.api.http) = {
@@ -52,3 +59,7 @@ message StatisticsReply {
 	double amount = 2; // 核销价值
 }
 
+message LoginTestRequest{
+	string phone = 1; // 手机号
+	string password = 2; // 密码
+}

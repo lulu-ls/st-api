@@ -111,7 +111,7 @@ message HistoryListRequest {
 	common.v1.Paginate page = 1; // 分页
 	int64 user_id = 2; // 用户 id
 	int32 merchant_id = 3; // 商户 id [(validate.rules).int32.gt =  0]
-	int32 store_id = 4 [(validate.rules).int32.gt =  0]; // 门店 id
+	int32 store_id = 4; // 门店 id  [(validate.rules).int32.gt =  0]
 	string start_time = 5; // 开始时间
 	string end_time = 6; // 结束时间
 }
@@ -150,7 +150,7 @@ message HistoryListItem {
 message VerificationRequest {
 	int64 voucher_id = 1; // 优惠券 id  [(validate.rules).int64.gt =  0]
 //	int32 merchant_id = 2 [(validate.rules).int32.gt =  0]; // 商户 id
-	int32 store_id = 3 [(validate.rules).int32.gt =  0]; // 门店 id
+	int32 store_id = 3; // 门店 id [(validate.rules).int32.gt =  0]
 	int64 employee_id = 4; // 店员 id [(validate.rules).int64.gt =  0]
 	string code = 5; // 优惠券 id [(validate.rules).int64.gt =  0]
 }

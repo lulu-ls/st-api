@@ -20,11 +20,14 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationTicketLogin = "/api.ticket.v1.Ticket/Login"
+const OperationTicketLoginTest = "/api.ticket.v1.Ticket/LoginTest"
 const OperationTicketStatistics = "/api.ticket.v1.Ticket/Statistics"
 
 type TicketHTTPServer interface {
 	// Login 登录
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
+	// LoginTest 登录
+	LoginTest(context.Context, *LoginTestRequest) (*LoginReply, error)
 	// Statistics 首页分析数据
 	Statistics(context.Context, *StatisticsRequest) (*StatisticsReply, error)
 }
@@ -32,6 +35,7 @@ type TicketHTTPServer interface {
 func RegisterTicketHTTPServer(s *http.Server, srv TicketHTTPServer) {
 	r := s.Route("/")
 	r.POST("/st-game/v1/ticket/login", _Ticket_Login0_HTTP_Handler(srv))
+	r.POST("/st-game/v1/ticket/login_test", _Ticket_LoginTest0_HTTP_Handler(srv))
 	r.POST("/st-game/v1/ticket/statistics", _Ticket_Statistics0_HTTP_Handler(srv))
 }
 
@@ -47,6 +51,28 @@ func _Ticket_Login0_HTTP_Handler(srv TicketHTTPServer) func(ctx http.Context) er
 		http.SetOperation(ctx, OperationTicketLogin)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.Login(ctx, req.(*LoginRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*LoginReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Ticket_LoginTest0_HTTP_Handler(srv TicketHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in LoginTestRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTicketLoginTest)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.LoginTest(ctx, req.(*LoginTestRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -81,6 +107,7 @@ func _Ticket_Statistics0_HTTP_Handler(srv TicketHTTPServer) func(ctx http.Contex
 
 type TicketHTTPClient interface {
 	Login(ctx context.Context, req *LoginRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
+	LoginTest(ctx context.Context, req *LoginTestRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
 	Statistics(ctx context.Context, req *StatisticsRequest, opts ...http.CallOption) (rsp *StatisticsReply, err error)
 }
 
@@ -97,6 +124,19 @@ func (c *TicketHTTPClientImpl) Login(ctx context.Context, in *LoginRequest, opts
 	pattern := "/st-game/v1/ticket/login"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationTicketLogin))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *TicketHTTPClientImpl) LoginTest(ctx context.Context, in *LoginTestRequest, opts ...http.CallOption) (*LoginReply, error) {
+	var out LoginReply
+	pattern := "/st-game/v1/ticket/login_test"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationTicketLoginTest))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
