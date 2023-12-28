@@ -840,6 +840,8 @@ func (m *HistoryListItem) validate(all bool) error {
 
 	// no validation rules for UserAvatar
 
+	// no validation rules for UserNo
+
 	if len(errors) > 0 {
 		return HistoryListItemMultiError(errors)
 	}
