@@ -145,7 +145,7 @@ message HistoryListItem {
 	int64 end_time = 20; // 结束时间
 	string user_nickname = 21; // 用户昵称
 	string user_avatar = 22; // 用户头像
-	int64 user_no = 23; // 用户编号
+	string user_no = 23; // 用户编号
 }
 
 message VerificationRequest {
