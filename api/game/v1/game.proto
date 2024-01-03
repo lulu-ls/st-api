@@ -4,6 +4,7 @@ package api.game.v1;
 
 import "google/api/annotations.proto";
 import "common/v1/common.proto";
+import "validate/validate.proto";
 
 option go_package = "github.com/lulu-ls/st-api/api/game/v1;v1";
 option java_multiple_files = true;
@@ -18,10 +19,26 @@ service Game {
 		};
 	};
 
+	// TODO 任务列表 暂时废弃
+//	rpc TaskList (TaskListRequest) returns (TaskListReply) {
+//		option (google.api.http) = {
+//			post: "/st-games/v1/game/task/list",
+//			body: "*",
+//		};
+//	};
+
 	// 任务列表
-	rpc TaskList (TaskListRequest) returns (TaskListReply) {
+	rpc ActivityList (ActivityListRequest) returns (ActivityListReply) {
 		option (google.api.http) = {
-			post: "/st-games/v1/game/task/list",
+			post: "/st-games/v1/game/activity/list",
+			body: "*",
+		};
+	};
+
+	// 任务详情
+	rpc TaskTypeDetail (TaskTypeDetailRequest) returns (TaskTypeDetailReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/game/task/type/detail",
 			body: "*",
 		};
 	};
@@ -138,6 +155,18 @@ enum VersionType {
 	release = 4; // 正式版
 }
 
+// 活动类型 跳转类型：1:url 2:game_category_id 3:game_config_id 4:game_free_config_id  5:recharge 6:share 7：task
+enum TaskTypeAction {
+		_ = 0;
+		URL = 1;
+		GAME_CATEGORY = 2;
+		GAME_CONFIG = 3;
+		GAME_FREE_CONFIG = 4;
+		RECHARGE = 5;
+		SHARE = 6;
+		TASK = 7;
+}
+
 message AnnouncementListRequest {
 	common.v1.Paginate page = 1;
 	int32 app_id = 2; // app id
@@ -156,35 +185,81 @@ message AnnouncementListItem {
 	string subtitle = 6; // 副标题
 }
 
-message TaskListRequest {
+//message TaskListRequest {
+//	common.v1.Paginate page = 1;
+//	int32 app_id = 2; // app id
+//	int32 channel_id = 3; // channel id
+//	int64 user_id = 4; // 用户 id
+//}
+//message TaskListReply {
+//	repeated TaskListItem list = 1; // 列表
+//	int32 total = 2; // 数量
+//}
+//message TaskListItem {
+//	int32 task_id = 1; // 任务 id
+//	string title = 2; // 任务标题
+//	int32 item_id = 3; // 道具 id
+//	string item_name = 4; // 奖励道具名称
+//	string item_image = 5; // 奖励道具图片
+//	int32 item_quantity = 6; // 奖励道具数量
+//	TaskStatus status = 7; // 状态
+//	int32 number = 8; // 任务需要完成数量
+//	int32 process = 9; // 当前完成进度
+//	RefreshCycle refresh_cycle = 10; // 刷新周期
+//	int32 game_type = 11; // 游戏类型：1=竞技场，2=自由场
+//	int32 action = 12; // 跳转类型：1:url 2:game_config_id 3:game_type_id 4:shop 5:task 6:share 7:task
+//	string url = 13; // 跳转地址 action = 1 可用
+//}
+
+message ActivityListRequest {
 	common.v1.Paginate page = 1;
 	int32 app_id = 2; // app id
 	int32 channel_id = 3; // channel id
 	int64 user_id = 4; // 用户 id
 }
-message TaskListReply {
-	repeated TaskListItem list = 1; // 列表
+message ActivityListReply {
+	repeated ActivityListItem list = 1; // 列表
 	int32 total = 2; // 数量
 }
-message TaskListItem {
-	int32 task_id = 1; // 任务 id
-	string title = 2; // 任务标题
-	int32 item_id = 3; // 道具 id
-	string item_name = 4; // 奖励道具名称
-	string item_image = 5; // 奖励道具图片
-	int32 item_quantity = 6; // 奖励道具数量
+message ActivityListItem {
+	int32 activity_id = 1; // 配置 id
+	string title = 2; // 标题
+	string subtitle = 3; // 子标题
+	string information = 4; // 描述
+	string image = 5; // 图片
+}
+
+message TaskTypeDetailRequest {
+	int32 app_id = 2; // app id
+	int32 channel_id = 3; // channel id
+	int64 user_id = 4 [(validate.rules).int64.gt =  0]; // 用户 id
+	int32 activity_id = 5 [(validate.rules).int32.gt =  0]; // 配置 id
+}
+message TaskTypeDetailReply {
+	repeated TaskTypeListItem list = 1; // 活动任务列表
+}
+message TaskTypeListItem {
+	int32 task_type_id = 1; // 配置 id
+	string title = 2; // 标题
+	int32 action = 3; // 跳转方式 // 跳转类型：1:url 2:game_category_id 3:game_config_id 4:game_free_config_id  5:recharge 6:share 7：task
+	string url = 4; // 跳转地址 action = 1
+	int32 number = 5; // 任务需要完成数量
+	int32 process = 6; // 当前完成进度
 	TaskStatus status = 7; // 状态
-	int32 number = 8; // 任务需要完成数量
-	int32 process = 9; // 当前完成进度
-	RefreshCycle refresh_cycle = 10; // 刷新周期
-	int32 game_type = 11; // 游戏类型：1=竞技场，2=自由场
-	int32 action = 12; // 跳转类型：1:url 2:game_config_id 3:game_type_id 4:shop 5:task 6:share 7:task
-	string url = 13; // 跳转地址 action = 1 可用
+//  double amount = 7; // 需要充值金额 action = 5
+//	double process_amount = 8; // 已充值金额
+	repeated TaskTypeListAwardItem award = 8; // 奖励
+}
+message TaskTypeListAwardItem { // 道具
+	int32 item_id = 3; // 道具 id
+	string name = 4; // 奖励道具名称
+	string image = 5; // 奖励道具图片
+	int32 quantity = 6; // 奖励道具数量
 }
 
 message TaskRewardRequest {
 	int64 user_id = 1; // 用户 id
-	int32 task_id = 2; // 任务 id
+	repeated int32 task_type_ids = 2 [(validate.rules).repeated = {min_items: 1, items: {int32: {gt: 0}}}]; // 任务 id
 }
 message TaskRewardReply {
 
@@ -198,8 +273,8 @@ message GameInfoRequest{
 message GameInfoReply{
 	bool in_game = 1; // 是否在游戏中
 	string game_id = 2; // 游戏 id
-	GameType game_type = 3; //游戏类型
-	GameCategory game_category = 4; //游戏类别
+	GameType game_type = 3; // 游戏类型
+	GameCategory game_category = 4; // 游戏类别
 	string table_id = 5; // 桌号
 }
 

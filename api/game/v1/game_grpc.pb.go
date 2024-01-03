@@ -20,7 +20,8 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	Game_AnnouncementList_FullMethodName = "/api.game.v1.Game/AnnouncementList"
-	Game_TaskList_FullMethodName         = "/api.game.v1.Game/TaskList"
+	Game_ActivityList_FullMethodName     = "/api.game.v1.Game/ActivityList"
+	Game_TaskTypeDetail_FullMethodName   = "/api.game.v1.Game/TaskTypeDetail"
 	Game_TaskReward_FullMethodName       = "/api.game.v1.Game/TaskReward"
 	Game_GameInfo_FullMethodName         = "/api.game.v1.Game/GameInfo"
 	Game_GetGameNotify_FullMethodName    = "/api.game.v1.Game/GetGameNotify"
@@ -36,7 +37,9 @@ type GameClient interface {
 	// 公告列表
 	AnnouncementList(ctx context.Context, in *AnnouncementListRequest, opts ...grpc.CallOption) (*AnnouncementListReply, error)
 	// 任务列表
-	TaskList(ctx context.Context, in *TaskListRequest, opts ...grpc.CallOption) (*TaskListReply, error)
+	ActivityList(ctx context.Context, in *ActivityListRequest, opts ...grpc.CallOption) (*ActivityListReply, error)
+	// 任务详情
+	TaskTypeDetail(ctx context.Context, in *TaskTypeDetailRequest, opts ...grpc.CallOption) (*TaskTypeDetailReply, error)
 	// 兑换任务奖励
 	TaskReward(ctx context.Context, in *TaskRewardRequest, opts ...grpc.CallOption) (*TaskRewardReply, error)
 	// 获取房间信息
@@ -68,9 +71,18 @@ func (c *gameClient) AnnouncementList(ctx context.Context, in *AnnouncementListR
 	return out, nil
 }
 
-func (c *gameClient) TaskList(ctx context.Context, in *TaskListRequest, opts ...grpc.CallOption) (*TaskListReply, error) {
-	out := new(TaskListReply)
-	err := c.cc.Invoke(ctx, Game_TaskList_FullMethodName, in, out, opts...)
+func (c *gameClient) ActivityList(ctx context.Context, in *ActivityListRequest, opts ...grpc.CallOption) (*ActivityListReply, error) {
+	out := new(ActivityListReply)
+	err := c.cc.Invoke(ctx, Game_ActivityList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gameClient) TaskTypeDetail(ctx context.Context, in *TaskTypeDetailRequest, opts ...grpc.CallOption) (*TaskTypeDetailReply, error) {
+	out := new(TaskTypeDetailReply)
+	err := c.cc.Invoke(ctx, Game_TaskTypeDetail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -138,7 +150,9 @@ type GameServer interface {
 	// 公告列表
 	AnnouncementList(context.Context, *AnnouncementListRequest) (*AnnouncementListReply, error)
 	// 任务列表
-	TaskList(context.Context, *TaskListRequest) (*TaskListReply, error)
+	ActivityList(context.Context, *ActivityListRequest) (*ActivityListReply, error)
+	// 任务详情
+	TaskTypeDetail(context.Context, *TaskTypeDetailRequest) (*TaskTypeDetailReply, error)
 	// 兑换任务奖励
 	TaskReward(context.Context, *TaskRewardRequest) (*TaskRewardReply, error)
 	// 获取房间信息
@@ -161,8 +175,11 @@ type UnimplementedGameServer struct {
 func (UnimplementedGameServer) AnnouncementList(context.Context, *AnnouncementListRequest) (*AnnouncementListReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AnnouncementList not implemented")
 }
-func (UnimplementedGameServer) TaskList(context.Context, *TaskListRequest) (*TaskListReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method TaskList not implemented")
+func (UnimplementedGameServer) ActivityList(context.Context, *ActivityListRequest) (*ActivityListReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ActivityList not implemented")
+}
+func (UnimplementedGameServer) TaskTypeDetail(context.Context, *TaskTypeDetailRequest) (*TaskTypeDetailReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TaskTypeDetail not implemented")
 }
 func (UnimplementedGameServer) TaskReward(context.Context, *TaskRewardRequest) (*TaskRewardReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TaskReward not implemented")
@@ -213,20 +230,38 @@ func _Game_AnnouncementList_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Game_TaskList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TaskListRequest)
+func _Game_ActivityList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ActivityListRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GameServer).TaskList(ctx, in)
+		return srv.(GameServer).ActivityList(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Game_TaskList_FullMethodName,
+		FullMethod: Game_ActivityList_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameServer).TaskList(ctx, req.(*TaskListRequest))
+		return srv.(GameServer).ActivityList(ctx, req.(*ActivityListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Game_TaskTypeDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TaskTypeDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameServer).TaskTypeDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Game_TaskTypeDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameServer).TaskTypeDetail(ctx, req.(*TaskTypeDetailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -351,8 +386,12 @@ var Game_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Game_AnnouncementList_Handler,
 		},
 		{
-			MethodName: "TaskList",
-			Handler:    _Game_TaskList_Handler,
+			MethodName: "ActivityList",
+			Handler:    _Game_ActivityList_Handler,
+		},
+		{
+			MethodName: "TaskTypeDetail",
+			Handler:    _Game_TaskTypeDetail_Handler,
 		},
 		{
 			MethodName: "TaskReward",
