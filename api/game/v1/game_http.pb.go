@@ -26,8 +26,8 @@ const OperationGameGameInfo = "/api.game.v1.Game/GameInfo"
 const OperationGameGetAppConfig = "/api.game.v1.Game/GetAppConfig"
 const OperationGameGetGameNotify = "/api.game.v1.Game/GetGameNotify"
 const OperationGameReadGameNotify = "/api.game.v1.Game/ReadGameNotify"
+const OperationGameTaskDetail = "/api.game.v1.Game/TaskDetail"
 const OperationGameTaskReward = "/api.game.v1.Game/TaskReward"
-const OperationGameTaskTypeDetail = "/api.game.v1.Game/TaskTypeDetail"
 
 type GameHTTPServer interface {
 	// ActivityList 任务列表
@@ -44,17 +44,17 @@ type GameHTTPServer interface {
 	GetGameNotify(context.Context, *GetGameNotifyRequest) (*GetGameNotifyReply, error)
 	// ReadGameNotify 阅读提示
 	ReadGameNotify(context.Context, *ReadGameNotifyRequest) (*ReadGameNotifyReply, error)
+	// TaskDetail 任务详情
+	TaskDetail(context.Context, *TaskDetailRequest) (*TaskDetailReply, error)
 	// TaskReward 兑换任务奖励
 	TaskReward(context.Context, *TaskRewardRequest) (*TaskRewardReply, error)
-	// TaskTypeDetail 任务详情
-	TaskTypeDetail(context.Context, *TaskTypeDetailRequest) (*TaskTypeDetailReply, error)
 }
 
 func RegisterGameHTTPServer(s *http.Server, srv GameHTTPServer) {
 	r := s.Route("/")
 	r.POST("/st-games/v1/game/announcement/list", _Game_AnnouncementList0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/activity/list", _Game_ActivityList0_HTTP_Handler(srv))
-	r.POST("/st-games/v1/game/task/type/detail", _Game_TaskTypeDetail0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/game/task/type/detail", _Game_TaskDetail0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/task/reward", _Game_TaskReward0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/info", _Game_GameInfo0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/notify/get", _Game_GetGameNotify0_HTTP_Handler(srv))
@@ -107,24 +107,24 @@ func _Game_ActivityList0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context)
 	}
 }
 
-func _Game_TaskTypeDetail0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) error {
+func _Game_TaskDetail0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in TaskTypeDetailRequest
+		var in TaskDetailRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationGameTaskTypeDetail)
+		http.SetOperation(ctx, OperationGameTaskDetail)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.TaskTypeDetail(ctx, req.(*TaskTypeDetailRequest))
+			return srv.TaskDetail(ctx, req.(*TaskDetailRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*TaskTypeDetailReply)
+		reply := out.(*TaskDetailReply)
 		return ctx.Result(200, reply)
 	}
 }
@@ -269,8 +269,8 @@ type GameHTTPClient interface {
 	GetAppConfig(ctx context.Context, req *GetAppConfigRequest, opts ...http.CallOption) (rsp *GetAppConfigReply, err error)
 	GetGameNotify(ctx context.Context, req *GetGameNotifyRequest, opts ...http.CallOption) (rsp *GetGameNotifyReply, err error)
 	ReadGameNotify(ctx context.Context, req *ReadGameNotifyRequest, opts ...http.CallOption) (rsp *ReadGameNotifyReply, err error)
+	TaskDetail(ctx context.Context, req *TaskDetailRequest, opts ...http.CallOption) (rsp *TaskDetailReply, err error)
 	TaskReward(ctx context.Context, req *TaskRewardRequest, opts ...http.CallOption) (rsp *TaskRewardReply, err error)
-	TaskTypeDetail(ctx context.Context, req *TaskTypeDetailRequest, opts ...http.CallOption) (rsp *TaskTypeDetailReply, err error)
 }
 
 type GameHTTPClientImpl struct {
@@ -372,11 +372,11 @@ func (c *GameHTTPClientImpl) ReadGameNotify(ctx context.Context, in *ReadGameNot
 	return &out, err
 }
 
-func (c *GameHTTPClientImpl) TaskReward(ctx context.Context, in *TaskRewardRequest, opts ...http.CallOption) (*TaskRewardReply, error) {
-	var out TaskRewardReply
-	pattern := "/st-games/v1/game/task/reward"
+func (c *GameHTTPClientImpl) TaskDetail(ctx context.Context, in *TaskDetailRequest, opts ...http.CallOption) (*TaskDetailReply, error) {
+	var out TaskDetailReply
+	pattern := "/st-games/v1/game/task/type/detail"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationGameTaskReward))
+	opts = append(opts, http.Operation(OperationGameTaskDetail))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -385,11 +385,11 @@ func (c *GameHTTPClientImpl) TaskReward(ctx context.Context, in *TaskRewardReque
 	return &out, err
 }
 
-func (c *GameHTTPClientImpl) TaskTypeDetail(ctx context.Context, in *TaskTypeDetailRequest, opts ...http.CallOption) (*TaskTypeDetailReply, error) {
-	var out TaskTypeDetailReply
-	pattern := "/st-games/v1/game/task/type/detail"
+func (c *GameHTTPClientImpl) TaskReward(ctx context.Context, in *TaskRewardRequest, opts ...http.CallOption) (*TaskRewardReply, error) {
+	var out TaskRewardReply
+	pattern := "/st-games/v1/game/task/reward"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationGameTaskTypeDetail))
+	opts = append(opts, http.Operation(OperationGameTaskReward))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
