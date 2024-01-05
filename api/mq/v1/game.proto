@@ -19,6 +19,7 @@ enum MqTopic {
 	RaceStart = 7; // 比赛开始
 	RaceEnd = 8; // 比赛结束
 	UserRaceEnd = 9; // 用户比赛结束
+	CancelIsSignup = 10; // 取消已报名其他比赛限制
 }
 
 enum SignupType {
@@ -109,6 +110,11 @@ message RaceEndRequest {
 }
 
 message UserRaceEndRequest {
+	int64 game_id = 1; // 比赛 id
+	repeated int64 user_ids = 2; // 用户 id 集合
+}
+
+message CancelIsSignupRequest {
 	int64 game_id = 1; // 比赛 id
 	repeated int64 user_ids = 2; // 用户 id 集合
 }

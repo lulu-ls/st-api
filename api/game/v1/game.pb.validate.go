@@ -807,22 +807,22 @@ var _ interface {
 	ErrorName() string
 } = ActivityListItemValidationError{}
 
-// Validate checks the field values on TaskTypeDetailRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *TaskTypeDetailRequest) Validate() error {
+// Validate checks the field values on TaskDetailRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *TaskDetailRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on TaskTypeDetailRequest with the rules
+// ValidateAll checks the field values on TaskDetailRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// TaskTypeDetailRequestMultiError, or nil if none found.
-func (m *TaskTypeDetailRequest) ValidateAll() error {
+// TaskDetailRequestMultiError, or nil if none found.
+func (m *TaskDetailRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *TaskTypeDetailRequest) validate(all bool) error {
+func (m *TaskDetailRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -833,19 +833,10 @@ func (m *TaskTypeDetailRequest) validate(all bool) error {
 
 	// no validation rules for ChannelId
 
-	if m.GetUserId() <= 0 {
-		err := TaskTypeDetailRequestValidationError{
-			field:  "UserId",
-			reason: "value must be greater than 0",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for UserId
 
 	if m.GetActivityId() <= 0 {
-		err := TaskTypeDetailRequestValidationError{
+		err := TaskDetailRequestValidationError{
 			field:  "ActivityId",
 			reason: "value must be greater than 0",
 		}
@@ -856,19 +847,19 @@ func (m *TaskTypeDetailRequest) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return TaskTypeDetailRequestMultiError(errors)
+		return TaskDetailRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// TaskTypeDetailRequestMultiError is an error wrapping multiple validation
-// errors returned by TaskTypeDetailRequest.ValidateAll() if the designated
-// constraints aren't met.
-type TaskTypeDetailRequestMultiError []error
+// TaskDetailRequestMultiError is an error wrapping multiple validation errors
+// returned by TaskDetailRequest.ValidateAll() if the designated constraints
+// aren't met.
+type TaskDetailRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m TaskTypeDetailRequestMultiError) Error() string {
+func (m TaskDetailRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -877,11 +868,11 @@ func (m TaskTypeDetailRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m TaskTypeDetailRequestMultiError) AllErrors() []error { return m }
+func (m TaskDetailRequestMultiError) AllErrors() []error { return m }
 
-// TaskTypeDetailRequestValidationError is the validation error returned by
-// TaskTypeDetailRequest.Validate if the designated constraints aren't met.
-type TaskTypeDetailRequestValidationError struct {
+// TaskDetailRequestValidationError is the validation error returned by
+// TaskDetailRequest.Validate if the designated constraints aren't met.
+type TaskDetailRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -889,24 +880,24 @@ type TaskTypeDetailRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e TaskTypeDetailRequestValidationError) Field() string { return e.field }
+func (e TaskDetailRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e TaskTypeDetailRequestValidationError) Reason() string { return e.reason }
+func (e TaskDetailRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e TaskTypeDetailRequestValidationError) Cause() error { return e.cause }
+func (e TaskDetailRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e TaskTypeDetailRequestValidationError) Key() bool { return e.key }
+func (e TaskDetailRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e TaskTypeDetailRequestValidationError) ErrorName() string {
-	return "TaskTypeDetailRequestValidationError"
+func (e TaskDetailRequestValidationError) ErrorName() string {
+	return "TaskDetailRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e TaskTypeDetailRequestValidationError) Error() string {
+func (e TaskDetailRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -918,14 +909,14 @@ func (e TaskTypeDetailRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sTaskTypeDetailRequest.%s: %s%s",
+		"invalid %sTaskDetailRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = TaskTypeDetailRequestValidationError{}
+var _ error = TaskDetailRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -933,24 +924,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = TaskTypeDetailRequestValidationError{}
+} = TaskDetailRequestValidationError{}
 
-// Validate checks the field values on TaskTypeDetailReply with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *TaskTypeDetailReply) Validate() error {
+// Validate checks the field values on TaskDetailReply with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *TaskDetailReply) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on TaskTypeDetailReply with the rules
+// ValidateAll checks the field values on TaskDetailReply with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// TaskTypeDetailReplyMultiError, or nil if none found.
-func (m *TaskTypeDetailReply) ValidateAll() error {
+// TaskDetailReplyMultiError, or nil if none found.
+func (m *TaskDetailReply) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *TaskTypeDetailReply) validate(all bool) error {
+func (m *TaskDetailReply) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -964,7 +955,7 @@ func (m *TaskTypeDetailReply) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, TaskTypeDetailReplyValidationError{
+					errors = append(errors, TaskDetailReplyValidationError{
 						field:  fmt.Sprintf("List[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -972,7 +963,7 @@ func (m *TaskTypeDetailReply) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, TaskTypeDetailReplyValidationError{
+					errors = append(errors, TaskDetailReplyValidationError{
 						field:  fmt.Sprintf("List[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -981,7 +972,7 @@ func (m *TaskTypeDetailReply) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return TaskTypeDetailReplyValidationError{
+				return TaskDetailReplyValidationError{
 					field:  fmt.Sprintf("List[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -992,19 +983,19 @@ func (m *TaskTypeDetailReply) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return TaskTypeDetailReplyMultiError(errors)
+		return TaskDetailReplyMultiError(errors)
 	}
 
 	return nil
 }
 
-// TaskTypeDetailReplyMultiError is an error wrapping multiple validation
-// errors returned by TaskTypeDetailReply.ValidateAll() if the designated
-// constraints aren't met.
-type TaskTypeDetailReplyMultiError []error
+// TaskDetailReplyMultiError is an error wrapping multiple validation errors
+// returned by TaskDetailReply.ValidateAll() if the designated constraints
+// aren't met.
+type TaskDetailReplyMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m TaskTypeDetailReplyMultiError) Error() string {
+func (m TaskDetailReplyMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1013,11 +1004,11 @@ func (m TaskTypeDetailReplyMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m TaskTypeDetailReplyMultiError) AllErrors() []error { return m }
+func (m TaskDetailReplyMultiError) AllErrors() []error { return m }
 
-// TaskTypeDetailReplyValidationError is the validation error returned by
-// TaskTypeDetailReply.Validate if the designated constraints aren't met.
-type TaskTypeDetailReplyValidationError struct {
+// TaskDetailReplyValidationError is the validation error returned by
+// TaskDetailReply.Validate if the designated constraints aren't met.
+type TaskDetailReplyValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1025,24 +1016,22 @@ type TaskTypeDetailReplyValidationError struct {
 }
 
 // Field function returns field value.
-func (e TaskTypeDetailReplyValidationError) Field() string { return e.field }
+func (e TaskDetailReplyValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e TaskTypeDetailReplyValidationError) Reason() string { return e.reason }
+func (e TaskDetailReplyValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e TaskTypeDetailReplyValidationError) Cause() error { return e.cause }
+func (e TaskDetailReplyValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e TaskTypeDetailReplyValidationError) Key() bool { return e.key }
+func (e TaskDetailReplyValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e TaskTypeDetailReplyValidationError) ErrorName() string {
-	return "TaskTypeDetailReplyValidationError"
-}
+func (e TaskDetailReplyValidationError) ErrorName() string { return "TaskDetailReplyValidationError" }
 
 // Error satisfies the builtin error interface
-func (e TaskTypeDetailReplyValidationError) Error() string {
+func (e TaskDetailReplyValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1054,14 +1043,14 @@ func (e TaskTypeDetailReplyValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sTaskTypeDetailReply.%s: %s%s",
+		"invalid %sTaskDetailReply.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = TaskTypeDetailReplyValidationError{}
+var _ error = TaskDetailReplyValidationError{}
 
 var _ interface {
 	Field() string
@@ -1069,31 +1058,31 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = TaskTypeDetailReplyValidationError{}
+} = TaskDetailReplyValidationError{}
 
-// Validate checks the field values on TaskTypeListItem with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *TaskTypeListItem) Validate() error {
+// Validate checks the field values on TaskListItem with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *TaskListItem) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on TaskTypeListItem with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// TaskTypeListItemMultiError, or nil if none found.
-func (m *TaskTypeListItem) ValidateAll() error {
+// ValidateAll checks the field values on TaskListItem with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in TaskListItemMultiError, or
+// nil if none found.
+func (m *TaskListItem) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *TaskTypeListItem) validate(all bool) error {
+func (m *TaskListItem) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	// no validation rules for TaskTypeId
+	// no validation rules for TaskId
 
 	// no validation rules for Title
 
@@ -1114,7 +1103,7 @@ func (m *TaskTypeListItem) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, TaskTypeListItemValidationError{
+					errors = append(errors, TaskListItemValidationError{
 						field:  fmt.Sprintf("Award[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -1122,7 +1111,7 @@ func (m *TaskTypeListItem) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, TaskTypeListItemValidationError{
+					errors = append(errors, TaskListItemValidationError{
 						field:  fmt.Sprintf("Award[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -1131,7 +1120,7 @@ func (m *TaskTypeListItem) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return TaskTypeListItemValidationError{
+				return TaskListItemValidationError{
 					field:  fmt.Sprintf("Award[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1142,19 +1131,18 @@ func (m *TaskTypeListItem) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return TaskTypeListItemMultiError(errors)
+		return TaskListItemMultiError(errors)
 	}
 
 	return nil
 }
 
-// TaskTypeListItemMultiError is an error wrapping multiple validation errors
-// returned by TaskTypeListItem.ValidateAll() if the designated constraints
-// aren't met.
-type TaskTypeListItemMultiError []error
+// TaskListItemMultiError is an error wrapping multiple validation errors
+// returned by TaskListItem.ValidateAll() if the designated constraints aren't met.
+type TaskListItemMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m TaskTypeListItemMultiError) Error() string {
+func (m TaskListItemMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1163,11 +1151,11 @@ func (m TaskTypeListItemMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m TaskTypeListItemMultiError) AllErrors() []error { return m }
+func (m TaskListItemMultiError) AllErrors() []error { return m }
 
-// TaskTypeListItemValidationError is the validation error returned by
-// TaskTypeListItem.Validate if the designated constraints aren't met.
-type TaskTypeListItemValidationError struct {
+// TaskListItemValidationError is the validation error returned by
+// TaskListItem.Validate if the designated constraints aren't met.
+type TaskListItemValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1175,22 +1163,22 @@ type TaskTypeListItemValidationError struct {
 }
 
 // Field function returns field value.
-func (e TaskTypeListItemValidationError) Field() string { return e.field }
+func (e TaskListItemValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e TaskTypeListItemValidationError) Reason() string { return e.reason }
+func (e TaskListItemValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e TaskTypeListItemValidationError) Cause() error { return e.cause }
+func (e TaskListItemValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e TaskTypeListItemValidationError) Key() bool { return e.key }
+func (e TaskListItemValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e TaskTypeListItemValidationError) ErrorName() string { return "TaskTypeListItemValidationError" }
+func (e TaskListItemValidationError) ErrorName() string { return "TaskListItemValidationError" }
 
 // Error satisfies the builtin error interface
-func (e TaskTypeListItemValidationError) Error() string {
+func (e TaskListItemValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1202,14 +1190,14 @@ func (e TaskTypeListItemValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sTaskTypeListItem.%s: %s%s",
+		"invalid %sTaskListItem.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = TaskTypeListItemValidationError{}
+var _ error = TaskListItemValidationError{}
 
 var _ interface {
 	Field() string
@@ -1217,24 +1205,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = TaskTypeListItemValidationError{}
+} = TaskListItemValidationError{}
 
-// Validate checks the field values on TaskTypeListAwardItem with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *TaskTypeListAwardItem) Validate() error {
+// Validate checks the field values on TaskListAwardItem with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *TaskListAwardItem) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on TaskTypeListAwardItem with the rules
+// ValidateAll checks the field values on TaskListAwardItem with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// TaskTypeListAwardItemMultiError, or nil if none found.
-func (m *TaskTypeListAwardItem) ValidateAll() error {
+// TaskListAwardItemMultiError, or nil if none found.
+func (m *TaskListAwardItem) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *TaskTypeListAwardItem) validate(all bool) error {
+func (m *TaskListAwardItem) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1250,19 +1238,19 @@ func (m *TaskTypeListAwardItem) validate(all bool) error {
 	// no validation rules for Quantity
 
 	if len(errors) > 0 {
-		return TaskTypeListAwardItemMultiError(errors)
+		return TaskListAwardItemMultiError(errors)
 	}
 
 	return nil
 }
 
-// TaskTypeListAwardItemMultiError is an error wrapping multiple validation
-// errors returned by TaskTypeListAwardItem.ValidateAll() if the designated
-// constraints aren't met.
-type TaskTypeListAwardItemMultiError []error
+// TaskListAwardItemMultiError is an error wrapping multiple validation errors
+// returned by TaskListAwardItem.ValidateAll() if the designated constraints
+// aren't met.
+type TaskListAwardItemMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m TaskTypeListAwardItemMultiError) Error() string {
+func (m TaskListAwardItemMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1271,11 +1259,11 @@ func (m TaskTypeListAwardItemMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m TaskTypeListAwardItemMultiError) AllErrors() []error { return m }
+func (m TaskListAwardItemMultiError) AllErrors() []error { return m }
 
-// TaskTypeListAwardItemValidationError is the validation error returned by
-// TaskTypeListAwardItem.Validate if the designated constraints aren't met.
-type TaskTypeListAwardItemValidationError struct {
+// TaskListAwardItemValidationError is the validation error returned by
+// TaskListAwardItem.Validate if the designated constraints aren't met.
+type TaskListAwardItemValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1283,24 +1271,24 @@ type TaskTypeListAwardItemValidationError struct {
 }
 
 // Field function returns field value.
-func (e TaskTypeListAwardItemValidationError) Field() string { return e.field }
+func (e TaskListAwardItemValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e TaskTypeListAwardItemValidationError) Reason() string { return e.reason }
+func (e TaskListAwardItemValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e TaskTypeListAwardItemValidationError) Cause() error { return e.cause }
+func (e TaskListAwardItemValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e TaskTypeListAwardItemValidationError) Key() bool { return e.key }
+func (e TaskListAwardItemValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e TaskTypeListAwardItemValidationError) ErrorName() string {
-	return "TaskTypeListAwardItemValidationError"
+func (e TaskListAwardItemValidationError) ErrorName() string {
+	return "TaskListAwardItemValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e TaskTypeListAwardItemValidationError) Error() string {
+func (e TaskListAwardItemValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1312,14 +1300,14 @@ func (e TaskTypeListAwardItemValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sTaskTypeListAwardItem.%s: %s%s",
+		"invalid %sTaskListAwardItem.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = TaskTypeListAwardItemValidationError{}
+var _ error = TaskListAwardItemValidationError{}
 
 var _ interface {
 	Field() string
@@ -1327,7 +1315,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = TaskTypeListAwardItemValidationError{}
+} = TaskListAwardItemValidationError{}
 
 // Validate checks the field values on TaskRewardRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
@@ -1353,9 +1341,9 @@ func (m *TaskRewardRequest) validate(all bool) error {
 
 	// no validation rules for UserId
 
-	if len(m.GetTaskTypeIds()) < 1 {
+	if len(m.GetTaskIds()) < 1 {
 		err := TaskRewardRequestValidationError{
-			field:  "TaskTypeIds",
+			field:  "TaskIds",
 			reason: "value must contain at least 1 item(s)",
 		}
 		if !all {
@@ -1364,12 +1352,12 @@ func (m *TaskRewardRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	for idx, item := range m.GetTaskTypeIds() {
+	for idx, item := range m.GetTaskIds() {
 		_, _ = idx, item
 
 		if item <= 0 {
 			err := TaskRewardRequestValidationError{
-				field:  fmt.Sprintf("TaskTypeIds[%v]", idx),
+				field:  fmt.Sprintf("TaskIds[%v]", idx),
 				reason: "value must be greater than 0",
 			}
 			if !all {
