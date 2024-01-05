@@ -38,7 +38,7 @@ service Game {
 	// 任务详情
 	rpc TaskDetail (TaskDetailRequest) returns (TaskDetailReply) {
 		option (google.api.http) = {
-			post: "/st-games/v1/game/task/type/detail",
+			post: "/st-games/v1/game/activity/detail",
 			body: "*",
 		};
 	};
@@ -255,7 +255,7 @@ message ActivityListItem {
 message TaskDetailRequest {
 	int32 app_id = 2; // app id
 	int32 channel_id = 3; // channel id
-	int64 user_id = 4 [(validate.rules).int64.gt =  0]; // 用户 id
+	int64 user_id = 4; // 用户 id  [(validate.rules).int64.gt =  0]
 	int32 activity_id = 5 [(validate.rules).int32.gt =  0]; // 配置 id
 }
 message TaskDetailReply {

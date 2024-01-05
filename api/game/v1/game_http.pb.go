@@ -54,7 +54,7 @@ func RegisterGameHTTPServer(s *http.Server, srv GameHTTPServer) {
 	r := s.Route("/")
 	r.POST("/st-games/v1/game/announcement/list", _Game_AnnouncementList0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/activity/list", _Game_ActivityList0_HTTP_Handler(srv))
-	r.POST("/st-games/v1/game/task/type/detail", _Game_TaskDetail0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/game/activity/detail", _Game_TaskDetail0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/task/reward", _Game_TaskReward0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/info", _Game_GameInfo0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/notify/get", _Game_GetGameNotify0_HTTP_Handler(srv))
@@ -374,7 +374,7 @@ func (c *GameHTTPClientImpl) ReadGameNotify(ctx context.Context, in *ReadGameNot
 
 func (c *GameHTTPClientImpl) TaskDetail(ctx context.Context, in *TaskDetailRequest, opts ...http.CallOption) (*TaskDetailReply, error) {
 	var out TaskDetailReply
-	pattern := "/st-games/v1/game/task/type/detail"
+	pattern := "/st-games/v1/game/activity/detail"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationGameTaskDetail))
 	opts = append(opts, http.PathTemplate(pattern))
