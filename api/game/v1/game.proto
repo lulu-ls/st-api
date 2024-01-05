@@ -90,6 +90,23 @@ service Game {
 			body: "*",
 		};
 	};
+
+	// 签到列表
+	rpc SignList (SignListRequest) returns (SignListReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/game/sign/list",
+			body: "*",
+		};
+	};
+
+	// 签到
+	rpc SignIn (SignInRequest) returns (SignInReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/game/sign/in",
+			body: "*",
+		};
+	};
+
 }
 
 // 公告类别
@@ -343,5 +360,19 @@ message CheckSignupRequest {
 	int32 game_config_id = 4; // 游戏配置 id
 }
 message CheckSignupReply {
+
+}
+
+message SignListRequest{
+
+}
+message SignListReply{
+
+}
+
+message SignInRequest {
+
+}
+message SignInReply {
 
 }
