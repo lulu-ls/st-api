@@ -26,6 +26,8 @@ const OperationGameGameInfo = "/api.game.v1.Game/GameInfo"
 const OperationGameGetAppConfig = "/api.game.v1.Game/GetAppConfig"
 const OperationGameGetGameNotify = "/api.game.v1.Game/GetGameNotify"
 const OperationGameReadGameNotify = "/api.game.v1.Game/ReadGameNotify"
+const OperationGameSignIn = "/api.game.v1.Game/SignIn"
+const OperationGameSignList = "/api.game.v1.Game/SignList"
 const OperationGameTaskDetail = "/api.game.v1.Game/TaskDetail"
 const OperationGameTaskReward = "/api.game.v1.Game/TaskReward"
 
@@ -44,6 +46,10 @@ type GameHTTPServer interface {
 	GetGameNotify(context.Context, *GetGameNotifyRequest) (*GetGameNotifyReply, error)
 	// ReadGameNotify 阅读提示
 	ReadGameNotify(context.Context, *ReadGameNotifyRequest) (*ReadGameNotifyReply, error)
+	// SignIn 签到
+	SignIn(context.Context, *SignInRequest) (*SignInReply, error)
+	// SignList 签到列表
+	SignList(context.Context, *SignListRequest) (*SignListReply, error)
 	// TaskDetail 任务详情
 	TaskDetail(context.Context, *TaskDetailRequest) (*TaskDetailReply, error)
 	// TaskReward 兑换任务奖励
@@ -61,6 +67,8 @@ func RegisterGameHTTPServer(s *http.Server, srv GameHTTPServer) {
 	r.POST("/st-games/v1/game/notify/read", _Game_ReadGameNotify0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/dict/list", _Game_GetAppConfig0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/check/signup", _Game_CheckSignup0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/game/sign/list", _Game_SignList0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/game/sign/in", _Game_SignIn0_HTTP_Handler(srv))
 }
 
 func _Game_AnnouncementList0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) error {
@@ -261,6 +269,50 @@ func _Game_CheckSignup0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) 
 	}
 }
 
+func _Game_SignList0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in SignListRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationGameSignList)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.SignList(ctx, req.(*SignListRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*SignListReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Game_SignIn0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in SignInRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationGameSignIn)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.SignIn(ctx, req.(*SignInRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*SignInReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type GameHTTPClient interface {
 	ActivityList(ctx context.Context, req *ActivityListRequest, opts ...http.CallOption) (rsp *ActivityListReply, err error)
 	AnnouncementList(ctx context.Context, req *AnnouncementListRequest, opts ...http.CallOption) (rsp *AnnouncementListReply, err error)
@@ -269,6 +321,8 @@ type GameHTTPClient interface {
 	GetAppConfig(ctx context.Context, req *GetAppConfigRequest, opts ...http.CallOption) (rsp *GetAppConfigReply, err error)
 	GetGameNotify(ctx context.Context, req *GetGameNotifyRequest, opts ...http.CallOption) (rsp *GetGameNotifyReply, err error)
 	ReadGameNotify(ctx context.Context, req *ReadGameNotifyRequest, opts ...http.CallOption) (rsp *ReadGameNotifyReply, err error)
+	SignIn(ctx context.Context, req *SignInRequest, opts ...http.CallOption) (rsp *SignInReply, err error)
+	SignList(ctx context.Context, req *SignListRequest, opts ...http.CallOption) (rsp *SignListReply, err error)
 	TaskDetail(ctx context.Context, req *TaskDetailRequest, opts ...http.CallOption) (rsp *TaskDetailReply, err error)
 	TaskReward(ctx context.Context, req *TaskRewardRequest, opts ...http.CallOption) (rsp *TaskRewardReply, err error)
 }
@@ -364,6 +418,32 @@ func (c *GameHTTPClientImpl) ReadGameNotify(ctx context.Context, in *ReadGameNot
 	pattern := "/st-games/v1/game/notify/read"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationGameReadGameNotify))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *GameHTTPClientImpl) SignIn(ctx context.Context, in *SignInRequest, opts ...http.CallOption) (*SignInReply, error) {
+	var out SignInReply
+	pattern := "/st-games/v1/game/sign/in"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationGameSignIn))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *GameHTTPClientImpl) SignList(ctx context.Context, in *SignListRequest, opts ...http.CallOption) (*SignListReply, error) {
+	var out SignListReply
+	pattern := "/st-games/v1/game/sign/list"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationGameSignList))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

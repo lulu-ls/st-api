@@ -90,3 +90,17 @@ func IsGameCheckSignupError(err error) bool {
 func ErrorGameCheckSignupError(format string, args ...interface{}) *errors.Error {
 	return errors.New(410, ErrorReason_GAME_CHECK_SIGNUP_ERROR.String(), fmt.Sprintf(format, args...))
 }
+
+// 签到错误
+func IsSignInError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_SIGN_IN_ERROR.String() && e.Code == 410
+}
+
+// 签到错误
+func ErrorSignInError(format string, args ...interface{}) *errors.Error {
+	return errors.New(410, ErrorReason_SIGN_IN_ERROR.String(), fmt.Sprintf(format, args...))
+}

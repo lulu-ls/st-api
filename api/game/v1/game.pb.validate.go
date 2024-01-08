@@ -2749,3 +2749,716 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = CheckSignupReplyValidationError{}
+
+// Validate checks the field values on SignListRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *SignListRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SignListRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SignListRequestMultiError, or nil if none found.
+func (m *SignListRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SignListRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
+
+	// no validation rules for UserId
+
+	if len(errors) > 0 {
+		return SignListRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// SignListRequestMultiError is an error wrapping multiple validation errors
+// returned by SignListRequest.ValidateAll() if the designated constraints
+// aren't met.
+type SignListRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SignListRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SignListRequestMultiError) AllErrors() []error { return m }
+
+// SignListRequestValidationError is the validation error returned by
+// SignListRequest.Validate if the designated constraints aren't met.
+type SignListRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SignListRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SignListRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SignListRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SignListRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SignListRequestValidationError) ErrorName() string { return "SignListRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SignListRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSignListRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SignListRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SignListRequestValidationError{}
+
+// Validate checks the field values on SignListReply with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *SignListReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SignListReply with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in SignListReplyMultiError, or
+// nil if none found.
+func (m *SignListReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SignListReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetList() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, SignListReplyValidationError{
+						field:  fmt.Sprintf("List[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, SignListReplyValidationError{
+						field:  fmt.Sprintf("List[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return SignListReplyValidationError{
+					field:  fmt.Sprintf("List[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for Total
+
+	if len(errors) > 0 {
+		return SignListReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// SignListReplyMultiError is an error wrapping multiple validation errors
+// returned by SignListReply.ValidateAll() if the designated constraints
+// aren't met.
+type SignListReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SignListReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SignListReplyMultiError) AllErrors() []error { return m }
+
+// SignListReplyValidationError is the validation error returned by
+// SignListReply.Validate if the designated constraints aren't met.
+type SignListReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SignListReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SignListReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SignListReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SignListReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SignListReplyValidationError) ErrorName() string { return "SignListReplyValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SignListReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSignListReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SignListReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SignListReplyValidationError{}
+
+// Validate checks the field values on SignListItem with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *SignListItem) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SignListItem with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in SignListItemMultiError, or
+// nil if none found.
+func (m *SignListItem) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SignListItem) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for SignConfigId
+
+	// no validation rules for Type
+
+	// no validation rules for Title
+
+	// no validation rules for Image
+
+	// no validation rules for Day
+
+	// no validation rules for DayName
+
+	// no validation rules for Status
+
+	for idx, item := range m.GetAward() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, SignListItemValidationError{
+						field:  fmt.Sprintf("Award[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, SignListItemValidationError{
+						field:  fmt.Sprintf("Award[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return SignListItemValidationError{
+					field:  fmt.Sprintf("Award[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return SignListItemMultiError(errors)
+	}
+
+	return nil
+}
+
+// SignListItemMultiError is an error wrapping multiple validation errors
+// returned by SignListItem.ValidateAll() if the designated constraints aren't met.
+type SignListItemMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SignListItemMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SignListItemMultiError) AllErrors() []error { return m }
+
+// SignListItemValidationError is the validation error returned by
+// SignListItem.Validate if the designated constraints aren't met.
+type SignListItemValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SignListItemValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SignListItemValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SignListItemValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SignListItemValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SignListItemValidationError) ErrorName() string { return "SignListItemValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SignListItemValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSignListItem.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SignListItemValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SignListItemValidationError{}
+
+// Validate checks the field values on SignAwardItem with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *SignAwardItem) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SignAwardItem with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in SignAwardItemMultiError, or
+// nil if none found.
+func (m *SignAwardItem) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SignAwardItem) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ItemId
+
+	// no validation rules for Name
+
+	// no validation rules for Image
+
+	// no validation rules for Quantity
+
+	// no validation rules for ItemType
+
+	if len(errors) > 0 {
+		return SignAwardItemMultiError(errors)
+	}
+
+	return nil
+}
+
+// SignAwardItemMultiError is an error wrapping multiple validation errors
+// returned by SignAwardItem.ValidateAll() if the designated constraints
+// aren't met.
+type SignAwardItemMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SignAwardItemMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SignAwardItemMultiError) AllErrors() []error { return m }
+
+// SignAwardItemValidationError is the validation error returned by
+// SignAwardItem.Validate if the designated constraints aren't met.
+type SignAwardItemValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SignAwardItemValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SignAwardItemValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SignAwardItemValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SignAwardItemValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SignAwardItemValidationError) ErrorName() string { return "SignAwardItemValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SignAwardItemValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSignAwardItem.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SignAwardItemValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SignAwardItemValidationError{}
+
+// Validate checks the field values on SignInRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *SignInRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SignInRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in SignInRequestMultiError, or
+// nil if none found.
+func (m *SignInRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SignInRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetSignConfigId() <= 0 {
+		err := SignInRequestValidationError{
+			field:  "SignConfigId",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for SignType
+
+	// no validation rules for UserId
+
+	if len(errors) > 0 {
+		return SignInRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// SignInRequestMultiError is an error wrapping multiple validation errors
+// returned by SignInRequest.ValidateAll() if the designated constraints
+// aren't met.
+type SignInRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SignInRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SignInRequestMultiError) AllErrors() []error { return m }
+
+// SignInRequestValidationError is the validation error returned by
+// SignInRequest.Validate if the designated constraints aren't met.
+type SignInRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SignInRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SignInRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SignInRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SignInRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SignInRequestValidationError) ErrorName() string { return "SignInRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SignInRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSignInRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SignInRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SignInRequestValidationError{}
+
+// Validate checks the field values on SignInReply with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *SignInReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SignInReply with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in SignInReplyMultiError, or
+// nil if none found.
+func (m *SignInReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SignInReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return SignInReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// SignInReplyMultiError is an error wrapping multiple validation errors
+// returned by SignInReply.ValidateAll() if the designated constraints aren't met.
+type SignInReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SignInReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SignInReplyMultiError) AllErrors() []error { return m }
+
+// SignInReplyValidationError is the validation error returned by
+// SignInReply.Validate if the designated constraints aren't met.
+type SignInReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SignInReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SignInReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SignInReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SignInReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SignInReplyValidationError) ErrorName() string { return "SignInReplyValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SignInReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSignInReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SignInReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SignInReplyValidationError{}

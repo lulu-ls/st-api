@@ -172,7 +172,7 @@ enum VersionType {
 	release = 4; // 正式版
 }
 
-// 活动类型 跳转类型：1:url 2:game_category_id 3:game_config_id 4:game_free_config_id  5:recharge 6:share 7：task
+// 活动类型 跳转类型：1:url 2:game_category_id 3:竞技场 4:自由场  5:充值 6:分享 7：task
 enum TaskAction {
 		_ = 0;
 		URL = 1;
@@ -206,6 +206,35 @@ enum TaskGameType {
 	RANK = 3;
 }
 
+// 1:7日签到(周签),2:累积签到
+enum SignConfigType {
+	_8 = 0;
+	WEEKLY = 1;
+	DAYS = 2;
+}
+
+// 1 普通签到 2 看视频签到 3 补签
+enum SignType {
+	_9 = 0;
+	NORMAL = 1;
+	AWARD = 2;
+	REPAIR = 3;
+}
+
+// SignStatus 0 已过期 1 已领取 2 待领取 3 未到期
+enum SingStatus {
+	EXPIRE = 0;
+	RECEIVED = 1;
+	AVAILABLE = 2;
+	UNDUE = 3;
+}
+
+// 签到奖励类型 signItemType 1签到 2视频
+enum SignItemType {
+	_10 = 0;
+	SIT_NORMAL = 1;
+	SIT_AWARD = 2;
+}
 
 message AnnouncementListRequest {
 	common.v1.Paginate page = 1;
@@ -364,14 +393,36 @@ message CheckSignupReply {
 }
 
 message SignListRequest{
-
+	int32 app_id = 2; // app id
+	int32 channel_id = 3; // channel id
+	int64 user_id = 4; // 用户 id
 }
-message SignListReply{
-
+message SignListReply {
+	repeated SignListItem list = 1; // 列表
+	int32 total = 2; // 数量
+}
+message SignListItem{
+	int32 sign_config_id = 1; // 签到配置奖励
+	SignConfigType type = 2; // 1:7日签到(周签),2:累积签到
+	string title = 3; // 标题
+	string image = 4; // 图片
+	int32 day = 5; // 第几天/周几
+	string day_name = 6; // 名称
+	SingStatus status = 7; // 状态
+	repeated SignAwardItem award = 8; // 奖励
+}
+message SignAwardItem {
+	int32 item_id = 3; // 道具 id
+	string name = 4; // 奖励道具名称
+	string image = 5; // 奖励道具图片
+	int32 quantity = 6; // 奖励道具数量
+	int32 item_type = 7; // 类型 1 普通奖励 2 视频奖励
 }
 
 message SignInRequest {
-
+	int32 sign_config_id = 1 [(validate.rules).int32.gt =  0]; // 签到配置奖励
+	SignType sign_type = 2; // 签到类型
+	int64 user_id = 3; // 用户 id
 }
 message SignInReply {
 
