@@ -184,11 +184,12 @@ enum TaskAction {
 		TASK = 7;
 }
 
-// 任务配置类型 1game 2recharge
+// 任务配置类型 1游戏 2充值 3签到
 enum TaskType {
 	_5 = 0;
 	GAME = 1;
 	T_RECHARGE = 2;
+	Sign = 3;
 }
 
 // 充值类型 1指定金额次数 2累计金额
@@ -296,6 +297,7 @@ message ActivityListItem {
 	string subtitle = 3; // 子标题
 	string information = 4; // 描述
 	string image = 5; // 图片
+	int32 type = 6; // 类型 1:游戏 2:充值 3:签到
 }
 
 message TaskDetailRequest {

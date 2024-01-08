@@ -729,6 +729,8 @@ func (m *ActivityListItem) validate(all bool) error {
 
 	// no validation rules for Image
 
+	// no validation rules for Type
+
 	if len(errors) > 0 {
 		return ActivityListItemMultiError(errors)
 	}
