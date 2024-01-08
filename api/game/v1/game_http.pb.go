@@ -26,6 +26,7 @@ const OperationGameGameInfo = "/api.game.v1.Game/GameInfo"
 const OperationGameGetAppConfig = "/api.game.v1.Game/GetAppConfig"
 const OperationGameGetGameNotify = "/api.game.v1.Game/GetGameNotify"
 const OperationGameReadGameNotify = "/api.game.v1.Game/ReadGameNotify"
+const OperationGameRedList = "/api.game.v1.Game/RedList"
 const OperationGameSignIn = "/api.game.v1.Game/SignIn"
 const OperationGameSignList = "/api.game.v1.Game/SignList"
 const OperationGameTaskDetail = "/api.game.v1.Game/TaskDetail"
@@ -46,6 +47,8 @@ type GameHTTPServer interface {
 	GetGameNotify(context.Context, *GetGameNotifyRequest) (*GetGameNotifyReply, error)
 	// ReadGameNotify 阅读提示
 	ReadGameNotify(context.Context, *ReadGameNotifyRequest) (*ReadGameNotifyReply, error)
+	// RedList 红点处理
+	RedList(context.Context, *RedListRequest) (*RedListReply, error)
 	// SignIn 签到
 	SignIn(context.Context, *SignInRequest) (*SignInReply, error)
 	// SignList 签到列表
@@ -69,6 +72,7 @@ func RegisterGameHTTPServer(s *http.Server, srv GameHTTPServer) {
 	r.POST("/st-games/v1/game/check/signup", _Game_CheckSignup0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/sign/list", _Game_SignList0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/game/sign/in", _Game_SignIn0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/game/red/list", _Game_RedList0_HTTP_Handler(srv))
 }
 
 func _Game_AnnouncementList0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) error {
@@ -313,6 +317,28 @@ func _Game_SignIn0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) error
 	}
 }
 
+func _Game_RedList0_HTTP_Handler(srv GameHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in RedListRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationGameRedList)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.RedList(ctx, req.(*RedListRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*RedListReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type GameHTTPClient interface {
 	ActivityList(ctx context.Context, req *ActivityListRequest, opts ...http.CallOption) (rsp *ActivityListReply, err error)
 	AnnouncementList(ctx context.Context, req *AnnouncementListRequest, opts ...http.CallOption) (rsp *AnnouncementListReply, err error)
@@ -321,6 +347,7 @@ type GameHTTPClient interface {
 	GetAppConfig(ctx context.Context, req *GetAppConfigRequest, opts ...http.CallOption) (rsp *GetAppConfigReply, err error)
 	GetGameNotify(ctx context.Context, req *GetGameNotifyRequest, opts ...http.CallOption) (rsp *GetGameNotifyReply, err error)
 	ReadGameNotify(ctx context.Context, req *ReadGameNotifyRequest, opts ...http.CallOption) (rsp *ReadGameNotifyReply, err error)
+	RedList(ctx context.Context, req *RedListRequest, opts ...http.CallOption) (rsp *RedListReply, err error)
 	SignIn(ctx context.Context, req *SignInRequest, opts ...http.CallOption) (rsp *SignInReply, err error)
 	SignList(ctx context.Context, req *SignListRequest, opts ...http.CallOption) (rsp *SignListReply, err error)
 	TaskDetail(ctx context.Context, req *TaskDetailRequest, opts ...http.CallOption) (rsp *TaskDetailReply, err error)
@@ -418,6 +445,19 @@ func (c *GameHTTPClientImpl) ReadGameNotify(ctx context.Context, in *ReadGameNot
 	pattern := "/st-games/v1/game/notify/read"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationGameReadGameNotify))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *GameHTTPClientImpl) RedList(ctx context.Context, in *RedListRequest, opts ...http.CallOption) (*RedListReply, error) {
+	var out RedListReply
+	pattern := "/st-games/v1/game/red/list"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationGameRedList))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

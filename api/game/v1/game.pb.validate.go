@@ -3464,3 +3464,609 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = SignInReplyValidationError{}
+
+// Validate checks the field values on RedListRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *RedListRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RedListRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in RedListRequestMultiError,
+// or nil if none found.
+func (m *RedListRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RedListRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for UserId
+
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
+
+	if len(errors) > 0 {
+		return RedListRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// RedListRequestMultiError is an error wrapping multiple validation errors
+// returned by RedListRequest.ValidateAll() if the designated constraints
+// aren't met.
+type RedListRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RedListRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RedListRequestMultiError) AllErrors() []error { return m }
+
+// RedListRequestValidationError is the validation error returned by
+// RedListRequest.Validate if the designated constraints aren't met.
+type RedListRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RedListRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RedListRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RedListRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RedListRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RedListRequestValidationError) ErrorName() string { return "RedListRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e RedListRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRedListRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RedListRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RedListRequestValidationError{}
+
+// Validate checks the field values on RedListReply with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *RedListReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RedListReply with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in RedListReplyMultiError, or
+// nil if none found.
+func (m *RedListReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RedListReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetSignIn()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, RedListReplyValidationError{
+					field:  "SignIn",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, RedListReplyValidationError{
+					field:  "SignIn",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSignIn()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return RedListReplyValidationError{
+				field:  "SignIn",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	for idx, item := range m.GetActivity() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RedListReplyValidationError{
+						field:  fmt.Sprintf("Activity[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RedListReplyValidationError{
+						field:  fmt.Sprintf("Activity[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return RedListReplyValidationError{
+					field:  fmt.Sprintf("Activity[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetAnnouncement() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RedListReplyValidationError{
+						field:  fmt.Sprintf("Announcement[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RedListReplyValidationError{
+						field:  fmt.Sprintf("Announcement[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return RedListReplyValidationError{
+					field:  fmt.Sprintf("Announcement[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return RedListReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// RedListReplyMultiError is an error wrapping multiple validation errors
+// returned by RedListReply.ValidateAll() if the designated constraints aren't met.
+type RedListReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RedListReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RedListReplyMultiError) AllErrors() []error { return m }
+
+// RedListReplyValidationError is the validation error returned by
+// RedListReply.Validate if the designated constraints aren't met.
+type RedListReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RedListReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RedListReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RedListReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RedListReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RedListReplyValidationError) ErrorName() string { return "RedListReplyValidationError" }
+
+// Error satisfies the builtin error interface
+func (e RedListReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRedListReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RedListReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RedListReplyValidationError{}
+
+// Validate checks the field values on SignIn with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *SignIn) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SignIn with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in SignInMultiError, or nil if none found.
+func (m *SignIn) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SignIn) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Red
+
+	if len(errors) > 0 {
+		return SignInMultiError(errors)
+	}
+
+	return nil
+}
+
+// SignInMultiError is an error wrapping multiple validation errors returned by
+// SignIn.ValidateAll() if the designated constraints aren't met.
+type SignInMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SignInMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SignInMultiError) AllErrors() []error { return m }
+
+// SignInValidationError is the validation error returned by SignIn.Validate if
+// the designated constraints aren't met.
+type SignInValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SignInValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SignInValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SignInValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SignInValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SignInValidationError) ErrorName() string { return "SignInValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SignInValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSignIn.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SignInValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SignInValidationError{}
+
+// Validate checks the field values on Activity with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Activity) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Activity with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in ActivityMultiError, or nil
+// if none found.
+func (m *Activity) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Activity) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ActivityId
+
+	// no validation rules for Red
+
+	if len(errors) > 0 {
+		return ActivityMultiError(errors)
+	}
+
+	return nil
+}
+
+// ActivityMultiError is an error wrapping multiple validation errors returned
+// by Activity.ValidateAll() if the designated constraints aren't met.
+type ActivityMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ActivityMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ActivityMultiError) AllErrors() []error { return m }
+
+// ActivityValidationError is the validation error returned by
+// Activity.Validate if the designated constraints aren't met.
+type ActivityValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ActivityValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ActivityValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ActivityValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ActivityValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ActivityValidationError) ErrorName() string { return "ActivityValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ActivityValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sActivity.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ActivityValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ActivityValidationError{}
+
+// Validate checks the field values on Announcement with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Announcement) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Announcement with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AnnouncementMultiError, or
+// nil if none found.
+func (m *Announcement) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Announcement) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return AnnouncementMultiError(errors)
+	}
+
+	return nil
+}
+
+// AnnouncementMultiError is an error wrapping multiple validation errors
+// returned by Announcement.ValidateAll() if the designated constraints aren't met.
+type AnnouncementMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AnnouncementMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AnnouncementMultiError) AllErrors() []error { return m }
+
+// AnnouncementValidationError is the validation error returned by
+// Announcement.Validate if the designated constraints aren't met.
+type AnnouncementValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AnnouncementValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AnnouncementValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AnnouncementValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AnnouncementValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AnnouncementValidationError) ErrorName() string { return "AnnouncementValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AnnouncementValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAnnouncement.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AnnouncementValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AnnouncementValidationError{}

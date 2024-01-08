@@ -107,6 +107,14 @@ service Game {
 		};
 	};
 
+	// 红点处理
+	rpc RedList (RedListRequest) returns (RedListReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/game/red/list",
+			body: "*",
+		};
+	};
+
 }
 
 // 公告类别
@@ -428,4 +436,25 @@ message SignInRequest {
 }
 message SignInReply {
 
+}
+
+message RedListRequest {
+	int64 user_id = 1; // 用户 id
+	int32 app_id = 2; // app id
+	int32 channel_id = 3; // channel id
+}
+message RedListReply {
+	SignIn sign_in = 1; // 签到
+	repeated Activity activity = 2; // 活动
+	repeated Announcement announcement = 3; // 公告
+}
+message SignIn {
+	bool red = 1; // 今日是否可签到
+}
+message Activity {
+	int32 activity_id = 1; // 活动 id
+	bool red = 2; // 是否有已完成且未领取的任务
+}
+message Announcement {
+	int32 id = 1; // 公告 id
 }
