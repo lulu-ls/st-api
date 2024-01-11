@@ -307,6 +307,7 @@ message ActivityListItem {
 	string image = 5; // 图片
 	int32 type = 6; // 类型 1:游戏 2:充值 3:签到
 	int32 action = 7; // 活动类型 跳转类型：1:url 2:game_category_id 3:竞技场 4:自由场  5:充值 6:分享 7：task
+	string name = 8; // 名称
 }
 
 message TaskDetailRequest {
