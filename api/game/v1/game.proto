@@ -285,7 +285,7 @@ message AnnouncementListItem {
 //	int32 process = 9; // 当前完成进度
 //	RefreshCycle refresh_cycle = 10; // 刷新周期
 //	int32 game_type = 11; // 游戏类型：1=竞技场，2=自由场
-//	int32 action = 12; // 跳转类型：1:url 2:game_config_id 3:game_type_id 4:shop 5:task 6:share 7:task
+//	int32 action = 12; // 活动类型 跳转类型：1:url 2:game_category_id 3:竞技场 4:自由场  5:充值 6:分享 7：task
 //	string url = 13; // 跳转地址 action = 1 可用
 //}
 
@@ -306,6 +306,7 @@ message ActivityListItem {
 	string information = 4; // 描述
 	string image = 5; // 图片
 	int32 type = 6; // 类型 1:游戏 2:充值 3:签到
+	int32 action = 7; // 活动类型 跳转类型：1:url 2:game_category_id 3:竞技场 4:自由场  5:充值 6:分享 7：task
 }
 
 message TaskDetailRequest {
@@ -320,7 +321,7 @@ message TaskDetailReply {
 message TaskListItem {
 	int32 task_id = 1; // 配置 id
 	string title = 2; // 标题
-	int32 action = 3; // 跳转方式 // 跳转类型：1:url 2:game_category_id 3:game_config_id 4:game_free_config_id  5:recharge 6:share 7：task
+	int32 action = 3; // 跳转方式 // 活动类型 跳转类型：1:url 2:game_category_id 3:竞技场 4:自由场  5:充值 6:分享 7：task
 	string url = 4; // 跳转地址 action = 1
 	int32 number = 5; // 任务需要完成数量
 	int32 process = 6; // 当前完成进度
