@@ -96,6 +96,13 @@ enum SignupStatus {
   ALREADY = 1;
 }
 
+// 报名费类型 1且 2或
+enum OptionType {
+  _ = 0;
+  AND = 1;
+  OR = 2;
+}
+
 message GameSeriesBindUserRequest {
   int32 app_id = 2;
   int64 user_id = 3;
@@ -147,11 +154,13 @@ message ListRaceItem {
   int64 earliest_time = 16; // 最近开赛时间
   int32 game_config_id = 17; // 比赛 id
   int32 signup_status = 18; // 报名状态 0 未报名 1 已报名
+  OptionType option_type = 19; // 报名费类型 1且 2或
 }
 message SignupItem{
   int32 item_id= 1; // 道具 id
   string item_name = 2; // 道具名称
   int32 quantity = 3; // 数量
+  int32 user_total = 4; // 用户账户道具剩余数量
 }
 
 message RaceDetailRequest{

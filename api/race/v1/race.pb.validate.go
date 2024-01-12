@@ -931,6 +931,8 @@ func (m *ListRaceItem) validate(all bool) error {
 
 	// no validation rules for SignupStatus
 
+	// no validation rules for OptionType
+
 	if len(errors) > 0 {
 		return ListRaceItemMultiError(errors)
 	}
@@ -1035,6 +1037,8 @@ func (m *SignupItem) validate(all bool) error {
 	// no validation rules for ItemName
 
 	// no validation rules for Quantity
+
+	// no validation rules for UserTotal
 
 	if len(errors) > 0 {
 		return SignupItemMultiError(errors)
