@@ -36,23 +36,18 @@ service Apple {
 	// 登录
 	rpc Login (LoginRequest) returns (LoginReply);
 }
-
 message VerifyReceiptRequest {
 	int32 app_id = 1; // app id
 	int32 channel_id = 2; // channel id
 	int32 purchase_id = 3; // 道具配置 id
 	int64 user_id = 5; // 用户 id
 	int64 order_id = 6; // order id
+	string receipt = 7; //支付凭证
+	int32 env = 8; // 环境配置0：现网环境（也叫正式环境）1：沙箱环境
 }
 message VerifyReceiptReply {
-	int32 env = 2; // 环境配置0：现网环境（也叫正式环境）1：沙箱环境
-	string platform = 5; // 平台
-	int64 out_trad_no = 7; // 订单号 order id
-	double order_amount = 8; // 订单金额
-	int32 quantity = 9; // 购买数量
-	string mode = 10; // game 购买游戏币
-	int64 order_id = 11; // 订单号
-	string title = 12; // 标题
+	string code = 1;
+	string message = 2;
 }
 
 message PayNoticeRequest {}

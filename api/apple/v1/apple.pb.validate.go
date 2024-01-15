@@ -67,6 +67,10 @@ func (m *VerifyReceiptRequest) validate(all bool) error {
 
 	// no validation rules for OrderId
 
+	// no validation rules for Receipt
+
+	// no validation rules for Env
+
 	if len(errors) > 0 {
 		return VerifyReceiptRequestMultiError(errors)
 	}
@@ -169,21 +173,9 @@ func (m *VerifyReceiptReply) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Env
+	// no validation rules for Code
 
-	// no validation rules for Platform
-
-	// no validation rules for OutTradNo
-
-	// no validation rules for OrderAmount
-
-	// no validation rules for Quantity
-
-	// no validation rules for Mode
-
-	// no validation rules for OrderId
-
-	// no validation rules for Title
+	// no validation rules for Message
 
 	if len(errors) > 0 {
 		return VerifyReceiptReplyMultiError(errors)
