@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package api.activity.v1;
+
+import "google/api/annotations.proto";
+//import "validate/validate.proto";
+
+option go_package = "github.com/lulu-ls/st-api/api/activity/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.activity.v1";
+
+service Lottery {
+
+	// 抽奖
+	rpc Draw (DrawRequest) returns (DrawReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/activity/lottery/draw",
+			body: "*",
+		};
+	};
+
+}
+
+message DrawRequest {
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	int32 loot_pool_id = 3;
+	int64 item_id = 4;
+	int64 user_id = 5; // 用户 id
+}
+message DrawReply {
+	int64 item_id = 2;
+	int32 quantity = 4; // 购买数量
+}
+

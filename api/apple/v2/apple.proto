@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package api.apple.v1;
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+import "order/v1/order.proto";
+
+option go_package = "github.com/lulu-ls/st-api/api/apple/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.apple.v1";
+
+service Apple {
+	rpc VerifyReceipt (VerifyReceiptRequest) returns (VerifyReceiptReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/apple/verify_receipt",
+			body: "*",
+		};
+	};
+	// 支付通知
+	rpc PayNotice (PayNoticeRequest) returns (PayNoticeReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/apple/pay/notice",
+			body: "*",
+		};
+	};
+
+	// 支付
+	rpc Pay (ApplePayBuyRequest) returns (order.v1.ConfirmPayReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/apple/pay",
+			body: "*",
+		};
+	};
+
+	// 登录
+	rpc Login (LoginRequest) returns (LoginReply);
+}
+
+message VerifyReceiptRequest {
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	int32 purchase_id = 3; // 道具配置 id
+	int64 user_id = 5; // 用户 id
+	int64 order_id = 6; // order id
+	string receipt = 7; //支付凭证
+	int32 env = 8; // 环境配置0：现网环境（也叫正式环境）1：沙箱环境
+}
+
+
+message VerifyReceiptReply {
+	string code = 1;
+	string message = 2;
+}
+
+message PayNoticeRequest {}
+message PayNoticeReply {}
+
+
+message ApplePayBuyRequest {
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	int32 purchase_id = 3; // 道具配置 id
+	int64 user_id = 5; // 用户 id
+	int64 order_id = 6; // order id
+}
+message ApplePayBuyReply {
+	int64 order_id = 2; // 订单号
+	double order_amount = 3; // 订单金额
+	int32 quantity = 4; // 购买数量
+	string title = 5; // 标题
+	string env = 6; // 环境
+}
+
+message ApplePayRequest {
+	int64 order_id = 2; // 商户系统内部的订单号，32个字符内、可包含字母，其他说明见商户订单号
+}
+message ApplePayReply {
+	string app_id = 1; // app id
+	string nonce_str = 2; // 随机串
+	string package = 3; // 包
+	string sign_type = 4; // 签名方式
+	string time_stamp = 6; // 时间戳
+	string pay_sign = 7; // 支付签名
+	string env = 8; // 环境  dev、pro
+}
+
+message LoginRequest {
+	string code = 3 [(validate.rules).string.min_len =  1]; // 验证码
+}
+message LoginReply {
+	string unique_id = 1; // 唯一 id
+	string email = 2; // 电子邮箱
+//	bool email_verified = 3; // 电子邮箱是否验证
+//	bool is_private_email = 4; // 是否是私有电子邮箱
+}

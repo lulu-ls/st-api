@@ -3,20 +3,20 @@
 
 openapi: 3.0.3
 info:
-    title: Apple API
+    title: Lottery API
     version: 0.0.1
 paths:
-    /st-games/v1/apple/pay:
+    /st-games/v1/activity/lottery/draw:
         post:
             tags:
-                - Apple
-            description: 支付
-            operationId: Apple_Pay
+                - Lottery
+            description: 抽奖
+            operationId: Lottery_Draw
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/ApplePayBuyRequest'
+                            $ref: '#/components/schemas/DrawRequest'
                 required: true
             responses:
                 "200":
@@ -24,56 +24,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ApplePayBuyReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /st-games/v1/apple/pay/notice:
-        post:
-            tags:
-                - Apple
-            description: 支付通知
-            operationId: Apple_PayNotice
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/PayNoticeRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/PayNoticeReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /st-games/v1/apple/verify_receipt:
-        post:
-            tags:
-                - Apple
-            operationId: Apple_VerifyReceipt
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/VerifyReceiptRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/VerifyReceiptReply'
+                                $ref: '#/components/schemas/DrawReply'
                 default:
                     description: Default error response
                     content:
@@ -82,22 +33,15 @@ paths:
                                 $ref: '#/components/schemas/Status'
 components:
     schemas:
-        ApplePayBuyReply:
+        DrawReply:
             type: object
             properties:
-                orderId:
+                itemId:
                     type: string
-                orderAmount:
-                    type: number
-                    format: double
                 quantity:
                     type: integer
                     format: int32
-                title:
-                    type: string
-                env:
-                    type: string
-        ApplePayBuyRequest:
+        DrawRequest:
             type: object
             properties:
                 appId:
@@ -106,12 +50,12 @@ components:
                 channelId:
                     type: integer
                     format: int32
-                purchaseId:
+                lootPoolId:
                     type: integer
                     format: int32
-                userId:
+                itemId:
                     type: string
-                orderId:
+                userId:
                     type: string
         GoogleProtobufAny:
             type: object
@@ -121,12 +65,6 @@ components:
                     description: The type of the serialized message.
             additionalProperties: true
             description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        PayNoticeReply:
-            type: object
-            properties: {}
-        PayNoticeRequest:
-            type: object
-            properties: {}
         Status:
             type: object
             properties:
@@ -143,43 +81,5 @@ components:
                         $ref: '#/components/schemas/GoogleProtobufAny'
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-        VerifyReceiptReply:
-            type: object
-            properties:
-                env:
-                    type: integer
-                    format: int32
-                platform:
-                    type: string
-                outTradNo:
-                    type: string
-                orderAmount:
-                    type: number
-                    format: double
-                quantity:
-                    type: integer
-                    format: int32
-                mode:
-                    type: string
-                orderId:
-                    type: string
-                title:
-                    type: string
-        VerifyReceiptRequest:
-            type: object
-            properties:
-                appId:
-                    type: integer
-                    format: int32
-                channelId:
-                    type: integer
-                    format: int32
-                purchaseId:
-                    type: integer
-                    format: int32
-                userId:
-                    type: string
-                orderId:
-                    type: string
 tags:
-    - name: Apple
+    - name: Lottery
