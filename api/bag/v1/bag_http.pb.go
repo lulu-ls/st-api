@@ -19,11 +19,14 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationBagBagCategoryList = "/api.bag.v1.Bag/BagCategoryList"
 const OperationBagListEmoji = "/api.bag.v1.Bag/ListEmoji"
 const OperationBagListItem = "/api.bag.v1.Bag/ListItem"
 const OperationBagUseItem = "/api.bag.v1.Bag/UseItem"
 
 type BagHTTPServer interface {
+	// BagCategoryList 背包分类查询接口
+	BagCategoryList(context.Context, *BagCategoryListRequest) (*BagCategoryListReply, error)
 	// ListEmoji 表情列表
 	ListEmoji(context.Context, *ListEmojiRequest) (*ListEmojiReply, error)
 	// ListItem 背包道具列表
@@ -36,6 +39,7 @@ type BagHTTPServer interface {
 func RegisterBagHTTPServer(s *http.Server, srv BagHTTPServer) {
 	r := s.Route("/")
 	r.POST("/st-games/v1/bag/item/list", _Bag_ListItem0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/bag/category/list", _Bag_BagCategoryList0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/bag/emoji/list", _Bag_ListEmoji0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/bag/item/use", _Bag_UseItem0_HTTP_Handler(srv))
 }
@@ -58,6 +62,28 @@ func _Bag_ListItem0_HTTP_Handler(srv BagHTTPServer) func(ctx http.Context) error
 			return err
 		}
 		reply := out.(*ItemListReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Bag_BagCategoryList0_HTTP_Handler(srv BagHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in BagCategoryListRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationBagBagCategoryList)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.BagCategoryList(ctx, req.(*BagCategoryListRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*BagCategoryListReply)
 		return ctx.Result(200, reply)
 	}
 }
@@ -107,6 +133,7 @@ func _Bag_UseItem0_HTTP_Handler(srv BagHTTPServer) func(ctx http.Context) error 
 }
 
 type BagHTTPClient interface {
+	BagCategoryList(ctx context.Context, req *BagCategoryListRequest, opts ...http.CallOption) (rsp *BagCategoryListReply, err error)
 	ListEmoji(ctx context.Context, req *ListEmojiRequest, opts ...http.CallOption) (rsp *ListEmojiReply, err error)
 	ListItem(ctx context.Context, req *ItemListRequest, opts ...http.CallOption) (rsp *ItemListReply, err error)
 	UseItem(ctx context.Context, req *UseItemRequest, opts ...http.CallOption) (rsp *UseItemReply, err error)
@@ -118,6 +145,19 @@ type BagHTTPClientImpl struct {
 
 func NewBagHTTPClient(client *http.Client) BagHTTPClient {
 	return &BagHTTPClientImpl{client}
+}
+
+func (c *BagHTTPClientImpl) BagCategoryList(ctx context.Context, in *BagCategoryListRequest, opts ...http.CallOption) (*BagCategoryListReply, error) {
+	var out BagCategoryListReply
+	pattern := "/st-games/v1/bag/category/list"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationBagBagCategoryList))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
 }
 
 func (c *BagHTTPClientImpl) ListEmoji(ctx context.Context, in *ListEmojiRequest, opts ...http.CallOption) (*ListEmojiReply, error) {
