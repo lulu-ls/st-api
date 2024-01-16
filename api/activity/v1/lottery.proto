@@ -29,7 +29,7 @@ message DrawRequest {
 	int64 user_id = 5; // 用户 id
 }
 message DrawReply {
-	int64 item_id = 2;
+	int32 item_id = 2;
 	int32 quantity = 4; // 购买数量
 }
 
