@@ -29,7 +29,11 @@ message DrawRequest {
 	int64 user_id = 5; // 用户 id
 }
 message DrawReply {
-	int32 item_id = 2;
+	repeated DrawItem list = 1; // 列表
+	int32 total = 2; // 数量
+}
+message DrawItem {
+	int32 item_id = 2; // 道具 id
 	int32 quantity = 4; // 购买数量
 }
 
