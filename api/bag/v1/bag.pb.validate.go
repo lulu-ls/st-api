@@ -90,6 +90,8 @@ func (m *ItemListRequest) validate(all bool) error {
 
 	// no validation rules for UserId
 
+	// no validation rules for Category
+
 	if len(errors) > 0 {
 		return ItemListRequestMultiError(errors)
 	}
@@ -341,6 +343,8 @@ func (m *ListItem) validate(all bool) error {
 	// no validation rules for MaxStack
 
 	// no validation rules for Total
+
+	// no validation rules for LootPoolId
 
 	if all {
 		switch v := interface{}(m.GetWare()).(type) {
@@ -707,6 +711,358 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = VoucherValidationError{}
+
+// Validate checks the field values on BagCategoryListRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *BagCategoryListRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on BagCategoryListRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// BagCategoryListRequestMultiError, or nil if none found.
+func (m *BagCategoryListRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *BagCategoryListRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
+
+	// no validation rules for UserId
+
+	if len(errors) > 0 {
+		return BagCategoryListRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// BagCategoryListRequestMultiError is an error wrapping multiple validation
+// errors returned by BagCategoryListRequest.ValidateAll() if the designated
+// constraints aren't met.
+type BagCategoryListRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m BagCategoryListRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m BagCategoryListRequestMultiError) AllErrors() []error { return m }
+
+// BagCategoryListRequestValidationError is the validation error returned by
+// BagCategoryListRequest.Validate if the designated constraints aren't met.
+type BagCategoryListRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e BagCategoryListRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e BagCategoryListRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e BagCategoryListRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e BagCategoryListRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e BagCategoryListRequestValidationError) ErrorName() string {
+	return "BagCategoryListRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e BagCategoryListRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sBagCategoryListRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = BagCategoryListRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = BagCategoryListRequestValidationError{}
+
+// Validate checks the field values on BagCategoryListReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *BagCategoryListReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on BagCategoryListReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// BagCategoryListReplyMultiError, or nil if none found.
+func (m *BagCategoryListReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *BagCategoryListReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetList() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, BagCategoryListReplyValidationError{
+						field:  fmt.Sprintf("List[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, BagCategoryListReplyValidationError{
+						field:  fmt.Sprintf("List[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return BagCategoryListReplyValidationError{
+					field:  fmt.Sprintf("List[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for Total
+
+	if len(errors) > 0 {
+		return BagCategoryListReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// BagCategoryListReplyMultiError is an error wrapping multiple validation
+// errors returned by BagCategoryListReply.ValidateAll() if the designated
+// constraints aren't met.
+type BagCategoryListReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m BagCategoryListReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m BagCategoryListReplyMultiError) AllErrors() []error { return m }
+
+// BagCategoryListReplyValidationError is the validation error returned by
+// BagCategoryListReply.Validate if the designated constraints aren't met.
+type BagCategoryListReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e BagCategoryListReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e BagCategoryListReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e BagCategoryListReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e BagCategoryListReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e BagCategoryListReplyValidationError) ErrorName() string {
+	return "BagCategoryListReplyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e BagCategoryListReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sBagCategoryListReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = BagCategoryListReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = BagCategoryListReplyValidationError{}
+
+// Validate checks the field values on BagCategoryListItem with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *BagCategoryListItem) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on BagCategoryListItem with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// BagCategoryListItemMultiError, or nil if none found.
+func (m *BagCategoryListItem) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *BagCategoryListItem) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Category
+
+	// no validation rules for Name
+
+	if len(errors) > 0 {
+		return BagCategoryListItemMultiError(errors)
+	}
+
+	return nil
+}
+
+// BagCategoryListItemMultiError is an error wrapping multiple validation
+// errors returned by BagCategoryListItem.ValidateAll() if the designated
+// constraints aren't met.
+type BagCategoryListItemMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m BagCategoryListItemMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m BagCategoryListItemMultiError) AllErrors() []error { return m }
+
+// BagCategoryListItemValidationError is the validation error returned by
+// BagCategoryListItem.Validate if the designated constraints aren't met.
+type BagCategoryListItemValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e BagCategoryListItemValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e BagCategoryListItemValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e BagCategoryListItemValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e BagCategoryListItemValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e BagCategoryListItemValidationError) ErrorName() string {
+	return "BagCategoryListItemValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e BagCategoryListItemValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sBagCategoryListItem.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = BagCategoryListItemValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = BagCategoryListItemValidationError{}
 
 // Validate checks the field values on ListEmojiRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the

@@ -19,6 +19,14 @@ service Bag {
 		};
 	};
 
+	// 背包分类查询接口
+	rpc BagCategoryList (BagCategoryListRequest) returns (BagCategoryListReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/bag/category/list",
+			body: "*",
+		};
+	};
+
 	// 表情列表
 	rpc ListEmoji(ListEmojiRequest) returns (ListEmojiReply) {
 		option (google.api.http) = {
@@ -36,10 +44,18 @@ service Bag {
 	};
 }
 
+// 背包查询类型 0 全部 1 道具 2兑换券
+enum BagCategory {
+	ALL = 0;
+	ITEM = 1;
+	COUPON = 2;
+}
+
 message ItemListRequest {
 	common.v1.Paginate page = 1;
 	int32 app_id = 2; //  [(validate.rules).int32 = {gt: 0}]
 	int64 user_id = 3; // 用户 id
+	BagCategory category = 4; // 背包分类
 }
 
 message ItemListReply {
@@ -55,6 +71,7 @@ message ListItem {
 	string image = 6; // 道具图片
 	int32 max_stack = 7; // 最大叠加
 	int32 total = 8; // 道具数量
+	int32 loot_pool_id = 9; // 宝箱配置 id
 	Exchange ware = 10; // 商品
 	Voucher voucher = 11; // 优惠券
 }
@@ -78,6 +95,20 @@ message Voucher {
 	int64 start = 5; // 开始时间
 	int64 end = 6; // 结束时间
 	string instruction = 7; // 描述
+}
+
+message BagCategoryListRequest {
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	int64 user_id = 3; // 用户 id
+}
+message BagCategoryListReply {
+	repeated BagCategoryListItem list = 1; // 列表
+	int32 total = 2; // 数量
+}
+message BagCategoryListItem {
+	BagCategory category = 1; // 背包分类
+	string name = 2; // 名称
 }
 
 message ListEmojiRequest {

@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Bag_ListItem_FullMethodName  = "/api.bag.v1.Bag/ListItem"
-	Bag_ListEmoji_FullMethodName = "/api.bag.v1.Bag/ListEmoji"
-	Bag_UseItem_FullMethodName   = "/api.bag.v1.Bag/UseItem"
+	Bag_ListItem_FullMethodName        = "/api.bag.v1.Bag/ListItem"
+	Bag_BagCategoryList_FullMethodName = "/api.bag.v1.Bag/BagCategoryList"
+	Bag_ListEmoji_FullMethodName       = "/api.bag.v1.Bag/ListEmoji"
+	Bag_UseItem_FullMethodName         = "/api.bag.v1.Bag/UseItem"
 )
 
 // BagClient is the client API for Bag service.
@@ -30,6 +31,8 @@ const (
 type BagClient interface {
 	// 背包道具列表
 	ListItem(ctx context.Context, in *ItemListRequest, opts ...grpc.CallOption) (*ItemListReply, error)
+	// 背包分类查询接口
+	BagCategoryList(ctx context.Context, in *BagCategoryListRequest, opts ...grpc.CallOption) (*BagCategoryListReply, error)
 	// 表情列表
 	ListEmoji(ctx context.Context, in *ListEmojiRequest, opts ...grpc.CallOption) (*ListEmojiReply, error)
 	// 使用道具
@@ -47,6 +50,15 @@ func NewBagClient(cc grpc.ClientConnInterface) BagClient {
 func (c *bagClient) ListItem(ctx context.Context, in *ItemListRequest, opts ...grpc.CallOption) (*ItemListReply, error) {
 	out := new(ItemListReply)
 	err := c.cc.Invoke(ctx, Bag_ListItem_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bagClient) BagCategoryList(ctx context.Context, in *BagCategoryListRequest, opts ...grpc.CallOption) (*BagCategoryListReply, error) {
+	out := new(BagCategoryListReply)
+	err := c.cc.Invoke(ctx, Bag_BagCategoryList_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -77,6 +89,8 @@ func (c *bagClient) UseItem(ctx context.Context, in *UseItemRequest, opts ...grp
 type BagServer interface {
 	// 背包道具列表
 	ListItem(context.Context, *ItemListRequest) (*ItemListReply, error)
+	// 背包分类查询接口
+	BagCategoryList(context.Context, *BagCategoryListRequest) (*BagCategoryListReply, error)
 	// 表情列表
 	ListEmoji(context.Context, *ListEmojiRequest) (*ListEmojiReply, error)
 	// 使用道具
@@ -90,6 +104,9 @@ type UnimplementedBagServer struct {
 
 func (UnimplementedBagServer) ListItem(context.Context, *ItemListRequest) (*ItemListReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListItem not implemented")
+}
+func (UnimplementedBagServer) BagCategoryList(context.Context, *BagCategoryListRequest) (*BagCategoryListReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BagCategoryList not implemented")
 }
 func (UnimplementedBagServer) ListEmoji(context.Context, *ListEmojiRequest) (*ListEmojiReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListEmoji not implemented")
@@ -124,6 +141,24 @@ func _Bag_ListItem_Handler(srv interface{}, ctx context.Context, dec func(interf
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BagServer).ListItem(ctx, req.(*ItemListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Bag_BagCategoryList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BagCategoryListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BagServer).BagCategoryList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Bag_BagCategoryList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BagServer).BagCategoryList(ctx, req.(*BagCategoryListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -174,6 +209,10 @@ var Bag_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListItem",
 			Handler:    _Bag_ListItem_Handler,
+		},
+		{
+			MethodName: "BagCategoryList",
+			Handler:    _Bag_BagCategoryList_Handler,
 		},
 		{
 			MethodName: "ListEmoji",
