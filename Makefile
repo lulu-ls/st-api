@@ -50,6 +50,7 @@ wx:
 	cd api && kratos proto client ./wx/v1/deal.proto
 	cd api && kratos proto client ./wx/v1/deal_error.proto
 	cd api && kratos proto client ./wx/v1/message.proto
+	cd api && kratos proto client ./wx/v1/template.proto
 
 .PHONY: init
 # init env

@@ -1067,16 +1067,9 @@ func (m *ExchangeMatterRequest) validate(all bool) error {
 
 	// no validation rules for UserId
 
-	if m.GetItemExchangeWareId() <= 0 {
-		err := ExchangeMatterRequestValidationError{
-			field:  "ItemExchangeWareId",
-			reason: "value must be greater than 0",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for ItemId
+
+	// no validation rules for ItemExchangeWareId
 
 	if !_ExchangeMatterRequest_Phone_Pattern.MatchString(m.GetPhone()) {
 		err := ExchangeMatterRequestValidationError{

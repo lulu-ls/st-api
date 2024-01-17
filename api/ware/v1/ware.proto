@@ -171,7 +171,8 @@ message ExchangeMatterRequest {
 	int32 app_id = 1; // app id
 	int32 channel_id = 2; // channel id
 	int64 user_id = 3; // 用户 id
-	int32 item_exchange_ware_id = 4 [(validate.rules).int32 = {gt: 0}]; // 商品 id
+	int32 item_id = 5; // 道具 id
+	int32 item_exchange_ware_id = 4; // 商品 id  [(validate.rules).int32 = {gt: 0}]
 	string phone = 6 [(validate.rules).string = {pattern: "^1[3-9]\\d{9}$"}]; // 手机号
 	string name = 7 [(validate.rules).string = {min_len: 2}]; // 姓名
 	string address = 8 [(validate.rules).string = {min_len: 2}]; // 地址
