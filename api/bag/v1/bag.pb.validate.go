@@ -346,6 +346,12 @@ func (m *ListItem) validate(all bool) error {
 
 	// no validation rules for LootPoolId
 
+	// no validation rules for GameType
+
+	// no validation rules for GameCategoryId
+
+	// no validation rules for GameSeriesId
+
 	if all {
 		switch v := interface{}(m.GetWare()).(type) {
 		case interface{ ValidateAll() error }:

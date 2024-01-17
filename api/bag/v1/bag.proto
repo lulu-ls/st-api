@@ -65,15 +65,18 @@ message ItemListReply {
 message ListItem {
 	int32 item_id = 1; // 道具 id
 	int32 item_category_id = 2; // 分类
-	int32 item_func_id = 3; // 1 虚拟兑换 2 实物兑换 5 兑换券
+	int32 item_func_id = 3; // 1 虚拟兑换 2 实物兑换 5 兑换券 7 跳转场景
 	string name = 4; // 名称
 	string title = 5; // 标题
 	string image = 6; // 道具图片
 	int32 max_stack = 7; // 最大叠加
 	int32 total = 8; // 道具数量
 	int32 loot_pool_id = 9; // 宝箱配置 id
-	Exchange ware = 10; // 商品
-	Voucher voucher = 11; // 优惠券
+	int32 game_type = 10; // 游戏类型 挖坑 斗地主
+	int32 game_category_id = 11; // 跳转地址 1：自由场 2：竞技场 3：好友房
+	int32 game_series_id = 12; // 侧边栏 id
+	Exchange ware = 13; // 商品
+	Voucher voucher = 14; // 优惠券
 }
 message Exchange {
 	int32 item_exchange_ware_id = 9; // 兑换配置 id
