@@ -4,7 +4,7 @@ package api.user.v1;
 
 import "google/api/annotations.proto";
 import "common/v1/common.proto";
-//import "validate/validate.proto";
+import "validate/validate.proto";
 
 option go_package = "github.com/lulu-ls/st-api/api/user/v1;v1";
 option java_multiple_files = true;
@@ -34,6 +34,37 @@ service User {
 			body: "*",
 		};
 	};
+
+	// 消息通知
+	rpc NotifyState (NotifyStateRequest) returns (NotifyStateReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/user/notify/state",
+			body: "*",
+		};
+	};
+
+	// 检查用户是否需要推送消息
+	rpc NotifyCheck(NotifyCheckRequest) returns (NotifyCheckReply) ;
+
+}
+
+// 通知状态类型
+enum NotifyState {
+	close = 0; // 关闭通知
+	open = 1; // 开启通知
+}
+
+// 通知次数
+enum NotifyTimes {
+	once = 0; // 仅仅通知一次
+	ever = 1; // 永远
+}
+
+// 通知类型
+enum NotifyType {
+	race_start = 0; // 已报名比赛 赛事开始
+	appoint_race = 1; // 指定赛事开启
+	appoint_activity = 2; // 指定活动上线
 }
 
 message RaceRecordListRequest {
@@ -83,4 +114,27 @@ message AssetGetReply {
 	int32 diamond = 2; // 钻石数量
 	int32 ticket = 3; // 唐卡数量
 	int32 card_counter = 4; // 记牌器数量
+}
+
+message NotifyStateRequest {
+	int64 user_id = 1; // 用户 id
+	int32 appId = 2; // 渠道 id
+	int32 channelId = 3; // 渠道 id
+  NotifyState state = 4; // 状态 0:关闭 1:开启
+	NotifyTimes times = 5; // 类型 0:一次 1:永久
+//	NotifyType type = 6; // 类型 0: 赛事开始
+//	int32 id = 7; // 如果是一次 则需要传赛事 id game_config_id
+}
+message NotifyStateReply {
+
+}
+message NotifyCheckRequest {
+	repeated int64 user_ids = 1; // 用户 id [(validate.rules).repeated = {min_items: 1, items: {int64: {gt: 0}}}]
+	int32 appId = 2; // 渠道 id
+	int32 channelId = 3; // 渠道 id
+	NotifyType type = 4; // 类型 0: 赛事开始
+//	int32 id = 5; // 如果是一次 则需要传赛事 id game_config_id
+}
+message NotifyCheckReply {
+	repeated string open_ids = 1; // 可以发送微信消息的 open id
 }

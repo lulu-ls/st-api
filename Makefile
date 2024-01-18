@@ -42,6 +42,7 @@ ticket:
 	cd api && kratos proto client ./ticket/v1/ticket.proto
 user:
 	cd api && kratos proto client ./user/v1/user.proto
+	cd api && kratos proto client ./user/v1/user_error.proto
 ware:
 	cd api && kratos proto client ./ware/v1/ware.proto
 	cd api && kratos proto client ./ware/v1/ware_error.proto

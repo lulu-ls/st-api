@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package api.wx.v1;
+
+import "google/protobuf/any.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/lulu-ls/st-api/api/wx/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.wx.v1";
+
+service Template {
+	rpc Send (SendMsgRequest) returns (SendMsgReply);
+}
+
+// mini program_state 跳转小程序类型：developer为开发版；trial为体验版；formal为正式版；默认为正式版
+enum ProgramState {
+		_ = 0;
+		developer = 1;
+		trial = 2;
+		formal = 3;
+}
+
+message SendMsgRequest {
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	repeated string open_id = 3 [(validate.rules).repeated = {min_items: 1, items: {string: {min_len: 1}}}]; // 用户 id
+	ProgramState program_stage = 4; // 跳转小程序类型
+	string template_id = 5 [(validate.rules).string.min_len = 1]; // 模板 id
+	google.protobuf.Any data = 6; // 数据
+	string page = 7; // 跳转地址
+}
+message SendMsgReply {}
+
+message RaceStartMsg {
+	MsgValue thing1 = 1;
+	MsgValue thing2 = 2;
+	MsgValue date3 = 3;
+}
+
+message MsgValue{
+	string value = 1;
+}
+
+message CommonMsg {
+	string access_token = 1; // 访问令牌
+	string touser = 2; // 用户
+	string template_id = 3; // 模板id
+	string page = 5; // 跳转页面
+	string miniprogram_state = 6; // 环境
+	google.protobuf.Any data = 7; // 数据
+}
