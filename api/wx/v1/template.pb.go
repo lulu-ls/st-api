@@ -213,9 +213,9 @@ type RaceStartMsg struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Thing1 *MsgValue `protobuf:"bytes,1,opt,name=thing1,proto3" json:"thing1,omitempty"`
-	Thing2 *MsgValue `protobuf:"bytes,2,opt,name=thing2,proto3" json:"thing2,omitempty"`
-	Date3  *MsgValue `protobuf:"bytes,3,opt,name=date3,proto3" json:"date3,omitempty"`
+	Thing1 *MsgValue `protobuf:"bytes,1,opt,name=thing1,proto3" json:"thing1,omitempty"` // 赛事名称
+	Thing2 *MsgValue `protobuf:"bytes,2,opt,name=thing2,proto3" json:"thing2,omitempty"` // 赛事奖励 目前只取领奖台第一名
+	Date3  *MsgValue `protobuf:"bytes,3,opt,name=date3,proto3" json:"date3,omitempty"`   // 赛事开始时间
 }
 
 func (x *RaceStartMsg) Reset() {

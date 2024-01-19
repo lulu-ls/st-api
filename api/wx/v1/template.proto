@@ -33,9 +33,9 @@ message SendMsgRequest {
 message SendMsgReply {}
 
 message RaceStartMsg {
-	MsgValue thing1 = 1;
-	MsgValue thing2 = 2;
-	MsgValue date3 = 3;
+	MsgValue thing1 = 1; // 赛事名称
+	MsgValue thing2 = 2; // 赛事奖励 目前只取领奖台第一名
+	MsgValue date3 = 3; // 赛事开始时间
 }
 
 message MsgValue{
