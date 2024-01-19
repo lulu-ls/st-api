@@ -112,8 +112,9 @@ message GameSeriesBindUserRequest {
 message GameSeriesBindUserReply {
 }
 message RaceTypeRequest {
-  int32 app_id = 2;
-  int32 home_show = 4;
+  int32 app_id = 1;
+  int32 home_show = 2;
+  int32 game_type_id = 3; // 游戏类型 1: 挖坑 2: 斗地主
 }
 message RaceTypeReply {
   repeated RaceTypeItem list = 1;

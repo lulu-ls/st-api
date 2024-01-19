@@ -17,7 +17,7 @@ enum ErrorReason {
   USER_NOT_FOUND = 0 [(errors.code) = 404];
   CONTENT_MISSING = 1 [(errors.code) = 400];
   TOKEN_VERIFY = 2 [(errors.code) = 401];
-  SESSION_KEY_INVALID = 3 [(errors.code) = 499]; // session key 过期
+  SESSION_KEY_INVALID = 3 [(errors.code) = 401]; // session key 过期
 
 
   AUTH_CHANNEL_APPID_IS_REQUIRED = 10 [(errors.code) = 400];

@@ -57,6 +57,8 @@ func (m *FreeTypeRequest) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for GameTypeId
+
 	// no validation rules for AppId
 
 	if len(errors) > 0 {

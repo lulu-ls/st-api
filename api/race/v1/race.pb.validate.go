@@ -271,6 +271,8 @@ func (m *RaceTypeRequest) validate(all bool) error {
 
 	// no validation rules for HomeShow
 
+	// no validation rules for GameTypeId
+
 	if len(errors) > 0 {
 		return RaceTypeRequestMultiError(errors)
 	}
