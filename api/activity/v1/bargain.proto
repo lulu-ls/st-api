@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+package api.activity.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/lulu-ls/st-api/api/activity/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.activity.v1";
+
+service Bargain {
+	// 查询进度接口
+	rpc GetBargain (GetBargainRequest) returns (GetBargainReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/activity/bargain/detail",
+			body: "*",
+		};
+	};
+
+	// 点击气泡，领取进度接口
+	rpc GetProcess (GetProcessRequest) returns (GetProcessReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/activity/bargain/receive",
+			body: "*",
+		};
+	};
+
+	// 好友助力接口
+	rpc GrantAward (GrantAwardRequest) returns (GrantAwardReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/activity/bargain/grant",
+			body: "*",
+		};
+	};
+}
+
+// 奖励领取状态 0：未领取 1：已领取
+enum BargainStatus {
+	UnReceive = 0;
+	Received = 1;
+}
+
+// History 记录状态 0：未发放 1：已发放
+enum BargainHistoryStatus {
+	UnReceive_h = 0;
+	Received_h = 1;
+}
+
+message GetBargainRequest {
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	int64 user_id = 3; // 用户 id
+}
+message GetBargainReply {
+	int64 bargain_id = 1; // 个人助力 id
+	string name = 2; // 名称
+	string image = 3; // 图片
+	double process = 4; // 进度
+	BargainStatus status = 5; // 领奖状态 0 未领取 1 已领取
+	repeated HistoryItem history_list = 6; // 历史记录
+	repeated BubbleItem bubble_list = 7; // 气泡列表
+}
+message BubbleItem {
+	int64 id = 1; // id
+	string nickname = 2; // 昵称
+	string avatar = 3; // 头像
+}
+message HistoryItem {
+	int64 id = 1; // 历史记录 id
+	string nickname = 2; // 昵称
+	string text = 3; // 您的好友“嗷嗷”通过您的分享卡进行了助力！
+}
+
+message GetProcessRequest {
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	int64 user_id = 3; // 用户 id
+	int64 id = 4; // 气泡 id
+}
+message GetProcessReply {
+	string nickname = 1; // 昵称
+	string avatar = 2; // 头像
+	int64 process = 3; // 所领取的进度
+}
+
+message GrantAwardRequest {
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	int64 user_id = 3; // 用户 id
+	int64 bargain_id = 4; // 个人助力 id
+}
+message GrantAwardReply {
+	repeated GrantAwardItem list = 1; // 奖励
+}
+message GrantAwardItem {
+	int32 item_id = 1; // 道具 id
+	string name = 2; // 道具 名称
+	string image = 3; // 道具 图片
+}
