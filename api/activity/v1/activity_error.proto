@@ -15,5 +15,6 @@ enum ErrorReason {
 
   // 为某个枚举单独设置错误码
   LOOT_POOL_NIL= 0 [(errors.code) = 410];
+  BARGAIN_SERVER_ERR = 1 [(errors.code) = 410];
 
 }

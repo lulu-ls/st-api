@@ -24,3 +24,15 @@ func IsLootPoolNil(err error) bool {
 func ErrorLootPoolNil(format string, args ...interface{}) *errors.Error {
 	return errors.New(410, ErrorReason_LOOT_POOL_NIL.String(), fmt.Sprintf(format, args...))
 }
+
+func IsBargainServerErr(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_BARGAIN_SERVER_ERR.String() && e.Code == 410
+}
+
+func ErrorBargainServerErr(format string, args ...interface{}) *errors.Error {
+	return errors.New(410, ErrorReason_BARGAIN_SERVER_ERR.String(), fmt.Sprintf(format, args...))
+}

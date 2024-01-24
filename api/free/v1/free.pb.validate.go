@@ -57,9 +57,9 @@ func (m *FreeTypeRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for GameTypeId
-
 	// no validation rules for AppId
+
+	// no validation rules for GameTypeId
 
 	if len(errors) > 0 {
 		return FreeTypeRequestMultiError(errors)
@@ -682,6 +682,8 @@ func (m *FreeListItem) validate(all bool) error {
 	// no validation rules for BaseScore
 
 	// no validation rules for PeopleNo
+
+	// no validation rules for Bomb
 
 	if len(errors) > 0 {
 		return FreeListItemMultiError(errors)

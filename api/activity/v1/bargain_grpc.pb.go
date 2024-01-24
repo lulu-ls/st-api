@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v4.25.1
-// source: api/activity/v1/bargain.proto
+// source: activity/v1/bargain.proto
 
 package v1
 
@@ -185,5 +185,5 @@ var Bargain_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/activity/v1/bargain.proto",
+	Metadata: "activity/v1/bargain.proto",
 }

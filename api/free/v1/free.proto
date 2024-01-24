@@ -77,6 +77,7 @@ message FreeListItem {
 	int32 robot = 18; // 是否是机器人
 	int32 base_score = 19; // 底分
 	int32 people_no = 20; // 当前人数
+	bool bomb = 21; // 是否带炸弹
 }
 
 message FreeSignupRequest {

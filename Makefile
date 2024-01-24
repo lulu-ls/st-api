@@ -3,6 +3,7 @@
 activity:
 	cd api && kratos proto client ./activity/v1/lottery.proto
 	cd api && kratos proto client ./activity/v1/activity_error.proto
+	cd api && kratos proto client ./activity/v1/bargain.proto
 apple:
 	cd api && kratos proto client ./apple/v1/apple.proto
 auth:
