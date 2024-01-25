@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-http v2.7.1
 // - protoc             v4.25.1
-// source: activity/v1/bargain.proto
+// source: api/activity/v1/bargain.proto
 
 package v1
 
@@ -22,20 +22,24 @@ const _ = http.SupportPackageIsVersion1
 const OperationBargainGetBargain = "/api.activity.v1.Bargain/GetBargain"
 const OperationBargainGetProcess = "/api.activity.v1.Bargain/GetProcess"
 const OperationBargainGrantAward = "/api.activity.v1.Bargain/GrantAward"
+const OperationBargainIncreaseProcess = "/api.activity.v1.Bargain/IncreaseProcess"
 
 type BargainHTTPServer interface {
 	// GetBargain 查询进度接口
 	GetBargain(context.Context, *GetBargainRequest) (*GetBargainReply, error)
 	// GetProcess 点击气泡，领取进度接口
 	GetProcess(context.Context, *GetProcessRequest) (*GetProcessReply, error)
-	// GrantAward 好友助力接口
+	// GrantAward 发放奖励
 	GrantAward(context.Context, *GrantAwardRequest) (*GrantAwardReply, error)
+	// IncreaseProcess 好友助力接口
+	IncreaseProcess(context.Context, *IncreaseProcessRequest) (*IncreaseProcessReply, error)
 }
 
 func RegisterBargainHTTPServer(s *http.Server, srv BargainHTTPServer) {
 	r := s.Route("/")
 	r.POST("/st-games/v1/activity/bargain/detail", _Bargain_GetBargain0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/activity/bargain/receive", _Bargain_GetProcess0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/activity/bargain/process", _Bargain_IncreaseProcess0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/activity/bargain/grant", _Bargain_GrantAward0_HTTP_Handler(srv))
 }
 
@@ -83,6 +87,28 @@ func _Bargain_GetProcess0_HTTP_Handler(srv BargainHTTPServer) func(ctx http.Cont
 	}
 }
 
+func _Bargain_IncreaseProcess0_HTTP_Handler(srv BargainHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in IncreaseProcessRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationBargainIncreaseProcess)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.IncreaseProcess(ctx, req.(*IncreaseProcessRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*IncreaseProcessReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 func _Bargain_GrantAward0_HTTP_Handler(srv BargainHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in GrantAwardRequest
@@ -109,6 +135,7 @@ type BargainHTTPClient interface {
 	GetBargain(ctx context.Context, req *GetBargainRequest, opts ...http.CallOption) (rsp *GetBargainReply, err error)
 	GetProcess(ctx context.Context, req *GetProcessRequest, opts ...http.CallOption) (rsp *GetProcessReply, err error)
 	GrantAward(ctx context.Context, req *GrantAwardRequest, opts ...http.CallOption) (rsp *GrantAwardReply, err error)
+	IncreaseProcess(ctx context.Context, req *IncreaseProcessRequest, opts ...http.CallOption) (rsp *IncreaseProcessReply, err error)
 }
 
 type BargainHTTPClientImpl struct {
@@ -150,6 +177,19 @@ func (c *BargainHTTPClientImpl) GrantAward(ctx context.Context, in *GrantAwardRe
 	pattern := "/st-games/v1/activity/bargain/grant"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationBargainGrantAward))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *BargainHTTPClientImpl) IncreaseProcess(ctx context.Context, in *IncreaseProcessRequest, opts ...http.CallOption) (*IncreaseProcessReply, error) {
+	var out IncreaseProcessReply
+	pattern := "/st-games/v1/activity/bargain/process"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationBargainIncreaseProcess))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

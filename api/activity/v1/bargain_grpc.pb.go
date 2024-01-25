@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v4.25.1
-// source: activity/v1/bargain.proto
+// source: api/activity/v1/bargain.proto
 
 package v1
 
@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Bargain_GetBargain_FullMethodName = "/api.activity.v1.Bargain/GetBargain"
-	Bargain_GetProcess_FullMethodName = "/api.activity.v1.Bargain/GetProcess"
-	Bargain_GrantAward_FullMethodName = "/api.activity.v1.Bargain/GrantAward"
+	Bargain_GetBargain_FullMethodName      = "/api.activity.v1.Bargain/GetBargain"
+	Bargain_GetProcess_FullMethodName      = "/api.activity.v1.Bargain/GetProcess"
+	Bargain_IncreaseProcess_FullMethodName = "/api.activity.v1.Bargain/IncreaseProcess"
+	Bargain_GrantAward_FullMethodName      = "/api.activity.v1.Bargain/GrantAward"
 )
 
 // BargainClient is the client API for Bargain service.
@@ -33,6 +34,8 @@ type BargainClient interface {
 	// 点击气泡，领取进度接口
 	GetProcess(ctx context.Context, in *GetProcessRequest, opts ...grpc.CallOption) (*GetProcessReply, error)
 	// 好友助力接口
+	IncreaseProcess(ctx context.Context, in *IncreaseProcessRequest, opts ...grpc.CallOption) (*IncreaseProcessReply, error)
+	// 发放奖励
 	GrantAward(ctx context.Context, in *GrantAwardRequest, opts ...grpc.CallOption) (*GrantAwardReply, error)
 }
 
@@ -62,6 +65,15 @@ func (c *bargainClient) GetProcess(ctx context.Context, in *GetProcessRequest, o
 	return out, nil
 }
 
+func (c *bargainClient) IncreaseProcess(ctx context.Context, in *IncreaseProcessRequest, opts ...grpc.CallOption) (*IncreaseProcessReply, error) {
+	out := new(IncreaseProcessReply)
+	err := c.cc.Invoke(ctx, Bargain_IncreaseProcess_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *bargainClient) GrantAward(ctx context.Context, in *GrantAwardRequest, opts ...grpc.CallOption) (*GrantAwardReply, error) {
 	out := new(GrantAwardReply)
 	err := c.cc.Invoke(ctx, Bargain_GrantAward_FullMethodName, in, out, opts...)
@@ -80,6 +92,8 @@ type BargainServer interface {
 	// 点击气泡，领取进度接口
 	GetProcess(context.Context, *GetProcessRequest) (*GetProcessReply, error)
 	// 好友助力接口
+	IncreaseProcess(context.Context, *IncreaseProcessRequest) (*IncreaseProcessReply, error)
+	// 发放奖励
 	GrantAward(context.Context, *GrantAwardRequest) (*GrantAwardReply, error)
 	mustEmbedUnimplementedBargainServer()
 }
@@ -93,6 +107,9 @@ func (UnimplementedBargainServer) GetBargain(context.Context, *GetBargainRequest
 }
 func (UnimplementedBargainServer) GetProcess(context.Context, *GetProcessRequest) (*GetProcessReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProcess not implemented")
+}
+func (UnimplementedBargainServer) IncreaseProcess(context.Context, *IncreaseProcessRequest) (*IncreaseProcessReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IncreaseProcess not implemented")
 }
 func (UnimplementedBargainServer) GrantAward(context.Context, *GrantAwardRequest) (*GrantAwardReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GrantAward not implemented")
@@ -146,6 +163,24 @@ func _Bargain_GetProcess_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Bargain_IncreaseProcess_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IncreaseProcessRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BargainServer).IncreaseProcess(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Bargain_IncreaseProcess_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BargainServer).IncreaseProcess(ctx, req.(*IncreaseProcessRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Bargain_GrantAward_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GrantAwardRequest)
 	if err := dec(in); err != nil {
@@ -180,10 +215,14 @@ var Bargain_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Bargain_GetProcess_Handler,
 		},
 		{
+			MethodName: "IncreaseProcess",
+			Handler:    _Bargain_IncreaseProcess_Handler,
+		},
+		{
 			MethodName: "GrantAward",
 			Handler:    _Bargain_GrantAward_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "activity/v1/bargain.proto",
+	Metadata: "api/activity/v1/bargain.proto",
 }

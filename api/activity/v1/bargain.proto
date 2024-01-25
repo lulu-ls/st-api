@@ -3,6 +3,7 @@ syntax = "proto3";
 package api.activity.v1;
 
 import "google/api/annotations.proto";
+import "validate/validate.proto";
 
 option go_package = "github.com/lulu-ls/st-api/api/activity/v1;v1";
 option java_multiple_files = true;
@@ -26,6 +27,14 @@ service Bargain {
 	};
 
 	// 好友助力接口
+	rpc IncreaseProcess (IncreaseProcessRequest) returns (IncreaseProcessReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/activity/bargain/process",
+			body: "*",
+		};
+	};
+
+	// 发放奖励
 	rpc GrantAward (GrantAwardRequest) returns (GrantAwardReply) {
 		option (google.api.http) = {
 			post: "/st-games/v1/activity/bargain/grant",
@@ -40,11 +49,21 @@ enum BargainStatus {
 	Received = 1;
 }
 
+// 1: 看视频 2: 老用户点击 3：新用户点击
+enum BargainHistoryType {
+	_ = 0;
+	Video = 1;
+	OldUser = 2;
+	NewUser = 3;
+}
+
+
 // History 记录状态 0：未发放 1：已发放
 enum BargainHistoryStatus {
 	UnReceive_h = 0;
 	Received_h = 1;
 }
+
 
 message GetBargainRequest {
 	int32 app_id = 1; // app id
@@ -75,19 +94,30 @@ message GetProcessRequest {
 	int32 app_id = 1; // app id
 	int32 channel_id = 2; // channel id
 	int64 user_id = 3; // 用户 id
-	int64 id = 4; // 气泡 id
+	int64 id = 4 [(validate.rules).int64.gt =  0]; // 气泡 id
 }
 message GetProcessReply {
-	string nickname = 1; // 昵称
-	string avatar = 2; // 头像
-	int64 process = 3; // 所领取的进度
+	double add = 1; // 所领取的进度
+	double process = 2; // 总进度
+}
+
+message IncreaseProcessRequest {
+	int32 app_id = 1; // app id
+	int32 channel_id = 2; // channel id
+	int64 user_id = 3; // 用户 id
+	int64 bargain_id = 4 [(validate.rules).int64.gt =  0]; // 个人助力 id
+	BargainHistoryType type = 5 [(validate.rules).enum = {in: [1,2,3]}]; // 类型
+}
+message IncreaseProcessReply {
+	double add = 1; // 增加进度 仅看视频会返回
+	double process = 2; // 总进度
 }
 
 message GrantAwardRequest {
 	int32 app_id = 1; // app id
 	int32 channel_id = 2; // channel id
 	int64 user_id = 3; // 用户 id
-	int64 bargain_id = 4; // 个人助力 id
+	int64 bargain_id = 4 [(validate.rules).int64.gt =  0]; // 个人助力 id
 }
 message GrantAwardReply {
 	repeated GrantAwardItem list = 1; // 奖励
@@ -96,4 +126,5 @@ message GrantAwardItem {
 	int32 item_id = 1; // 道具 id
 	string name = 2; // 道具 名称
 	string image = 3; // 道具 图片
+	int32 quantity = 4; // 数量
 }
