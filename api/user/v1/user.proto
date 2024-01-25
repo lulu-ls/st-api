@@ -91,6 +91,8 @@ message RaceRecordListItem {
 	int32 lose = 11; // 失败场次
 	int64 enter_time = 12; // 开始时间
 	int64 leave_time = 13; // 离开时间
+	int32 game_type_id = 14; // 类型 1:挖坑  2:斗地主
+	string game_type_name = 15; // 类型名称
 }
 
 message InfoEditRequest {

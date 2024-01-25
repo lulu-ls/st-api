@@ -356,6 +356,10 @@ func (m *RaceRecordListItem) validate(all bool) error {
 
 	// no validation rules for LeaveTime
 
+	// no validation rules for GameTypeId
+
+	// no validation rules for GameTypeName
+
 	if len(errors) > 0 {
 		return RaceRecordListItemMultiError(errors)
 	}
