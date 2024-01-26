@@ -517,6 +517,8 @@ func (m *RaceTypeItem) validate(all bool) error {
 
 	// no validation rules for Image
 
+	// no validation rules for GameTypeId
+
 	if len(errors) > 0 {
 		return RaceTypeItemMultiError(errors)
 	}

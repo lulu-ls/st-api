@@ -125,6 +125,7 @@ message RaceTypeItem {
   string name = 2;
   int32 home_show = 3;
   string image = 4;
+  int32 game_type_id = 5; // 游戏类型 1: 挖坑 2: 斗地主
 }
 
 message RaceListRequest {
