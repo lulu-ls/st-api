@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package api.activity.v1;
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/lulu-ls/st-api/api/activity/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.activity.v1";
+
+service RedPacket {
+
+  // 获取配置
+  rpc GetShareConf (GetShareConfRequest) returns (GetShareConfReply) {
+    option (google.api.http) = {
+      post: "/st-games/v1/activity/red_packet/share_reward_config/detail",
+      body: "*",
+    };
+  };
+
+  // 分享 拆红包
+  rpc  RedPacketShare (RedPacketRequest) returns (RedPacketReply) {
+    option (google.api.http) = {
+      post: "/st-games/v1/activity/red_packet/share",
+      body: "*",
+    };
+  };
+  //领取奖励
+  rpc Receive (ReceiveRequest) returns (ReceiveReply) {
+    option (google.api.http) = {
+      post: "/st-games/v1/activity/red_packet/receive",
+      body: "*",
+    };
+  };
+
+}
+
+
+message ReceiveRequest {
+  int32  app_id = 1; // app id
+  int32  channel_id = 2; // channel id
+  int64  user_id = 3; // 用户 id
+  int64 red_packet_id = 4;
+}
+
+message ReceiveReply {
+  GetShareConfReply detail = 1;
+  string  number = 2;  //剩余可领取次数
+  repeated HistoryList history_list = 3; // 历史记录
+  repeated RewardItem list = 4; // 奖励
+}
+
+message HistoryList {
+  int64 id = 1; // 历史记录 id
+  string nickname = 2; // 昵称
+  string text = 3; // 您的好友“嗷嗷”通过您的分享卡进行了助力！
+}
+
+message RewardItem {
+  int32 item_id = 1; // 道具 id
+  string name = 2; // 道具 名称
+  string image = 3; // 道具 图片
+}
+
+message GetShareConfRequest {
+  int32 app_id = 1; // app id
+  int32 channel_id = 2; // channel id
+  int64 user_id = 3; // 用户 id
+  int64 type = 4; // 4
+}
+message GetShareConfReply {
+  int64 share_config_id = 1;
+  string title = 2;
+  string subtitle = 3;
+  string desc = 4;
+  string information = 5;
+  string image = 6;
+  int64 type = 7;
+}
+
+message RedPacketRequest {
+  int32 app_id = 1;
+  int32 channel_id = 2;
+  int64 user_id = 3;
+  int64 share_config_id = 4;
+}
+message RedPacketReply {
+  int64 red_packet_id = 1;
+}
