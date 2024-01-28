@@ -42,13 +42,15 @@ message ReceiveRequest {
   int32  channel_id = 2; // channel id
   int64  user_id = 3; // 用户 id
   int64 red_packet_id = 4;
+  int64 share_config_id = 5;
 }
 
 message ReceiveReply {
   GetShareConfReply detail = 1;
-  string  number = 2;  //剩余可领取次数
+  int32  number = 2;  //剩余可领取次数
   repeated HistoryList history_list = 3; // 历史记录
-  repeated RewardItem list = 4; // 奖励
+  repeated RewardItem reward_list = 4; // 奖励
+  string tips = 5; //提示语
 }
 
 message HistoryList {
@@ -59,8 +61,7 @@ message HistoryList {
 
 message RewardItem {
   int32 item_id = 1; // 道具 id
-  string name = 2; // 道具 名称
-  string image = 3; // 道具 图片
+  int32 quantity = 2;
 }
 
 message GetShareConfRequest {

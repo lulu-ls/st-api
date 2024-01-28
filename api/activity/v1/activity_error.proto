@@ -17,4 +17,5 @@ enum ErrorReason {
   LOOT_POOL_NIL= 0 [(errors.code) = 410];
   BARGAIN_SERVER_ERR = 1 [(errors.code) = 410];
 
+  RedPacket_SERVER_ERR = 2 [(errors.code) = 410];
 }

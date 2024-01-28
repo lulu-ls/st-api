@@ -36,3 +36,15 @@ func IsBargainServerErr(err error) bool {
 func ErrorBargainServerErr(format string, args ...interface{}) *errors.Error {
 	return errors.New(410, ErrorReason_BARGAIN_SERVER_ERR.String(), fmt.Sprintf(format, args...))
 }
+
+func IsRedPacketServerErr(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_RedPacket_SERVER_ERR.String() && e.Code == 410
+}
+
+func ErrorRedPacketServerErr(format string, args ...interface{}) *errors.Error {
+	return errors.New(410, ErrorReason_RedPacket_SERVER_ERR.String(), fmt.Sprintf(format, args...))
+}

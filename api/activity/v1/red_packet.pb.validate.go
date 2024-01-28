@@ -65,6 +65,8 @@ func (m *ReceiveRequest) validate(all bool) error {
 
 	// no validation rules for RedPacketId
 
+	// no validation rules for ShareConfigId
+
 	if len(errors) > 0 {
 		return ReceiveRequestMultiError(errors)
 	}
@@ -230,7 +232,7 @@ func (m *ReceiveReply) validate(all bool) error {
 
 	}
 
-	for idx, item := range m.GetList() {
+	for idx, item := range m.GetRewardList() {
 		_, _ = idx, item
 
 		if all {
@@ -238,7 +240,7 @@ func (m *ReceiveReply) validate(all bool) error {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, ReceiveReplyValidationError{
-						field:  fmt.Sprintf("List[%v]", idx),
+						field:  fmt.Sprintf("RewardList[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -246,7 +248,7 @@ func (m *ReceiveReply) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, ReceiveReplyValidationError{
-						field:  fmt.Sprintf("List[%v]", idx),
+						field:  fmt.Sprintf("RewardList[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -255,7 +257,7 @@ func (m *ReceiveReply) validate(all bool) error {
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return ReceiveReplyValidationError{
-					field:  fmt.Sprintf("List[%v]", idx),
+					field:  fmt.Sprintf("RewardList[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -263,6 +265,8 @@ func (m *ReceiveReply) validate(all bool) error {
 		}
 
 	}
+
+	// no validation rules for Tips
 
 	if len(errors) > 0 {
 		return ReceiveReplyMultiError(errors)
@@ -470,9 +474,7 @@ func (m *RewardItem) validate(all bool) error {
 
 	// no validation rules for ItemId
 
-	// no validation rules for Name
-
-	// no validation rules for Image
+	// no validation rules for Quantity
 
 	if len(errors) > 0 {
 		return RewardItemMultiError(errors)
