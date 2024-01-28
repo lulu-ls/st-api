@@ -909,6 +909,8 @@ func (m *RedPacketReply) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for ShareConfigId
+
 	// no validation rules for RedPacketId
 
 	if len(errors) > 0 {

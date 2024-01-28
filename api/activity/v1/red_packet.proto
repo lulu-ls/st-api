@@ -87,5 +87,6 @@ message RedPacketRequest {
   int64 share_config_id = 4;
 }
 message RedPacketReply {
-  int64 red_packet_id = 1;
+  int64 share_config_id = 1;
+  int64 red_packet_id = 2;
 }
