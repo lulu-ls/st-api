@@ -108,6 +108,11 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/HistoryList'
+                status:
+                    type: integer
+                    format: int32
+                isOpen:
+                    type: boolean
         GetShareConfRequest:
             type: object
             properties:

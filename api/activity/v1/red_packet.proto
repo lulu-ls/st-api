@@ -81,6 +81,8 @@ message GetShareConfReply {
   int64 red_packet_id = 8;
   string  date = 9;
   repeated HistoryList history_list = 10; // 历史记录
+  int32 status = 11;
+  bool is_open = 12;
 }
 
 message RedPacketRequest {

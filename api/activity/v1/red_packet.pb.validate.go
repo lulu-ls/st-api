@@ -737,6 +737,10 @@ func (m *GetShareConfReply) validate(all bool) error {
 
 	}
 
+	// no validation rules for Status
+
+	// no validation rules for IsOpen
+
 	if len(errors) > 0 {
 		return GetShareConfReplyMultiError(errors)
 	}
