@@ -699,6 +699,10 @@ func (m *GetShareConfReply) validate(all bool) error {
 
 	// no validation rules for Type
 
+	// no validation rules for RedPacketId
+
+	// no validation rules for Date
+
 	if len(errors) > 0 {
 		return GetShareConfReplyMultiError(errors)
 	}

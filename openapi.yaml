@@ -56,7 +56,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /st-games/v1/activity/red_packet/share_reward_config/detail:
+    /st-games/v1/activity/red_packet/share_config/detail:
         post:
             tags:
                 - RedPacket
@@ -99,6 +99,10 @@ components:
                 image:
                     type: string
                 type:
+                    type: string
+                redPacketId:
+                    type: string
+                date:
                     type: string
         GetShareConfRequest:
             type: object

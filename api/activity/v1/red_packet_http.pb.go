@@ -34,7 +34,7 @@ type RedPacketHTTPServer interface {
 
 func RegisterRedPacketHTTPServer(s *http.Server, srv RedPacketHTTPServer) {
 	r := s.Route("/")
-	r.POST("/st-games/v1/activity/red_packet/share_reward_config/detail", _RedPacket_GetShareConf0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/activity/red_packet/share_config/detail", _RedPacket_GetShareConf0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/activity/red_packet/share", _RedPacket_RedPacketShare0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/activity/red_packet/receive", _RedPacket_Receive0_HTTP_Handler(srv))
 }
@@ -121,7 +121,7 @@ func NewRedPacketHTTPClient(client *http.Client) RedPacketHTTPClient {
 
 func (c *RedPacketHTTPClientImpl) GetShareConf(ctx context.Context, in *GetShareConfRequest, opts ...http.CallOption) (*GetShareConfReply, error) {
 	var out GetShareConfReply
-	pattern := "/st-games/v1/activity/red_packet/share_reward_config/detail"
+	pattern := "/st-games/v1/activity/red_packet/share_config/detail"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationRedPacketGetShareConf))
 	opts = append(opts, http.PathTemplate(pattern))
