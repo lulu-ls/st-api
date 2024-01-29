@@ -73,11 +73,13 @@ message GetBargainRequest {
 message GetBargainReply {
 	int64 bargain_id = 1; // 个人助力 id
 	string name = 2; // 名称
-	string image = 3; // 图片
-	double process = 4; // 进度
-	BargainStatus status = 5; // 领奖状态 0 未领取 1 已领取
-	repeated HistoryItem history_list = 6; // 历史记录
-	repeated BubbleItem bubble_list = 7; // 气泡列表
+	string title = 3; // 标题
+	string image = 4; // 图片
+	double process = 5; // 进度
+	BargainStatus status = 6; // 领奖状态 0 未领取 1 已领取
+	repeated HistoryItem history_list = 7; // 历史记录
+	repeated BubbleItem bubble_list = 8; // 气泡列表
+	bool is_open = 9; // 是否开启助力活动
 }
 message BubbleItem {
 	int64 id = 1; // id
