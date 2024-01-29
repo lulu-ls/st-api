@@ -80,6 +80,7 @@ message GetShareConfReply {
   int64 type = 7;
   int64 red_packet_id = 8;
   string  date = 9;
+  repeated HistoryList history_list = 10; // 历史记录
 }
 
 message RedPacketRequest {

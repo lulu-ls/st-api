@@ -104,6 +104,10 @@ components:
                     type: string
                 date:
                     type: string
+                historyList:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/HistoryList'
         GetShareConfRequest:
             type: object
             properties:
