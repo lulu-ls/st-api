@@ -920,6 +920,8 @@ func (m *IncreaseProcessReply) validate(all bool) error {
 
 	// no validation rules for Process
 
+	// no validation rules for Msg
+
 	if len(errors) > 0 {
 		return IncreaseProcessReplyMultiError(errors)
 	}

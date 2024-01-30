@@ -113,6 +113,7 @@ message IncreaseProcessRequest {
 message IncreaseProcessReply {
 	double add = 1; // 增加进度 仅看视频会返回
 	double process = 2; // 总进度
+	string msg = 3; // 消息
 }
 
 message GrantAwardRequest {
