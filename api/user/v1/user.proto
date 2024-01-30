@@ -5,6 +5,8 @@ package api.user.v1;
 import "google/api/annotations.proto";
 import "common/v1/common.proto";
 import "validate/validate.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/lulu-ls/st-api/api/user/v1;v1";
 option java_multiple_files = true;
@@ -43,8 +45,27 @@ service User {
 		};
 	};
 
+	// 发送 socket 消息
+	rpc SocketMsg (SocketMsgRequest) returns (SocketMsgReply);
+
 	// 检查用户是否需要推送消息
-	rpc NotifyCheck(NotifyCheckRequest) returns (NotifyCheckReply) ;
+	rpc NotifyCheck(NotifyCheckRequest) returns (NotifyCheckReply);
+
+	// 破产检查
+	rpc SubsidyCheck (SubsidyCheckRequest) returns (SubsidyCheckReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/user/subsidy/check",
+			body: "*",
+		};
+	};
+
+	// 破产检查
+	rpc SubsidyGet (SubsidyGetRequest) returns (SubsidyGetReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/user/subsidy/get",
+			body: "*",
+		};
+	};
 
 }
 
@@ -65,6 +86,13 @@ enum NotifyType {
 	race_start = 0; // 已报名比赛 赛事开始
 	appoint_race = 1; // 指定赛事开启
 	appoint_activity = 2; // 指定活动上线
+}
+
+// 破产补助领取方式 0 直接领取 1 分享获取 2 视频获取
+enum SubsidyType {
+	none = 0;
+	share = 1;
+	video = 2;
 }
 
 message RaceRecordListRequest {
@@ -139,4 +167,44 @@ message NotifyCheckRequest {
 }
 message NotifyCheckReply {
 	repeated string open_ids = 1; // 可以发送微信消息的 open id
+}
+
+message SubsidyCheckRequest {
+	int64 user_id = 1; // 用户 id
+	int32 appId = 2; // 渠道 id
+	int32 channelId = 3; // 渠道 id
+}
+message SubsidyCheckReply {
+	int32 subsidy_id = 1; // 补助 id
+	int32 num = 2; // 第几次领取
+	int32 residue = 3; // 剩余次数
+	SubsidyType type = 4; // 领取类型
+	int32 item_id = 5; // 奖励道具 id
+	int32 quantity = 6; // 奖励道具 数量
+	string item_name = 7; // 奖励道具名称
+	string item_image = 8; // 奖励道具图片
+}
+
+message SubsidyGetRequest {
+	int64 user_id = 1; // 用户 id
+	int32 appId = 2; // 渠道 id
+	int32 channelId = 3; // 渠道 id
+	int32 subsidy_id = 4 [(validate.rules).int32 = {gt: 0}]; // 补助 id
+}
+message SubsidyGetReply {
+	int32 item_id = 1; // 奖励道具 id
+	int32 quantity = 2; // 奖励道具 数量
+	string item_name = 3; // 奖励道具名称
+	string item_image = 4; // 奖励道具图片
+}
+
+message SocketMsgRequest {
+	int64 user_id = 1; // 用户 id
+	uint32 cmd = 2; // 错误码
+	uint32 qom = 3; // 送达规则
+	google.protobuf.Timestamp expire_at = 4;
+	google.protobuf.Any content = 5; // 内容
+}
+message SocketMsgReply {
+
 }

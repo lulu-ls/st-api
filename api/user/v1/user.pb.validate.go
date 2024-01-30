@@ -1283,3 +1283,720 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = NotifyCheckReplyValidationError{}
+
+// Validate checks the field values on SubsidyCheckRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *SubsidyCheckRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SubsidyCheckRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SubsidyCheckRequestMultiError, or nil if none found.
+func (m *SubsidyCheckRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SubsidyCheckRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for UserId
+
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
+
+	if len(errors) > 0 {
+		return SubsidyCheckRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// SubsidyCheckRequestMultiError is an error wrapping multiple validation
+// errors returned by SubsidyCheckRequest.ValidateAll() if the designated
+// constraints aren't met.
+type SubsidyCheckRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SubsidyCheckRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SubsidyCheckRequestMultiError) AllErrors() []error { return m }
+
+// SubsidyCheckRequestValidationError is the validation error returned by
+// SubsidyCheckRequest.Validate if the designated constraints aren't met.
+type SubsidyCheckRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SubsidyCheckRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SubsidyCheckRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SubsidyCheckRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SubsidyCheckRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SubsidyCheckRequestValidationError) ErrorName() string {
+	return "SubsidyCheckRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SubsidyCheckRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSubsidyCheckRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SubsidyCheckRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SubsidyCheckRequestValidationError{}
+
+// Validate checks the field values on SubsidyCheckReply with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *SubsidyCheckReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SubsidyCheckReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SubsidyCheckReplyMultiError, or nil if none found.
+func (m *SubsidyCheckReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SubsidyCheckReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for SubsidyId
+
+	// no validation rules for Num
+
+	// no validation rules for Residue
+
+	// no validation rules for Type
+
+	// no validation rules for ItemId
+
+	// no validation rules for Quantity
+
+	// no validation rules for ItemName
+
+	// no validation rules for ItemImage
+
+	if len(errors) > 0 {
+		return SubsidyCheckReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// SubsidyCheckReplyMultiError is an error wrapping multiple validation errors
+// returned by SubsidyCheckReply.ValidateAll() if the designated constraints
+// aren't met.
+type SubsidyCheckReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SubsidyCheckReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SubsidyCheckReplyMultiError) AllErrors() []error { return m }
+
+// SubsidyCheckReplyValidationError is the validation error returned by
+// SubsidyCheckReply.Validate if the designated constraints aren't met.
+type SubsidyCheckReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SubsidyCheckReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SubsidyCheckReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SubsidyCheckReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SubsidyCheckReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SubsidyCheckReplyValidationError) ErrorName() string {
+	return "SubsidyCheckReplyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SubsidyCheckReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSubsidyCheckReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SubsidyCheckReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SubsidyCheckReplyValidationError{}
+
+// Validate checks the field values on SubsidyGetRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *SubsidyGetRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SubsidyGetRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SubsidyGetRequestMultiError, or nil if none found.
+func (m *SubsidyGetRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SubsidyGetRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for UserId
+
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
+
+	if m.GetSubsidyId() <= 0 {
+		err := SubsidyGetRequestValidationError{
+			field:  "SubsidyId",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return SubsidyGetRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// SubsidyGetRequestMultiError is an error wrapping multiple validation errors
+// returned by SubsidyGetRequest.ValidateAll() if the designated constraints
+// aren't met.
+type SubsidyGetRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SubsidyGetRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SubsidyGetRequestMultiError) AllErrors() []error { return m }
+
+// SubsidyGetRequestValidationError is the validation error returned by
+// SubsidyGetRequest.Validate if the designated constraints aren't met.
+type SubsidyGetRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SubsidyGetRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SubsidyGetRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SubsidyGetRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SubsidyGetRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SubsidyGetRequestValidationError) ErrorName() string {
+	return "SubsidyGetRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SubsidyGetRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSubsidyGetRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SubsidyGetRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SubsidyGetRequestValidationError{}
+
+// Validate checks the field values on SubsidyGetReply with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *SubsidyGetReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SubsidyGetReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SubsidyGetReplyMultiError, or nil if none found.
+func (m *SubsidyGetReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SubsidyGetReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ItemId
+
+	// no validation rules for Quantity
+
+	// no validation rules for ItemName
+
+	// no validation rules for ItemImage
+
+	if len(errors) > 0 {
+		return SubsidyGetReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// SubsidyGetReplyMultiError is an error wrapping multiple validation errors
+// returned by SubsidyGetReply.ValidateAll() if the designated constraints
+// aren't met.
+type SubsidyGetReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SubsidyGetReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SubsidyGetReplyMultiError) AllErrors() []error { return m }
+
+// SubsidyGetReplyValidationError is the validation error returned by
+// SubsidyGetReply.Validate if the designated constraints aren't met.
+type SubsidyGetReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SubsidyGetReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SubsidyGetReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SubsidyGetReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SubsidyGetReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SubsidyGetReplyValidationError) ErrorName() string { return "SubsidyGetReplyValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SubsidyGetReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSubsidyGetReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SubsidyGetReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SubsidyGetReplyValidationError{}
+
+// Validate checks the field values on SocketMsgRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *SocketMsgRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SocketMsgRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SocketMsgRequestMultiError, or nil if none found.
+func (m *SocketMsgRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SocketMsgRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for UserId
+
+	// no validation rules for Cmd
+
+	// no validation rules for Qom
+
+	if all {
+		switch v := interface{}(m.GetExpireAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, SocketMsgRequestValidationError{
+					field:  "ExpireAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, SocketMsgRequestValidationError{
+					field:  "ExpireAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetExpireAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return SocketMsgRequestValidationError{
+				field:  "ExpireAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetContent()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, SocketMsgRequestValidationError{
+					field:  "Content",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, SocketMsgRequestValidationError{
+					field:  "Content",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetContent()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return SocketMsgRequestValidationError{
+				field:  "Content",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return SocketMsgRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// SocketMsgRequestMultiError is an error wrapping multiple validation errors
+// returned by SocketMsgRequest.ValidateAll() if the designated constraints
+// aren't met.
+type SocketMsgRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SocketMsgRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SocketMsgRequestMultiError) AllErrors() []error { return m }
+
+// SocketMsgRequestValidationError is the validation error returned by
+// SocketMsgRequest.Validate if the designated constraints aren't met.
+type SocketMsgRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SocketMsgRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SocketMsgRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SocketMsgRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SocketMsgRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SocketMsgRequestValidationError) ErrorName() string { return "SocketMsgRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SocketMsgRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSocketMsgRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SocketMsgRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SocketMsgRequestValidationError{}
+
+// Validate checks the field values on SocketMsgReply with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *SocketMsgReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SocketMsgReply with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in SocketMsgReplyMultiError,
+// or nil if none found.
+func (m *SocketMsgReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SocketMsgReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return SocketMsgReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// SocketMsgReplyMultiError is an error wrapping multiple validation errors
+// returned by SocketMsgReply.ValidateAll() if the designated constraints
+// aren't met.
+type SocketMsgReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SocketMsgReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SocketMsgReplyMultiError) AllErrors() []error { return m }
+
+// SocketMsgReplyValidationError is the validation error returned by
+// SocketMsgReply.Validate if the designated constraints aren't met.
+type SocketMsgReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SocketMsgReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SocketMsgReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SocketMsgReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SocketMsgReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SocketMsgReplyValidationError) ErrorName() string { return "SocketMsgReplyValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SocketMsgReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSocketMsgReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SocketMsgReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SocketMsgReplyValidationError{}

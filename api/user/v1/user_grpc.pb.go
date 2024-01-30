@@ -23,7 +23,10 @@ const (
 	User_InfoEdit_FullMethodName       = "/api.user.v1.User/InfoEdit"
 	User_AssetGet_FullMethodName       = "/api.user.v1.User/AssetGet"
 	User_NotifyState_FullMethodName    = "/api.user.v1.User/NotifyState"
+	User_SocketMsg_FullMethodName      = "/api.user.v1.User/SocketMsg"
 	User_NotifyCheck_FullMethodName    = "/api.user.v1.User/NotifyCheck"
+	User_SubsidyCheck_FullMethodName   = "/api.user.v1.User/SubsidyCheck"
+	User_SubsidyGet_FullMethodName     = "/api.user.v1.User/SubsidyGet"
 )
 
 // UserClient is the client API for User service.
@@ -38,8 +41,14 @@ type UserClient interface {
 	AssetGet(ctx context.Context, in *AssetGetRequest, opts ...grpc.CallOption) (*AssetGetReply, error)
 	// 消息通知
 	NotifyState(ctx context.Context, in *NotifyStateRequest, opts ...grpc.CallOption) (*NotifyStateReply, error)
+	// 发送 socket 消息
+	SocketMsg(ctx context.Context, in *SocketMsgRequest, opts ...grpc.CallOption) (*SocketMsgReply, error)
 	// 检查用户是否需要推送消息
 	NotifyCheck(ctx context.Context, in *NotifyCheckRequest, opts ...grpc.CallOption) (*NotifyCheckReply, error)
+	// 破产检查
+	SubsidyCheck(ctx context.Context, in *SubsidyCheckRequest, opts ...grpc.CallOption) (*SubsidyCheckReply, error)
+	// 破产检查
+	SubsidyGet(ctx context.Context, in *SubsidyGetRequest, opts ...grpc.CallOption) (*SubsidyGetReply, error)
 }
 
 type userClient struct {
@@ -86,9 +95,36 @@ func (c *userClient) NotifyState(ctx context.Context, in *NotifyStateRequest, op
 	return out, nil
 }
 
+func (c *userClient) SocketMsg(ctx context.Context, in *SocketMsgRequest, opts ...grpc.CallOption) (*SocketMsgReply, error) {
+	out := new(SocketMsgReply)
+	err := c.cc.Invoke(ctx, User_SocketMsg_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userClient) NotifyCheck(ctx context.Context, in *NotifyCheckRequest, opts ...grpc.CallOption) (*NotifyCheckReply, error) {
 	out := new(NotifyCheckReply)
 	err := c.cc.Invoke(ctx, User_NotifyCheck_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) SubsidyCheck(ctx context.Context, in *SubsidyCheckRequest, opts ...grpc.CallOption) (*SubsidyCheckReply, error) {
+	out := new(SubsidyCheckReply)
+	err := c.cc.Invoke(ctx, User_SubsidyCheck_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) SubsidyGet(ctx context.Context, in *SubsidyGetRequest, opts ...grpc.CallOption) (*SubsidyGetReply, error) {
+	out := new(SubsidyGetReply)
+	err := c.cc.Invoke(ctx, User_SubsidyGet_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -107,8 +143,14 @@ type UserServer interface {
 	AssetGet(context.Context, *AssetGetRequest) (*AssetGetReply, error)
 	// 消息通知
 	NotifyState(context.Context, *NotifyStateRequest) (*NotifyStateReply, error)
+	// 发送 socket 消息
+	SocketMsg(context.Context, *SocketMsgRequest) (*SocketMsgReply, error)
 	// 检查用户是否需要推送消息
 	NotifyCheck(context.Context, *NotifyCheckRequest) (*NotifyCheckReply, error)
+	// 破产检查
+	SubsidyCheck(context.Context, *SubsidyCheckRequest) (*SubsidyCheckReply, error)
+	// 破产检查
+	SubsidyGet(context.Context, *SubsidyGetRequest) (*SubsidyGetReply, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -128,8 +170,17 @@ func (UnimplementedUserServer) AssetGet(context.Context, *AssetGetRequest) (*Ass
 func (UnimplementedUserServer) NotifyState(context.Context, *NotifyStateRequest) (*NotifyStateReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method NotifyState not implemented")
 }
+func (UnimplementedUserServer) SocketMsg(context.Context, *SocketMsgRequest) (*SocketMsgReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SocketMsg not implemented")
+}
 func (UnimplementedUserServer) NotifyCheck(context.Context, *NotifyCheckRequest) (*NotifyCheckReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method NotifyCheck not implemented")
+}
+func (UnimplementedUserServer) SubsidyCheck(context.Context, *SubsidyCheckRequest) (*SubsidyCheckReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubsidyCheck not implemented")
+}
+func (UnimplementedUserServer) SubsidyGet(context.Context, *SubsidyGetRequest) (*SubsidyGetReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubsidyGet not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -216,6 +267,24 @@ func _User_NotifyState_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_SocketMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SocketMsgRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).SocketMsg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_SocketMsg_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).SocketMsg(ctx, req.(*SocketMsgRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _User_NotifyCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(NotifyCheckRequest)
 	if err := dec(in); err != nil {
@@ -230,6 +299,42 @@ func _User_NotifyCheck_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServer).NotifyCheck(ctx, req.(*NotifyCheckRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_SubsidyCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SubsidyCheckRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).SubsidyCheck(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_SubsidyCheck_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).SubsidyCheck(ctx, req.(*SubsidyCheckRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_SubsidyGet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SubsidyGetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).SubsidyGet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_SubsidyGet_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).SubsidyGet(ctx, req.(*SubsidyGetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -258,8 +363,20 @@ var User_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _User_NotifyState_Handler,
 		},
 		{
+			MethodName: "SocketMsg",
+			Handler:    _User_SocketMsg_Handler,
+		},
+		{
 			MethodName: "NotifyCheck",
 			Handler:    _User_NotifyCheck_Handler,
+		},
+		{
+			MethodName: "SubsidyCheck",
+			Handler:    _User_SubsidyCheck_Handler,
+		},
+		{
+			MethodName: "SubsidyGet",
+			Handler:    _User_SubsidyGet_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -19,4 +19,6 @@ enum ErrorReason {
   // 发送模板推送消息失败
   NOTIFY_TEMPLATE_MSG_ERR = 1 [(errors.code) = 400];
 
+  // 破产补助错误
+  SUBSIDY_ERR = 2 [(errors.code) = 410];
 }

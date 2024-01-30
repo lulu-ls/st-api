@@ -23,6 +23,8 @@ const OperationUserAssetGet = "/api.user.v1.User/AssetGet"
 const OperationUserInfoEdit = "/api.user.v1.User/InfoEdit"
 const OperationUserNotifyState = "/api.user.v1.User/NotifyState"
 const OperationUserRaceRecordList = "/api.user.v1.User/RaceRecordList"
+const OperationUserSubsidyCheck = "/api.user.v1.User/SubsidyCheck"
+const OperationUserSubsidyGet = "/api.user.v1.User/SubsidyGet"
 
 type UserHTTPServer interface {
 	// AssetGet 获取用户资产
@@ -33,6 +35,10 @@ type UserHTTPServer interface {
 	NotifyState(context.Context, *NotifyStateRequest) (*NotifyStateReply, error)
 	// RaceRecordList 战绩
 	RaceRecordList(context.Context, *RaceRecordListRequest) (*RaceRecordListReply, error)
+	// SubsidyCheck 破产检查
+	SubsidyCheck(context.Context, *SubsidyCheckRequest) (*SubsidyCheckReply, error)
+	// SubsidyGet 破产检查
+	SubsidyGet(context.Context, *SubsidyGetRequest) (*SubsidyGetReply, error)
 }
 
 func RegisterUserHTTPServer(s *http.Server, srv UserHTTPServer) {
@@ -41,6 +47,8 @@ func RegisterUserHTTPServer(s *http.Server, srv UserHTTPServer) {
 	r.POST("/st-games/v1/user/info/edit", _User_InfoEdit0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/user/asset/get", _User_AssetGet0_HTTP_Handler(srv))
 	r.POST("/st-games/v1/user/notify/state", _User_NotifyState0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/user/subsidy/check", _User_SubsidyCheck0_HTTP_Handler(srv))
+	r.POST("/st-games/v1/user/subsidy/get", _User_SubsidyGet0_HTTP_Handler(srv))
 }
 
 func _User_RaceRecordList0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
@@ -131,11 +139,57 @@ func _User_NotifyState0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) 
 	}
 }
 
+func _User_SubsidyCheck0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in SubsidyCheckRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserSubsidyCheck)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.SubsidyCheck(ctx, req.(*SubsidyCheckRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*SubsidyCheckReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _User_SubsidyGet0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in SubsidyGetRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserSubsidyGet)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.SubsidyGet(ctx, req.(*SubsidyGetRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*SubsidyGetReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type UserHTTPClient interface {
 	AssetGet(ctx context.Context, req *AssetGetRequest, opts ...http.CallOption) (rsp *AssetGetReply, err error)
 	InfoEdit(ctx context.Context, req *InfoEditRequest, opts ...http.CallOption) (rsp *InfoEditReply, err error)
 	NotifyState(ctx context.Context, req *NotifyStateRequest, opts ...http.CallOption) (rsp *NotifyStateReply, err error)
 	RaceRecordList(ctx context.Context, req *RaceRecordListRequest, opts ...http.CallOption) (rsp *RaceRecordListReply, err error)
+	SubsidyCheck(ctx context.Context, req *SubsidyCheckRequest, opts ...http.CallOption) (rsp *SubsidyCheckReply, err error)
+	SubsidyGet(ctx context.Context, req *SubsidyGetRequest, opts ...http.CallOption) (rsp *SubsidyGetReply, err error)
 }
 
 type UserHTTPClientImpl struct {
@@ -190,6 +244,32 @@ func (c *UserHTTPClientImpl) RaceRecordList(ctx context.Context, in *RaceRecordL
 	pattern := "/st-games/v1/user/race/record"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationUserRaceRecordList))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *UserHTTPClientImpl) SubsidyCheck(ctx context.Context, in *SubsidyCheckRequest, opts ...http.CallOption) (*SubsidyCheckReply, error) {
+	var out SubsidyCheckReply
+	pattern := "/st-games/v1/user/subsidy/check"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationUserSubsidyCheck))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *UserHTTPClientImpl) SubsidyGet(ctx context.Context, in *SubsidyGetRequest, opts ...http.CallOption) (*SubsidyGetReply, error) {
+	var out SubsidyGetReply
+	pattern := "/st-games/v1/user/subsidy/get"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationUserSubsidyGet))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

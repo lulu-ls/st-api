@@ -38,3 +38,17 @@ func IsNotifyTemplateMsgErr(err error) bool {
 func ErrorNotifyTemplateMsgErr(format string, args ...interface{}) *errors.Error {
 	return errors.New(400, ErrorReason_NOTIFY_TEMPLATE_MSG_ERR.String(), fmt.Sprintf(format, args...))
 }
+
+// 破产补助错误
+func IsSubsidyErr(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrorReason_SUBSIDY_ERR.String() && e.Code == 410
+}
+
+// 破产补助错误
+func ErrorSubsidyErr(format string, args ...interface{}) *errors.Error {
+	return errors.New(410, ErrorReason_SUBSIDY_ERR.String(), fmt.Sprintf(format, args...))
+}
