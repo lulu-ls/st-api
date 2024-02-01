@@ -1430,6 +1430,10 @@ func (m *SubsidyCheckReply) validate(all bool) error {
 
 	// no validation rules for ItemImage
 
+	// no validation rules for Title
+
+	// no validation rules for Image
+
 	if len(errors) > 0 {
 		return SubsidyCheckReplyMultiError(errors)
 	}
