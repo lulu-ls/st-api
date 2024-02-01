@@ -1,4 +1,4 @@
-.PHONY: api
+:.PHONY: api
 # generate api proto
 activity:
 	cd api && kratos proto client ./activity/v1/lottery.proto

@@ -4074,3 +4074,365 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = AnnouncementValidationError{}
+
+// Validate checks the field values on DailyTaskRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *DailyTaskRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DailyTaskRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DailyTaskRequestMultiError, or nil if none found.
+func (m *DailyTaskRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DailyTaskRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for UserId
+
+	// no validation rules for AppId
+
+	// no validation rules for ChannelId
+
+	if len(errors) > 0 {
+		return DailyTaskRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DailyTaskRequestMultiError is an error wrapping multiple validation errors
+// returned by DailyTaskRequest.ValidateAll() if the designated constraints
+// aren't met.
+type DailyTaskRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DailyTaskRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DailyTaskRequestMultiError) AllErrors() []error { return m }
+
+// DailyTaskRequestValidationError is the validation error returned by
+// DailyTaskRequest.Validate if the designated constraints aren't met.
+type DailyTaskRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DailyTaskRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DailyTaskRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DailyTaskRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DailyTaskRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DailyTaskRequestValidationError) ErrorName() string { return "DailyTaskRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e DailyTaskRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDailyTaskRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DailyTaskRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DailyTaskRequestValidationError{}
+
+// Validate checks the field values on DailyTaskReply with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *DailyTaskReply) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DailyTaskReply with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in DailyTaskReplyMultiError,
+// or nil if none found.
+func (m *DailyTaskReply) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DailyTaskReply) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Total
+
+	// no validation rules for Progress
+
+	// no validation rules for Rate
+
+	for idx, item := range m.GetList() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, DailyTaskReplyValidationError{
+						field:  fmt.Sprintf("List[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, DailyTaskReplyValidationError{
+						field:  fmt.Sprintf("List[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return DailyTaskReplyValidationError{
+					field:  fmt.Sprintf("List[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return DailyTaskReplyMultiError(errors)
+	}
+
+	return nil
+}
+
+// DailyTaskReplyMultiError is an error wrapping multiple validation errors
+// returned by DailyTaskReply.ValidateAll() if the designated constraints
+// aren't met.
+type DailyTaskReplyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DailyTaskReplyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DailyTaskReplyMultiError) AllErrors() []error { return m }
+
+// DailyTaskReplyValidationError is the validation error returned by
+// DailyTaskReply.Validate if the designated constraints aren't met.
+type DailyTaskReplyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DailyTaskReplyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DailyTaskReplyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DailyTaskReplyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DailyTaskReplyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DailyTaskReplyValidationError) ErrorName() string { return "DailyTaskReplyValidationError" }
+
+// Error satisfies the builtin error interface
+func (e DailyTaskReplyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDailyTaskReply.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DailyTaskReplyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DailyTaskReplyValidationError{}
+
+// Validate checks the field values on DailyListItem with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *DailyListItem) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DailyListItem with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in DailyListItemMultiError, or
+// nil if none found.
+func (m *DailyListItem) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DailyListItem) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ActivityLivenessId
+
+	// no validation rules for Value
+
+	// no validation rules for Progress
+
+	// no validation rules for Rate
+
+	// no validation rules for Status
+
+	// no validation rules for ItemId
+
+	// no validation rules for ItemName
+
+	// no validation rules for ItemImage
+
+	if len(errors) > 0 {
+		return DailyListItemMultiError(errors)
+	}
+
+	return nil
+}
+
+// DailyListItemMultiError is an error wrapping multiple validation errors
+// returned by DailyListItem.ValidateAll() if the designated constraints
+// aren't met.
+type DailyListItemMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DailyListItemMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DailyListItemMultiError) AllErrors() []error { return m }
+
+// DailyListItemValidationError is the validation error returned by
+// DailyListItem.Validate if the designated constraints aren't met.
+type DailyListItemValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DailyListItemValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DailyListItemValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DailyListItemValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DailyListItemValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DailyListItemValidationError) ErrorName() string { return "DailyListItemValidationError" }
+
+// Error satisfies the builtin error interface
+func (e DailyListItemValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDailyListItem.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DailyListItemValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DailyListItemValidationError{}

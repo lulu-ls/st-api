@@ -115,6 +115,14 @@ service Game {
 		};
 	};
 
+	// 每日任务
+	rpc DailyTask (DailyTaskRequest) returns (DailyTaskReply) {
+		option (google.api.http) = {
+			post: "/st-games/v1/game/daily/task",
+			body: "*",
+		};
+	};
+
 }
 
 // 公告类别
@@ -243,6 +251,14 @@ enum SignItemType {
 	_10 = 0;
 	SIT_NORMAL = 1;
 	SIT_AWARD = 2;
+}
+
+// 活动类型 1任务 2签到 3每日任务
+enum ActivityType {
+	_11 = 0;
+	ACT_TASK = 1;
+	ACT_SIGN = 2;
+	ACT_LIVENESS = 3;
 }
 
 message AnnouncementListRequest {
@@ -459,4 +475,26 @@ message Activity {
 }
 message Announcement {
 	int32 id = 1; // 公告 id
+}
+
+message DailyTaskRequest {
+	int64 user_id = 1; // 用户 id
+	int32 app_id = 2; // app id
+	int32 channel_id = 3; // channel id
+}
+message DailyTaskReply {
+	int32 total = 1; // 每日任务合计活跃
+	int32 progress = 2; // 当前进度活跃
+	float rate = 3; // 当前进度百分比
+	repeated DailyListItem list = 4; // 进度详情
+}
+message DailyListItem {
+	int32 activity_liveness_id = 1;
+	int32 value = 2; // 活力值门槛 20、40、60
+	int32 progress = 3; // 当前进度活跃
+	float rate = 4; // 当前进度百分比
+	TaskStatus status = 5; // 状态 0 未完成 1 已完成 2 已领取
+	int32 item_id = 6; // 奖励道具 id
+	string item_name = 7; // 奖励道具名称
+	string item_image = 8; // 奖励道具图片
 }

@@ -183,6 +183,8 @@ message SubsidyCheckReply {
 	int32 quantity = 6; // 奖励道具 数量
 	string item_name = 7; // 奖励道具名称
 	string item_image = 8; // 奖励道具图片
+	string title = 9; // 分享标题
+	string image = 10; // 分享图
 }
 
 message SubsidyGetRequest {
